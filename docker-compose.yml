@@ -1,0 +1,53 @@
+version: '3.8'
+services:
+  frontend:
+    image: node:14
+    volumes:
+      - ./frontend/my-app:/app
+    working_dir: /app
+    command: npm start
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  backend:
+    image: node:14
+    volumes:
+      - ./backend:/app
+    working_dir: /app
+    command: npm run dev
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=Abhi@123
+      - DB_NAME=Noted
+    depends_on:
+      - postgres
+      - mongodb
+
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Abhi@123
+      POSTGRES_DB: Noted
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  postgres_data:
+  mongo_data:
