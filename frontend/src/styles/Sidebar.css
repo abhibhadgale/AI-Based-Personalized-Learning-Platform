@@ -1,0 +1,24 @@
+aside {
+    background-color: #343a40;
+    color: white;
+    padding: 20px;
+    width: 250px;
+    height: 100%;
+  }
+  
+  aside ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  aside li {
+    margin-bottom: 15px;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  aside li:hover {
+    background-color: #495057;
+  }
+  
