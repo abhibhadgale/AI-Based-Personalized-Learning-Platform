@@ -60,3 +60,13 @@
 ├── docker-compose.yml     # Docker configuration for multi-container setup
 ├── .env                   # Environment variables for local development
 └── README.md              # Project description, setup instructions, etc.
+
+
+
+## Docker ------>>>>
+
+start- docker-compose up --build
+
+stop - docker-compose down
+
+current runnig containers -- docker ps  /    docker ps -a

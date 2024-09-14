@@ -16,7 +16,7 @@ services:
     volumes:
       - ./backend:/app
     working_dir: /app
-    command: npm run dev
+    command: /bin/bash -c "npm install -g nodemon && npm install && nodemon index.js"
     ports:
       - "5000:5000"
     environment:
