@@ -1,5 +1,6 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Button } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 import "../styles/Navbar.css"
 
@@ -13,7 +14,7 @@ const Navbar = () => {
           <Button color="inherit">Home</Button>
           <Button color="inherit">About</Button>
           <Button color="inherit">Contact Us</Button>
-          <Button color="inherit">LogIn</Button>
+          <Button color="inherit" component={Link} to="/login">LogIn</Button>
         </Toolbar>
       </AppBar>
     );

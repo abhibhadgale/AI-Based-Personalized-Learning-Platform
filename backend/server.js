@@ -13,7 +13,10 @@ dotenv.config();  // Load environment variables
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000', // Allow requests from this origin (your frontend)
+  credentials: true // Allow credentials (e.g., cookies, authorization headers)
+}));
 app.use(bodyParser.json());
 
 // Database connection

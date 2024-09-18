@@ -1,28 +1,27 @@
-import React from "react";
-import { useSelector, useDispatch } from 'react-redux';
-
-import { setProgress } from '../redux/slices/studentAnalyticsSlice';
-import "../styles/Dashboard.css";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchStudentData, fetchLearningPath } from '../redux/slices/studentSlice';
 
 const Dashboard = () => {
-    const progress = useSelector((state) => state.analytics.progress);
-    const dispatch = useDispatch();
-  
-    const updateProgress = () => {
-      dispatch(setProgress({ chapter: "React Basics", completed: 50 }));
-    };
-  
-    return (
-      <div>
-        <h1>Continue Learning</h1>
-        <p>Learning path or learning progression will be here</p>
-        <p>Current Progress: {progress.completed}%</p>
-        <button onClick={updateProgress}>Update Progress</button>
-        <hr></hr>
-        <h1>Student Analysis</h1>
-        <p>Student performance and analysis will be here</p>
-      </div>
-    );
-  };
-  
+  const dispatch = useDispatch();
+  const { progress, learningPath, loading, error } = useSelector((state) => state.student);
+
+  useEffect(() => {
+    dispatch(fetchStudentData());
+    dispatch(fetchLearningPath());
+  }, [dispatch]);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+
+  return (
+    <div>
+      <h2>Student Progress</h2>
+      <pre>{JSON.stringify(progress, null, 2)}</pre>
+      <h2>Learning Path</h2>
+      <pre>{JSON.stringify(learningPath, null, 2)}</pre>
+    </div>
+  );
+};
+
 export default Dashboard;
