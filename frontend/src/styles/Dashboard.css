@@ -1,17 +1,46 @@
 .dashboard {
-    padding: 20px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .dashboard h1 {
-    font-size: 28px;
-    margin-bottom: 15px;
-  }
-  
-  .dashboard p {
-    font-size: 16px;
-    color: #666;
-  }
-  
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.progress-section, .learning-path-section {
+  margin-bottom: 20px;
+}
+
+.progress-content, .learning-path-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.progress-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+}
+
+.progress-card h3 {
+  margin-top: 0;
+}
+
+.progress-card ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.progress-card li {
+  margin-bottom: 5px;
+}
+
+.error {
+  color: red;
+}
+
+.completed {
+  color: green;
+}
+
+.in-progress {
+  color: orange;
+}

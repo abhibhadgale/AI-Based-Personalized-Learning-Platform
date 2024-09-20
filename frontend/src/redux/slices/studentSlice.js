@@ -28,11 +28,18 @@ export const fetchLearningPath = createAsyncThunk(
 const studentSlice = createSlice({
   name: 'student',
   initialState: {
-    progress: null,
-    learningPath: null,
+    progress: {
+      completedCourses: [],
+      currentCourses: [],
+      quizScores: [],
+    },
+    learningPath: {
+      path: [],
+    },
     loading: false,
     error: null,
   },
+
   reducers: {},
   extraReducers: (builder) => {
     builder

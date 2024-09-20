@@ -1,18 +1,91 @@
-.quiz {
-    margin-top: 30px;
-    padding: 20px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .quiz h1 {
-    font-size: 24px;
-    margin-bottom: 15px;
-  }
-  
-  .quiz p {
-    font-size: 16px;
-    color: #666;
-  }
-  
+/* Container for the entire quiz component */
+.quiz-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+/* Heading for available quizzes and questions */
+.quiz-container h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #007bff;
+}
+
+.quiz-container h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+/* List of quizzes */
+.quiz-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.quiz-list li {
+  cursor: pointer;
+  padding: 10px;
+  margin-bottom: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.quiz-list li:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* Question card styling */
+.question-card {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 15px;
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
+}
+
+.options {
+  margin-top: 10px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.option input[type="radio"] {
+  margin-right: 10px;
+}
+
+.option label {
+  font-size: 16px;
+}
+
+/* Submit button styling */
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Result display */
+.result {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+}

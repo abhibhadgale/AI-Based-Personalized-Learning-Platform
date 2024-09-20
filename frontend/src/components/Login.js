@@ -3,11 +3,16 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios'; // Import Axios
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
+import { login } from '../redux/slices/authSlice';
+
 import '../styles/Login.css';
 
 const Login = () => {
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const initialValues = {
     email: '',
@@ -21,20 +26,23 @@ const Login = () => {
 
   const onSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/users/login', values); // Corrected URL
+      const response = await axios.post('http://localhost:5000/api/users/login', values);
       console.log('Login successful:', response.data);
-      localStorage.setItem('token', response.data.token); // Store the JWT token
-      navigate('/')
-      alert('Login successful')
+      localStorage.setItem('token', response.data.token);
+  
+      // Dispatch the login action to update the Redux store
+      dispatch(login(response.data.user));  // Ensure `user` is available in `response.data`
+  
+      navigate('/');
+      alert('Login successful');
     } catch (error) {
       console.error('Login error:', error.response?.data || error.message);
-      // Handle errors, e.g., set error state
       setErrors({ general: 'Login failed. Please check your credentials and try again.' });
     } finally {
       setSubmitting(false);
     }
   };
-
+  
   return (
     <div className="login-container">
       <h1>Login</h1>

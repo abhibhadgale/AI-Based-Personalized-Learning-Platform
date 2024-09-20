@@ -7,7 +7,6 @@ const API = axios.create({
 // Attach token to requests if available
 API.interceptors.request.use((req) => {
   const token = localStorage.getItem('token');
-  console.log('Token:', token);
   if (token) {
     req.headers.Authorization = `Bearer ${token}`;
   }
@@ -15,6 +14,8 @@ API.interceptors.request.use((req) => {
 });
 
 export const getStudentData = () => API.get('/analytics/progress');
-export const getQuizQuestions = (quizId) => API.get(`/quiz/${quizId}`);
-export const submitQuizResponse = (quizId, answers) => API.post(`/quiz/submit/${quizId}`, { answers });
+export const getQuizList = () => API.get('/quizzes');  // Endpoint to get list of quizzes
+export const getQuizQuestions = (quizId) => API.get(`/quizzes/${quizId}`);
+export const submitQuizResponse = (quizId, answers) => API.post(`/quizzes/submit/${quizId}`, { answers });
 export const getLearningPath = () => API.get('/analytics/learning-path');
+export const getStudentQuizResults = () => API.get('/quizzes/results');

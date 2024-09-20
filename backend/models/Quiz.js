@@ -1,17 +1,13 @@
 import mongoose from 'mongoose';
 
 const quizSchema = new mongoose.Schema({
-  subject: {
-    type: String,
-    required: true,
-  },
-  unit: {
+  title: {
     type: String,
     required: true,
   },
   questions: [
     {
-      questionText: {
+      question: {
         type: String,
         required: true,
       },
@@ -20,7 +16,7 @@ const quizSchema = new mongoose.Schema({
         required: true,
       },
       correctAnswer: {
-        type: String,
+        type: String,  // Store as string (index of the correct answer)
         required: true,
       },
     },
@@ -43,18 +39,23 @@ const studentQuizResultSchema = new mongoose.Schema({
     ref: 'Quiz',
     required: true,
   },
+  subject: {
+    type: String,
+    required: true,
+  },
   score: {
     type: Number,
     required: true,
   },
-  answers: [
-    {
-      questionId: mongoose.Schema.Types.ObjectId,
-      answer: String,
-      correct: Boolean,
-    },
-  ],
-  completedAt: {
+  totalQuestions: {
+    type: Number,
+    required: true,
+  },
+  correctAnswers: {
+    type: Number,
+    required: true,
+  },
+  quizDate: {
     type: Date,
     default: Date.now,
   },
