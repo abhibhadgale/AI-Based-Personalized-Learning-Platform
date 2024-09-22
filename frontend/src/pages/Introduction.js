@@ -1,0 +1,50 @@
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
+const Introduction = () => {
+  const { subject } = useParams();
+  const navigate = useNavigate();
+  const [introduction, setIntroduction] = useState(null);
+
+  useEffect(() => {
+    const fetchIntroduction = async () => {
+      try {
+        console.log("Fetching introduction for subject:", subject); // Log the subject before making the request
+        const response = await axios.get(`/api/subjectfundamental?subject=${subject}`);
+        
+        console.log("API response received:", response.data); // Log the API response
+        setIntroduction(response.data);
+      } catch (error) {
+        console.error("Error fetching introduction:", error); // Log any error
+      }
+    };
+  
+    fetchIntroduction();
+  }, [subject]);
+  
+
+  // Handle navigation to the test page, passing the fundamentalQuizID
+  const handleTakeTest = () => {
+    if (introduction && introduction.fundamentalQuizID) {
+      navigate(`/fitest/${introduction.fundamentalQuizID}`);  // Navigate with the fundamentalQuizID
+    } else {
+      console.error("Quiz ID not found");
+    }
+  };
+
+
+  if (!introduction) return <div>Loading...</div>;
+
+  return (
+    <div className="introduction-container">
+      <h1>{introduction.title}</h1>
+      <p>{introduction.description}</p>
+      <div className="test-button-container">
+        <button className="test-button" onClick={handleTakeTest}>Take a Test</button>
+      </div>
+    </div>
+  );
+};
+
+export default Introduction;

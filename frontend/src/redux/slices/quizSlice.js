@@ -10,7 +10,6 @@ const initialState = {
   error: null,
 };
 
-// Fetch list of quizzes
 export const fetchQuizList = createAsyncThunk(
   'quiz/fetchQuizList',
   async () => {
@@ -19,7 +18,6 @@ export const fetchQuizList = createAsyncThunk(
   }
 );
 
-// Fetch quiz questions
 export const fetchQuizQuestions = createAsyncThunk(
   'quiz/fetchQuizQuestions',
   async (quizId) => {
@@ -28,16 +26,14 @@ export const fetchQuizQuestions = createAsyncThunk(
   }
 );
 
-// Submit quiz answers
 export const submitQuizAnswers = createAsyncThunk(
   'quiz/submitQuizAnswers',
-  async ({ quizId, answers }) => {
-    const response = await submitQuizResponse(quizId, answers);
-    return response.data;  // Expect the response to include quizId, subject, score, totalQuestions, correctAnswers
+  async ({ quizId, answers, subjectId }) => { // Accept subjectId
+    const response = await submitQuizResponse(quizId, answers, subjectId); // Pass subjectId
+    return response.data;
   }
 );
 
-// Fetch student quiz results
 export const fetchStudentQuizResults = createAsyncThunk(
   'quiz/fetchStudentQuizResults',
   async () => {
@@ -82,7 +78,7 @@ const quizSlice = createSlice({
       })
       .addCase(submitQuizAnswers.fulfilled, (state, action) => {
         state.loading = false;
-        state.result = action.payload;  // Store the result directly
+        state.result = action.payload;
       })
       .addCase(submitQuizAnswers.rejected, (state, action) => {
         state.loading = false;

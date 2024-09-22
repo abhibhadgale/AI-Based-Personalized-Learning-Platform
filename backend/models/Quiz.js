@@ -5,6 +5,10 @@ const quizSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  description: {
+    type: String,
+    required: true,
+  },
   questions: [
     {
       question: {
@@ -16,7 +20,7 @@ const quizSchema = new mongoose.Schema({
         required: true,
       },
       correctAnswer: {
-        type: String,  // Store as string (index of the correct answer)
+        type: Number, // Store as index of the correct answer
         required: true,
       },
     },
@@ -24,6 +28,11 @@ const quizSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
+  },
+  subjectID: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Subject', // Adjust if you have a Subject model
+    required: true,
   },
 });
 
@@ -39,8 +48,9 @@ const studentQuizResultSchema = new mongoose.Schema({
     ref: 'Quiz',
     required: true,
   },
-  subject: {
-    type: String,
+  subjectID: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Subject', // Adjust if you have a Subject model
     required: true,
   },
   score: {

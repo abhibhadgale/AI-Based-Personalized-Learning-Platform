@@ -2,14 +2,17 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Box } from '@mui/material';
 
-
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import Dashboard from './pages/Dashboard';
+import Subject from './pages/Subject';
+import Learning from './pages/Learning';
 import Quiz from './components/Quiz';
 import Resourses from './components/Resourses';
-import Login from './components/Login'; // Import Login Component
-import Register from './components/Register'; // Import Register Component
+import Login from './components/Login';
+import Register from './components/Register';
+import Introduction from './pages/Introduction'; // New import for Introduction
+import FITest from './components/FITest';
 import './styles/App.css'; // Optional: If you want to include global styles
 
 const App = () => {
@@ -21,12 +24,15 @@ const App = () => {
           <Sidebar />
           <div className="content">
             <Routes>
-              <Route path="/" element={<Resourses />} />
-              <Route path="/resources" element={<Dashboard />} />
-              <Route path="/quiz" element={<Quiz />} />
-
-              <Route path="/login" element={<Login />} />
+              <Route path="/" element={<Dashboard />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/resources" element={<Resourses />} />
+              <Route path="/quiz" element={<Quiz />} />
+              <Route path="/introduction/:subject" element={<Introduction />} />
+              <Route path="/fitest/:quizId" element={<FITest />} />
+              <Route path="/subject/:subjectID" element={<Subject />} />
+              <Route path="/learning/:subject/:unitNumber" element={<Learning />} />
             </Routes>
           </div>
         </div>

@@ -6,6 +6,8 @@ import userRoutes from './routes/userRoutes.js';
 import quizRoutes from './routes/quizRoutes.js';
 import contentRoutes from './routes/contentRoutes.js';
 import analyticsRoutes from './routes/analyticsRoutes.js';
+import subjectRoutes from './routes/subjectRoutes.js';  // Add subjectRoutes
+import subjectFundamentalRoutes from './routes/subjectfundamentalRoutes.js'; // Ensure this import is correct
 import connectDB from './config/db.js';
 
 dotenv.config();  // Load environment variables
@@ -27,6 +29,9 @@ app.use('/api/users', userRoutes);
 app.use('/api/quizzes', quizRoutes);
 app.use('/api/content', contentRoutes);
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/subjects', subjectRoutes);  // Add subjects route
+app.use('/api/subjectfundamental', subjectFundamentalRoutes);
+
 
 // Start server
 const PORT = process.env.PORT || 5000;

@@ -13,9 +13,14 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
+export const getAllSubjects = () => API.get('/subjects');
 export const getStudentData = () => API.get('/analytics/progress');
-export const getQuizList = () => API.get('/quizzes');  // Endpoint to get list of quizzes
-export const getQuizQuestions = (quizId) => API.get(`/quizzes/${quizId}`);
-export const submitQuizResponse = (quizId, answers) => API.post(`/quizzes/submit/${quizId}`, { answers });
 export const getLearningPath = () => API.get('/analytics/learning-path');
+export const getQuizList = () => API.get('/quizzes');
+export const getQuizQuestions = (quizId) => API.get(`/quizzes/${quizId}`);
+export const submitQuizResponse = (quizId, answers, subjectId) => API.post(`/quizzes/submit/${quizId}`, { answers, subjectId }); // Include subjectId
 export const getStudentQuizResults = () => API.get('/quizzes/results');
+export const getFITestCompletionStatus = (subjectId) => API.get(`/quizzes/fitest/completion-status/${subjectId}`);
+
+export const getSubjectById = (subjectID) => API.get(`/subjects/${subjectID}`); // Adjust the endpoint based on your backend structure
+

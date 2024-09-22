@@ -3,40 +3,35 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchQuizList, fetchQuizQuestions, submitQuizAnswers } from '../redux/slices/quizSlice';
 import '../styles/Quiz.css';
 
-const Quiz = ({ quizId }) => {
+const Quiz = ({ quizId, subjectId }) => { // Accept subjectId as prop
   const dispatch = useDispatch();
   const { quizList, questions, result, loading, error } = useSelector((state) => state.quiz);
   const [selectedQuizId, setSelectedQuizId] = useState(quizId || null);
-  const [answers, setAnswers] = useState([]); // Initialize as an empty array
+  const [answers, setAnswers] = useState([]);
 
-  // Fetch the list of quizzes on component load
   useEffect(() => {
     dispatch(fetchQuizList());
   }, [dispatch]);
 
-  // Fetch the questions when a quiz is selected
   useEffect(() => {
     if (selectedQuizId) {
       dispatch(fetchQuizQuestions(selectedQuizId));
     }
   }, [dispatch, selectedQuizId]);
 
-  // Extract the questions array from the structure
   const questionsArray = questions.questions || [];
 
-  // Handle answer selection
   const handleAnswerChange = (index, optionIndex) => {
     setAnswers((prevAnswers) => {
-      const newAnswers = [...prevAnswers]; // Create a new array for answers
-      newAnswers[index] = optionIndex; // Set the answer based on index
-      return newAnswers; // Return the new array
+      const newAnswers = [...prevAnswers];
+      newAnswers[index] = optionIndex;
+      return newAnswers;
     });
   };
 
-  // Submit the quiz
   const handleSubmit = () => {
     if (selectedQuizId) {
-      dispatch(submitQuizAnswers({ quizId: selectedQuizId, answers })); // Send the answers array
+      dispatch(submitQuizAnswers({ quizId: selectedQuizId, answers, subjectId })); // Include subjectId
     }
   };
 
@@ -73,8 +68,8 @@ const Quiz = ({ quizId }) => {
                         type="radio"
                         name={question._id}
                         value={optionIndex}
-                        checked={answers[index] === optionIndex}  // Compare with option index
-                        onChange={() => handleAnswerChange(index, optionIndex)}  // Pass index
+                        checked={answers[index] === optionIndex}
+                        onChange={() => handleAnswerChange(index, optionIndex)}
                       />
                       <label>{option}</label>
                     </div>

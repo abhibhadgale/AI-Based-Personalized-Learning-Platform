@@ -1,46 +1,90 @@
-.dashboard {
+/* Dashboard Container */
+.dashboard-container {
   padding: 20px;
-  font-family: Arial, sans-serif;
-}
-
-.progress-section, .learning-path-section {
-  margin-bottom: 20px;
-}
-
-.progress-content, .learning-path-content {
+  background-color: #f5f5f5;
   display: flex;
   flex-direction: column;
+  gap: 40px;
 }
 
-.progress-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 10px;
-  margin-bottom: 10px;
-  background-color: #f9f9f9;
+/* Subject Selection Section */
+.subject-selection-section {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.progress-card h3 {
-  margin-top: 0;
+.subject-selection-section h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
 }
 
-.progress-card ul {
-  list-style-type: none;
-  padding: 0;
+.subject-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
-.progress-card li {
-  margin-bottom: 5px;
+.subject-button {
+  padding: 10px 20px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.error {
-  color: red;
+.subject-button:hover {
+  background-color: #1565c0;
 }
 
-.completed {
-  color: green;
+.subject-button.active {
+  background-color: #004ba0;
+  font-weight: bold;
 }
 
-.in-progress {
-  color: orange;
+/* Quiz Performance Section */
+.quiz-performance-section {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.quiz-performance-section h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Responsive container for charts */
+.recharts-responsive-container {
+  width: 100%;
+  height: 300px;
+}
+
+/* Utility styles for better spacing */
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mt-40 {
+  margin-top: 40px;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .subject-buttons {
+    justify-content: center;
+  }
+
+  .subject-button {
+    width: 100%;
+    text-align: center;
+  }
 }

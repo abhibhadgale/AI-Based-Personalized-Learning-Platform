@@ -1,7 +1,7 @@
+import mongoose from 'mongoose';
+
 import Quiz from '../models/Quiz.js';
-import { StudentQuizResult } from '../models/Quiz.js'; // Make sure this is correctly exported from your models
-
-
+import { StudentQuizResult } from '../models/Quiz.js';
 
 // Get all quizzes
 export const getAllQuizzes = async (req, res) => {
@@ -43,34 +43,30 @@ export const submitQuiz = async (req, res) => {
     let correctAnswersCount = 0;
     const totalQuestions = quiz.questions.length;
 
-    // Iterate over the questions using their index
     quiz.questions.forEach((question, index) => {
-      const userAnswer = answers[index]; // Get the answer based on the index
-      console.log(`Question Index: ${index}, User Answer: ${userAnswer}, Correct Answer: ${question.correctAnswer}`);
-      
-      // Compare the user's answer with the correct answer
-      if (userAnswer !== undefined && userAnswer === parseInt(question.correctAnswer)) {
+      const userAnswer = answers[index];
+      if (userAnswer !== undefined && userAnswer === question.correctAnswer) {
         correctAnswersCount++;
       }
     });
 
     const score = (correctAnswersCount / totalQuestions) * 100;
 
-    // Save the quiz result for the student
+    // Save the quiz result for the student including subjectID
     const result = await StudentQuizResult.create({
       studentId,
       quizId,
-      subject: quiz.title,
+      subjectID: quiz.subjectID, // Include subjectID here
       score,
       totalQuestions,
       correctAnswers: correctAnswersCount,
       quizDate: new Date(),
     });
 
-    // Return a simplified result response
     res.json({
       quizId: quiz._id,
       subject: quiz.title,
+      subjectID: quiz.subjectID,
       score,
       totalQuestions,
       correctAnswers: correctAnswersCount,
@@ -108,3 +104,24 @@ export const getQuizById = async (req, res) => {
     res.status(500).json({ message: `Error fetching quiz: ${error.message}` });
   }
 };
+
+// Check if a user has completed the test for a subject
+export const getFITestCompletionStatus = async (req, res) => {
+  const { subject } = req.params;
+  const studentId = req.user._id;
+
+  try {
+    // Query to find documents matching both subjectID and studentID
+    const subjectDetails = await StudentQuizResult.find({
+      subjectID: new mongoose.Types.ObjectId(subject),
+      studentId: new mongoose.Types.ObjectId(studentId) // Add studentID to the query
+    });
+
+    // Return true if at least one test is found for the subject and student
+    res.json(subjectDetails.length > 0);
+  } catch (error) {
+    console.error('Error fetching completion status:', error);
+    res.status(500).json({ message: `Error fetching completion status: ${error.message}` });
+  }
+};
+

@@ -1,86 +1,99 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchStudentData, fetchLearningPath } from '../redux/slices/studentSlice';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar } from 'recharts';
+
+import { getAllSubjects, getFITestCompletionStatus } from '../utils/api';  // Fetch subjects & test status from the backend
 import '../styles/Dashboard.css';
 
 const Dashboard = () => {
-  const dispatch = useDispatch();
-  const { progress, learningPath, loading, error } = useSelector((state) => state.student);
+  const navigate = useNavigate();
+  const [selectedSubject, setSelectedSubject] = useState(null);
+  const [subjects, setSubjects] = useState([]);
+
+  const quizPerformanceData = [
+    { name: 'Quiz 1', score: 85 },
+    { name: 'Quiz 2', score: 90 },
+    { name: 'Quiz 3', score: 78 },
+    { name: 'Quiz 4', score: 92 },
+    { name: 'Quiz 5', score: 88 },
+  ];
 
   useEffect(() => {
-    dispatch(fetchStudentData());
-    dispatch(fetchLearningPath());
-  }, [dispatch]);
+    const fetchSubjects = async () => {
+      try {
+        const { data } = await getAllSubjects();
+        setSubjects(data);
+      } catch (error) {
+        console.error('Error fetching subjects:', error);
+      }
+    };
+    fetchSubjects();
+  }, []);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p className="error">Error: {error.message || 'Something went wrong'}</p>;
+  const handleSubjectSelect = async (subject) => {
+  setSelectedSubject(subject);
+  try {
+    // Call the API and pass the subject ID (_id) to check if the test is completed
+    const { data: testCompleted } = await getFITestCompletionStatus(subject._id); // Pass subject._id as a parameter
+    
+    console.log("Subject ID:", subject._id); // Log the subject ID for debugging
+
+    if (testCompleted) {
+      console.log("Test completed:", testCompleted);
+      // If the test is completed, navigate to the subject page
+      navigate(`/subject/${subject.subject}`); 
+    } else {
+      // If the test is not completed, navigate to the introduction page
+      navigate(`/introduction/${subject.subject}`);
+    }
+  } catch (error) {
+    console.error('Error checking test status:', error);
+  }
+};
+  
 
   return (
-    <div className="dashboard">
-      <section className="progress-section">
-        <h2>Student Progress</h2>
-        <div className="progress-content">
-          <div className="progress-card">
-            <h3>Completed Courses</h3>
-            {progress && progress.completedCourses && progress.completedCourses.length > 0 ? (
-              <ul>
-                {progress.completedCourses.map((course) => (
-                  <li key={course.courseId}>
-                    {course.courseName} (Completed on: {new Date(course.completionDate).toLocaleDateString()})
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>No completed courses.</p>
-            )}
-          </div>
-          <div className="progress-card">
-            <h3>Current Courses</h3>
-            {progress && progress.currentCourses && progress.currentCourses.length > 0 ? (
-              <ul>
-                {progress.currentCourses.map((course) => (
-                  <li key={course.courseId}>
-                    {course.courseName} (Progress: {course.progressPercentage}%)
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>No current courses.</p>
-            )}
-          </div>
-          <div className="progress-card">
-            <h3>Quiz Scores</h3>
-            {progress && progress.quizScores && progress.quizScores.length > 0 ? (
-              <ul>
-                {progress.quizScores.map((score) => (
-                  <li key={score.quizId}>
-                    Quiz ID: {score.quizId} (Score: {score.score}, Date: {new Date(score.date).toLocaleDateString()})
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>No quiz scores available.</p>
-            )}
-          </div>
+    <div className="dashboard-container">
+      <div className="subject-selection-section">
+        <h2>Select a Subject</h2>
+        <div className="subject-buttons">
+          {subjects.map((subject, index) => (
+            <button
+              key={index}
+              className={`subject-button ${selectedSubject?.name === subject.subject ? 'active' : ''}`}
+              onClick={() => handleSubjectSelect(subject)}
+            >
+              {subject.subject}
+            </button>
+          ))}
         </div>
-      </section>
+      </div>
 
-      <section className="learning-path-section">
-        <h2>Learning Path</h2>
-        <div className="learning-path-content">
-          {learningPath && learningPath.path && learningPath.path.length > 0 ? (
-            <ul>
-              {learningPath.path.map((module) => (
-                <li key={module.moduleId} className={module.completed ? 'completed' : 'in-progress'}>
-                  {module.moduleName} {module.completed ? '(Completed)' : '(In Progress)'}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>No learning path available.</p>
-          )}
-        </div>
-      </section>
+      <div className="quiz-performance-section">
+        <h2>Quiz Performance</h2>
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart data={quizPerformanceData}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Line type="monotone" dataKey="score" stroke="#8884d8" activeDot={{ r: 8 }} />
+          </LineChart>
+        </ResponsiveContainer>
+
+        <h2>Other Analysis</h2>
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={quizPerformanceData}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="score" fill="#82ca9d" />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 };
