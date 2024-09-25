@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import { Box } from '@mui/material';
 
 import Navbar from './components/Navbar';
@@ -16,28 +16,28 @@ import FITest from './components/FITest';
 import './styles/App.css';
 
 const App = () => {
+  const location = useLocation(); // Use useLocation hook to get current path
+
   return (
-    <Router>
-      <Box className="app">
-        <Navbar />
-        <div className="main-content">
-          <Sidebar />
-          <div className="content">
-            <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/resources" element={<Resourses />} />
-              <Route path="/quiz" element={<Quiz />} />
-              <Route path="/introduction/:subject" element={<Introduction />} />
-              <Route path="/fitest/:quizId" element={<FITest />} />
-              <Route path="/subject/:subjectID" element={<Subject />} />
-              <Route path="/learning/:subject/:unit/:unitId" element={<Learning />} />
-            </Routes>
-          </div>
+    <Box className="app">
+      <Navbar />
+      <div className="main-content">
+        {location.pathname.includes('/learning') ? null : <Sidebar />} {/* Sidebar not rendered on Learning */}
+        <div className="content">
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/resources" element={<Resourses />} />
+            <Route path="/quiz" element={<Quiz />} />
+            <Route path="/introduction/:subject" element={<Introduction />} />
+            <Route path="/fitest/:quizId" element={<FITest />} />
+            <Route path="/subject/:subjectID" element={<Subject />} />
+            <Route path="/learning/:subject/:unit/:unitId" element={<Learning />} />
+          </Routes>
         </div>
-      </Box>
-    </Router>
+      </div>
+    </Box>
   );
 };
 
