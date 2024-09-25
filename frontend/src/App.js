@@ -11,9 +11,9 @@ import Quiz from './components/Quiz';
 import Resourses from './components/Resourses';
 import Login from './components/Login';
 import Register from './components/Register';
-import Introduction from './pages/Introduction'; // New import for Introduction
+import Introduction from './pages/Introduction';
 import FITest from './components/FITest';
-import './styles/App.css'; // Optional: If you want to include global styles
+import './styles/App.css';
 
 const App = () => {
   return (
@@ -32,7 +32,7 @@ const App = () => {
               <Route path="/introduction/:subject" element={<Introduction />} />
               <Route path="/fitest/:quizId" element={<FITest />} />
               <Route path="/subject/:subjectID" element={<Subject />} />
-              <Route path="/learning/:subject/:unitNumber" element={<Learning />} />
+              <Route path="/learning/:subject/:unit/:unitId" element={<Learning />} />
             </Routes>
           </div>
         </div>

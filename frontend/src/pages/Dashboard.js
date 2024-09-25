@@ -31,25 +31,23 @@ const Dashboard = () => {
   }, []);
 
   const handleSubjectSelect = async (subject) => {
-  setSelectedSubject(subject);
-  try {
-    // Call the API and pass the subject ID (_id) to check if the test is completed
-    const { data: testCompleted } = await getFITestCompletionStatus(subject._id); // Pass subject._id as a parameter
-    
-    console.log("Subject ID:", subject._id); // Log the subject ID for debugging
+    setSelectedSubject(subject);
+    try {
+      const { data: testCompleted } = await getFITestCompletionStatus(subject._id); // Use subject._id
 
-    if (testCompleted) {
-      console.log("Test completed:", testCompleted);
-      // If the test is completed, navigate to the subject page
-      navigate(`/subject/${subject.subject}`); 
-    } else {
-      // If the test is not completed, navigate to the introduction page
-      navigate(`/introduction/${subject.subject}`);
+      console.log("Subject ID:", subject._id); // Log the subject ID for debugging
+      if (testCompleted) {
+        // Navigate to subject page with subjectID (not subject name)
+        navigate(`/subject/${subject._id}`, { state: { subject } });
+        
+      } else {
+        // If the test is not completed, navigate to the introduction page
+        navigate(`/introduction/${subject.subject}`);
+      }
+    } catch (error) {
+      console.error('Error checking test status:', error);
     }
-  } catch (error) {
-    console.error('Error checking test status:', error);
-  }
-};
+  };
   
 
   return (

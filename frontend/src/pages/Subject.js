@@ -1,53 +1,53 @@
-// Subject.js (Page)
-
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { getAllSubjects } from '../utils/api'; // Import the API function
-
-import '../styles/Subject.css'
+import { useParams, useNavigate } from 'react-router-dom';  // Import useNavigate for navigation
+import { getSubjectUnits } from '../utils/api';
+import '../styles/Subject.css';  // Import the CSS file
 
 const Subject = () => {
-  const { subject } = useParams();  // Get subject from URL params
-  const [currentSubject, setCurrentSubject] = useState(null);  // Store current subject
-  const navigate = useNavigate();  // Navigate function
+  const { subjectID } = useParams();  // Get subjectID from URL params
+  const [currentUnits, setCurrentUnits] = useState([]);
+  const [subjectName, setSubjectName] = useState('');  // State to hold the subject name
+  const navigate = useNavigate();  // useNavigate hook for programmatic navigation
 
   useEffect(() => {
-    const fetchSubjectDetails = async () => {
+    const fetchSubjectUnits = async () => {
       try {
-        const { data } = await getAllSubjects();  // Fetch all subjects
-        const subjectData = data.find((subj) => subj.subject === subject);  // Find subject
-        setCurrentSubject(subjectData);  // Set the current subject state
+        const { data } = await getSubjectUnits(subjectID);  // Fetch units and subject data using subjectID
+        setCurrentUnits(data.units);  // Set the units in state
+        setSubjectName(data.subject);  // Set the subject name in state
+        console.log("data", data.unit.unitId)
       } catch (error) {
-        console.error('Error fetching subject details:', error);
+        console.error('Error fetching subject units:', error);
       }
     };
 
-    fetchSubjectDetails();
-  }, [subject]);  // Dependency on subject param
+    fetchSubjectUnits();
+  }, [subjectID]);
 
-  const handleUnitClick = (unit) => {
-    navigate(`/learning/${subject}/${unit.unitNumber}`);  // Navigate to Learning page
+  // Handle click on a unit
+  const handleUnitClick = (unitId ,unitName) => {
+    console.log("unitId:", unitId)
+    console.log(subjectName, unitName)
+    const encodedUnitName = encodeURIComponent(unitName);  // URL-encode the unit name
+    navigate(`/learning/${encodeURIComponent(subjectName)}/${encodedUnitName}/${unitId}`);  // Navigate with subject name, unit name, and unitId
   };
 
   return (
     <div className="subject-container">
-      <div className="subject-header">
-        <h1>{subject} Page</h1>
-        <p className="subject-description">Welcome to the {subject} subject page! Here you can view resources, take quizzes, and track your progress.</p>
-      </div>
-
-      <h2>Units:</h2>
-      {currentSubject ? (
-        <ul className="units-list">
-          {currentSubject.units.map((unit) => (
-            <li key={unit.unitNumber} onClick={() => handleUnitClick(unit)}>
-              <h3>Unit {unit.unitNumber}: {unit.unitName}</h3>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>Loading units...</p>
-      )}
+      <h1 className="subject-title">{subjectName}</h1> {/* Render subject name */}
+      <h2 className="subject-units-title">Units</h2>
+      <ul className="units-list">
+        {currentUnits.map((unit) => (
+          <li 
+            key={unit._id} 
+            className="unit-item" 
+            onClick={() => handleUnitClick(unit.unitId ,unit.unitName)} // Trigger navigation on click
+          >
+            <span className="unit-number">Unit {unit.unitNumber}:</span>
+            <span className="unit-name"> {unit.unitName}</span>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
