@@ -29,3 +29,7 @@ export const fetchUnitTopics = (unitId) => {
 export const fetchNoteById = (noteId) => {
   return API.get(`/notes/${noteId}`);
 };
+
+export const fetchVideoById = (videoId) => {
+  return API.get(`/videos/${videoId}`);
+};

@@ -1,4 +1,3 @@
-// LearningSidebar.js
 import React from 'react';
 import '../styles/LearningSidebar.css';
 
@@ -10,7 +9,7 @@ const LearningSidebar = ({ topics, onTopicClick }) => {
         {topics.length > 0 ? (
           topics.map((topic) => (
             <li key={topic.topicId}>
-              <button onClick={() => onTopicClick(topic.topicNoteId)}>
+              <button onClick={() => onTopicClick(topic.topicNoteId, topic.topicVideoId)}>
                 {topic.topicName}
               </button>
             </li>
