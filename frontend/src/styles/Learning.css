@@ -13,6 +13,7 @@
 }
 
 .section1 {
+  background-color: #f9f9f9; /* Light background for contrast */
   width: 60%;
   height: 70%;
   position: absolute;
@@ -20,6 +21,20 @@
   left: 0;
   box-sizing: border-box;
   padding: 20px;
+  border: 5px solid #ddd; /* Light border */
+  border-radius: 5px; /* Rounded corners */
+  padding: 20px; /* Padding inside the whiteboard */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.whiteboard {
+  max-width: 800px; /* Limit width for better readability */
+  margin: 0 auto; /* Center the whiteboard */
+}
+
+.note-content {
+  margin-top: 10px; /* Spacing between topic name and note */
+  line-height: 1.6; /* Improve readability */
 }
 
 .section2 {
@@ -31,6 +46,61 @@
   box-sizing: border-box;
   padding: 20px;
 }
+
+.horizontal-menu {
+  display: flex;
+  justify-content: space-around; /* Evenly space the buttons */
+  margin-top: 0; /* Space above the menu */
+}
+
+.menu-button {
+
+  cursor: pointer; /* Pointer cursor on hover */
+}
+
+.menu-button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Tabs styling in Section 2 */
+.tabs {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 10px; /* Space below the tabs */
+  border-bottom: 2px solid #ddd; /* Border to separate tabs from content */
+}
+
+.tab {
+  flex-grow: 1;
+  padding: 10px 0;
+  background-color: #f1f1f1;
+  color: black;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.tab:hover {
+  background-color: #ddd; /* Lighten the tab on hover */
+}
+
+.tab.active {
+  background-color: #007BFF; /* Active tab background */
+  color: white;
+  font-weight: bold; /* Emphasize the active tab */
+}
+
+.tab-content {
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
 
 .section3 {
   width: 30%;

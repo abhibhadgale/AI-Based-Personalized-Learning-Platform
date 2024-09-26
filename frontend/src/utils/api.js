@@ -25,3 +25,7 @@ export const getSubjectUnits = (subjectID) => API.get(`/subjects/units/${subject
 export const fetchUnitTopics = (unitId) => {
   return API.get(`/units/${unitId}/topics`); // Adjusted to match your backend route
 };
+// Fetch a note by noteId
+export const fetchNoteById = (noteId) => {
+  return API.get(`/notes/${noteId}`);
+};
