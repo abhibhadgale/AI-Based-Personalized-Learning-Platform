@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import LinkIcon from '@mui/icons-material/Link';
+
 import { fetchUnitTopicsThunk } from '../redux/slices/unitsSlice';
 import LearningSidebar from '../components/LearningSidebar';
 import '../styles/Learning.css';
-import { fetchNoteById, fetchVideoById } from '../utils/api'; // Import API call for fetching video
+import { fetchNoteById, fetchVideoById, fetchResourceById } from '../utils/api'; // Import API call for fetching resource
 
 const LearningPage = () => {
   const { unitId } = useParams();
@@ -13,14 +15,15 @@ const LearningPage = () => {
   const [selectedNote, setSelectedNote] = useState(null);
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [selectedVideo, setSelectedVideo] = useState(null); // State to store the selected video link
+  const [selectedResource, setSelectedResource] = useState(null); // State to store the selected resource link
   const [activeTab, setActiveTab] = useState('video'); // State to manage the selected tab
 
   useEffect(() => {
     dispatch(fetchUnitTopicsThunk(unitId));
   }, [dispatch, unitId]);
 
-  // Function to handle topic click and fetch the corresponding note and video
-  const handleTopicClick = async (topicNoteId, topicVideoId) => {
+  // Function to handle topic click and fetch the corresponding note, video, and resource
+  const handleTopicClick = async (topicNoteId, topicVideoId, topicResourcesId) => {
     try {
       const noteResponse = await fetchNoteById(topicNoteId);
       setSelectedNote(noteResponse.data.note);
@@ -28,8 +31,11 @@ const LearningPage = () => {
 
       const videoResponse = await fetchVideoById(topicVideoId);
       setSelectedVideo(videoResponse.data.link); // Update state with fetched video link
+
+      const resourceResponse = await fetchResourceById(topicResourcesId);
+      setSelectedResource(resourceResponse.data.resource); // Update state with fetched resource link
     } catch (error) {
-      console.error('Error fetching note or video:', error);
+      console.error('Error fetching note, video, or resource:', error);
     }
   };
 
@@ -45,7 +51,13 @@ const LearningPage = () => {
       case 'quiz':
         return <p>This is the quiz content.</p>;
       case 'resource':
-        return <p>This is the resource content.</p>;
+        return selectedResource ? (
+          <a href={selectedResource} target="_blank" rel="noopener noreferrer" className="resource-link-button">
+            <LinkIcon />View Resource
+          </a>
+        ) : (
+          <p>Select a topic to view its resource.</p>
+        );
       default:
         return null;
     }
@@ -58,7 +70,9 @@ const LearningPage = () => {
     <div className="learning-container">
       <LearningSidebar
         topics={topics}
-        onTopicClick={(topicNoteId, topicVideoId) => handleTopicClick(topicNoteId, topicVideoId)}
+        onTopicClick={(topicNoteId, topicVideoId, topicResourcesId) =>
+          handleTopicClick(topicNoteId, topicVideoId, topicResourcesId)
+        }
       />
       <div className="learning-content">
         <div className="section1 whiteboard">

@@ -9,7 +9,9 @@ const LearningSidebar = ({ topics, onTopicClick }) => {
         {topics.length > 0 ? (
           topics.map((topic) => (
             <li key={topic.topicId}>
-              <button onClick={() => onTopicClick(topic.topicNoteId, topic.topicVideoId)}>
+              <button
+                onClick={() => onTopicClick(topic.topicNoteId, topic.topicVideoId, topic.topicResourcesId)}
+              >
                 {topic.topicName}
               </button>
             </li>

@@ -101,6 +101,25 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
+.resource-link-button {
+  display: flex;
+  align-items: center;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.resource-link-button:hover {
+  background-color: #1565c0;
+}
+
+.resource-link-button svg {
+  margin-right: 8px;
+}
+
 
 .section3 {
   width: 30%;

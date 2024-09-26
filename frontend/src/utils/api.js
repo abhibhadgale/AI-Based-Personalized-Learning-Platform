@@ -33,3 +33,8 @@ export const fetchNoteById = (noteId) => {
 export const fetchVideoById = (videoId) => {
   return API.get(`/videos/${videoId}`);
 };
+
+// Fetch a resource by resourceId
+export const fetchResourceById = (resourceId) => {
+  return API.get(`/resources/${resourceId}`);
+};
