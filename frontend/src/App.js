@@ -7,6 +7,7 @@ import Sidebar from './components/Sidebar';
 import Dashboard from './pages/Dashboard';
 import Subject from './pages/Subject';
 import Learning from './pages/Learning';
+import Test from './pages/Test';
 import Quiz from './components/Quiz';
 import Resourses from './components/Resourses';
 import Login from './components/Login';
@@ -38,6 +39,7 @@ const App = () => {
             <Route path="/learning/:subject/:unit/:unitId" element={<Learning />} />
             <Route path="/about" element={<AboutUs />} /> {/* Add route for AboutUs */}
             <Route path="/contact" element={<ContactUs />} /> {/* Add route for ContactUs */}
+            <Route path="/test/:unitMcqTest" element={<Test />} />
           </Routes>
         </div>
       </div>

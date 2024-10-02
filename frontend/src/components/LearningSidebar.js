@@ -1,7 +1,16 @@
 import React from 'react';
 import '../styles/LearningSidebar.css';
+import { useNavigate } from 'react-router-dom';
 
-const LearningSidebar = ({ topics, onTopicClick }) => {
+const LearningSidebar = ({ topics, onTopicClick, unitMcqTest, subjectId }) => { // Accept subjectId as a prop
+  const navigate = useNavigate();
+  console.log("unitMcqTest", unitMcqTest)
+  console.log("subjectId", subjectId)
+
+  const handleTakeTest = () => {
+    navigate(`/test/${unitMcqTest}`, { state: { subjectId } }); // Pass subjectId as part of location state
+  };
+
   return (
     <div className="learning-sidebar">
       <h3>Topics</h3>
@@ -16,7 +25,7 @@ const LearningSidebar = ({ topics, onTopicClick }) => {
                     topic.topicVideoId,
                     topic.topicResourcesId,
                     topic.topicQuizId,
-                    topic.topicDiagramId // Pass topicDiagramId
+                    topic.topicDiagramId
                   )
                 }
               >
@@ -27,7 +36,14 @@ const LearningSidebar = ({ topics, onTopicClick }) => {
         ) : (
           <li>No topics available</li>
         )}
+        
       </ul>
+      
+      {unitMcqTest && (
+        <button className="take-test-btn" onClick={handleTakeTest}>
+          Finish and Take a Test
+        </button>
+      )}
     </div>
   );
 };

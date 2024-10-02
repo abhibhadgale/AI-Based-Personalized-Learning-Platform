@@ -1,0 +1,38 @@
+.test-container {
+    padding: 20px;
+  }
+  
+  .question-card {
+    margin-bottom: 20px;
+  }
+  
+  .options {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .option {
+    margin: 5px 0;
+  }
+  
+  .result {
+    margin-top: 20px;
+  }
+  .quiz-title {
+    font-size: 2rem; /* Font size */
+    font-weight: bold; /* Bold font */
+    text-align: center; /* Center align the title */
+    margin-bottom: 1.5rem; /* Space below the title */
+    color: #2c3e50; /* Darker color for better contrast */
+    text-transform: uppercase; /* Uppercase for emphasis */
+    letter-spacing: 1px; /* Slight letter spacing */
+    border-bottom: 2px solid #3498db; /* Bottom border */
+    padding-bottom: 0.5rem; /* Space below the border */
+    transition: color 0.3s ease; /* Smooth color transition */
+    cursor: pointer;
+  }
+  
+  .quiz-title:hover {
+    color: orangered; /* Change color on hover */
+  }
+    

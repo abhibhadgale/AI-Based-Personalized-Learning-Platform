@@ -16,6 +16,8 @@ const unitsSlice = createSlice({
     initialState: {
         topics: [],
         unitName: '', // Added unitName to the initial state
+        unitMcqTest: '', // Added unitMcqTest to the initial state
+        subjectId: '', // Added subjectId to the initial state
         status: 'idle', // idle | loading | succeeded | failed
         error: null,
     },
@@ -31,6 +33,8 @@ const unitsSlice = createSlice({
                 state.status = 'succeeded';
                 state.topics = action.payload.topics; // Assuming payload contains topics
                 state.unitName = action.payload.unitName; // Assuming payload contains unitName
+                state.unitMcqTest = action.payload.unitMcqTest; // Added unitMcqTest from API response
+                state.subjectId = action.payload.subjectId; // Added subjectId from API response
             })
             .addCase(fetchUnitTopicsThunk.rejected, (state, action) => {
                 state.status = 'failed';
@@ -47,3 +51,5 @@ export const reducer = unitsSlice.reducer; // Ensure you export the reducer sepa
 export const selectAllTopics = (state) => state.units.topics;
 export const selectUnitsStatus = (state) => state.units.status;
 export const selectUnitsError = (state) => state.units.error;
+export const selectUnitMcqTest = (state) => state.units.unitMcqTest; // Selector for unitMcqTest
+export const selectSubjectId = (state) => state.units.subjectId; // Selector for subjectId

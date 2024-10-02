@@ -11,7 +11,7 @@ export const getTopicsByUnitId = async (req, res) => {
     if (!unit) return res.status(404).json({ message: 'Unit not found' });
 
     // Return both topics and unit name
-    res.status(200).json({ unitName: unit.unitName, topics: unit.topics }); // Return unitName and topics
+    res.status(200).json({ unitName: unit.unitName, topics: unit.topics, unitMcqTest: unit.unitMcqTest, subjectId: unit.subjectId }); // Return unitName and topics
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

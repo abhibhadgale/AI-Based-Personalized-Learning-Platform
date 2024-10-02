@@ -15,6 +15,8 @@ const unitSchema = new mongoose.Schema({
       topicDiagramId: { type: String, required: false },
     },
   ],
+  unitMcqTest: { type: mongoose.Schema.Types.ObjectId, ref: 'Quiz', required: true },
+  subjectId: { type: mongoose.Schema.Types.ObjectId, ref: 'Subject', required: true }
 });
 
 const Unit = mongoose.model('Unit', unitSchema);

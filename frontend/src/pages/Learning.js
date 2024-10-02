@@ -11,7 +11,7 @@ import Quiz from '../components/Quiz';
 const LearningPage = () => {
   const { unitId } = useParams();
   const dispatch = useDispatch();
-  const { topics, loading, error, unitName } = useSelector((state) => state.units);
+  const { topics, loading, error, unitName, unitMcqTest, subjectId } = useSelector((state) => state.units);
   const [selectedNote, setSelectedNote] = useState(null);
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
@@ -87,6 +87,8 @@ const LearningPage = () => {
         onTopicClick={(topicNoteId, topicVideoId, topicResourcesId, topicQuizId, topicDiagramId) =>
           handleTopicClick(topicNoteId, topicVideoId, topicResourcesId, topicQuizId, topicDiagramId)
         }
+        unitMcqTest={unitMcqTest} // Pass unitMcqTest to sidebar
+        subjectId={subjectId}
       />
       <div className="learning-content">
         <div className="section1 whiteboard">
