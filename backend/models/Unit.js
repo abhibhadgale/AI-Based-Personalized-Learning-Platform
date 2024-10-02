@@ -12,6 +12,7 @@ const unitSchema = new mongoose.Schema({
       topicNoteId: { type: String, required: true },
       topicVideoId: { type: String, required: true },
       topicResourcesId: { type: String, required: true },
+      topicDiagramId: { type: String, required: false },
     },
   ],
 });

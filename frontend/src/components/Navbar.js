@@ -26,8 +26,8 @@ const Navbar = () => {
             AI-Based Personalized Learning Platform
           </Typography>
           <Button color="inherit" component={Link} to="/">Home</Button>
-          <Button color="inherit">About</Button>
-          <Button color="inherit">Contact Us</Button>
+          <Button color="inherit" component={Link} to="/about">About</Button> {/* Link to AboutUs page */}
+          <Button color="inherit" component={Link} to="/contact">Contact Us</Button> {/* Link to ContactUs page */}
           {isAuthenticated ? (
             <Button color="inherit" onClick={handleLogout}>Logout</Button>
           ) : (

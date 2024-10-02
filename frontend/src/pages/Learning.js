@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import LinkIcon from '@mui/icons-material/Link';
-
 import { fetchUnitTopicsThunk } from '../redux/slices/unitsSlice';
 import LearningSidebar from '../components/LearningSidebar';
 import '../styles/Learning.css';
-import { fetchNoteById, fetchVideoById, fetchResourceById } from '../utils/api'; // Import API call for fetching resource
+import { fetchNoteById, fetchVideoById, fetchResourceById, fetchDiagramById } from '../utils/api'; // Added fetchDiagramById
+import Quiz from '../components/Quiz';
 
 const LearningPage = () => {
   const { unitId } = useParams();
@@ -14,32 +14,42 @@ const LearningPage = () => {
   const { topics, loading, error, unitName } = useSelector((state) => state.units);
   const [selectedNote, setSelectedNote] = useState(null);
   const [selectedTopic, setSelectedTopic] = useState(null);
-  const [selectedVideo, setSelectedVideo] = useState(null); // State to store the selected video link
-  const [selectedResource, setSelectedResource] = useState(null); // State to store the selected resource link
-  const [activeTab, setActiveTab] = useState('video'); // State to manage the selected tab
+  const [selectedVideo, setSelectedVideo] = useState(null);
+  const [selectedResource, setSelectedResource] = useState(null);
+  const [selectedQuizId, setSelectedQuizId] = useState(null);
+  const [selectedDiagram, setSelectedDiagram] = useState(null); // Added state for diagram
+  const [activeTab, setActiveTab] = useState('video');
 
   useEffect(() => {
     dispatch(fetchUnitTopicsThunk(unitId));
   }, [dispatch, unitId]);
 
-  // Function to handle topic click and fetch the corresponding note, video, and resource
-  const handleTopicClick = async (topicNoteId, topicVideoId, topicResourcesId) => {
+  // Handle topic click and fetch respective content
+  const handleTopicClick = async (topicNoteId, topicVideoId, topicResourcesId, topicQuizId, topicDiagramId) => {
     try {
       const noteResponse = await fetchNoteById(topicNoteId);
       setSelectedNote(noteResponse.data.note);
       setSelectedTopic(noteResponse.data.topicName);
 
       const videoResponse = await fetchVideoById(topicVideoId);
-      setSelectedVideo(videoResponse.data.link); // Update state with fetched video link
+      setSelectedVideo(videoResponse.data.link);
 
       const resourceResponse = await fetchResourceById(topicResourcesId);
-      setSelectedResource(resourceResponse.data.resource); // Update state with fetched resource link
+      setSelectedResource(resourceResponse.data.resource);
+
+      setSelectedQuizId(topicQuizId);
+
+      if (topicDiagramId) {
+        const diagramResponse = await fetchDiagramById(topicDiagramId); // Fetch diagram if available
+        setSelectedDiagram(diagramResponse.data.imageBase64); // Set diagram image
+      } else {
+        setSelectedDiagram(null); // Clear diagram if no diagramId
+      }
     } catch (error) {
-      console.error('Error fetching note, video, or resource:', error);
+      console.error('Error fetching content:', error);
     }
   };
 
-  // Function to render tab content based on the active tab
   const renderTabContent = () => {
     switch (activeTab) {
       case 'video':
@@ -49,11 +59,15 @@ const LearningPage = () => {
           <p>Select a topic to view its video.</p>
         );
       case 'quiz':
-        return <p>This is the quiz content.</p>;
+        return selectedQuizId ? (
+          <Quiz quizId={selectedQuizId} subjectId={unitId} />
+        ) : (
+          <p>Select a topic to view its quiz.</p>
+        );
       case 'resource':
         return selectedResource ? (
           <a href={selectedResource} target="_blank" rel="noopener noreferrer" className="resource-link-button">
-            <LinkIcon />View Resource
+            <LinkIcon /> View Resource
           </a>
         ) : (
           <p>Select a topic to view its resource.</p>
@@ -70,8 +84,8 @@ const LearningPage = () => {
     <div className="learning-container">
       <LearningSidebar
         topics={topics}
-        onTopicClick={(topicNoteId, topicVideoId, topicResourcesId) =>
-          handleTopicClick(topicNoteId, topicVideoId, topicResourcesId)
+        onTopicClick={(topicNoteId, topicVideoId, topicResourcesId, topicQuizId, topicDiagramId) =>
+          handleTopicClick(topicNoteId, topicVideoId, topicResourcesId, topicQuizId, topicDiagramId)
         }
       />
       <div className="learning-content">
@@ -86,6 +100,13 @@ const LearningPage = () => {
             </div>
           ) : (
             <p>Select a topic to view its note.</p>
+          )}
+          {/* Added diagram rendering below the note */}
+          {selectedDiagram && (
+            <div className="diagram-content">
+              <h3>Diagram:</h3>
+              <img src={`${selectedDiagram}`} alt="Diagram" className="diagram" />
+            </div>
           )}
         </div>
         <div className="section2">

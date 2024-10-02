@@ -38,3 +38,8 @@ export const fetchVideoById = (videoId) => {
 export const fetchResourceById = (resourceId) => {
   return API.get(`/resources/${resourceId}`);
 };
+
+export const fetchDiagramById = (diagramId) => {
+  return API.get(`/diagrams/${diagramId}`);
+};
+

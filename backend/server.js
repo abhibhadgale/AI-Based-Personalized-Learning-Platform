@@ -12,6 +12,7 @@ import subjectFundamentalRoutes from './routes/subjectfundamentalRoutes.js';
 import notesRoutes from './routes/notesRoutes.js';
 import videoRoutes from './routes/videoRoutes.js';
 import resourceRoutes from './routes/resourcesRoutes.js'; // Import resources routes
+import diagramRoutes from './routes/diagramRoutes.js'
 import connectDB from './config/db.js';
 
 dotenv.config();
@@ -37,6 +38,7 @@ app.use('/api/units', unitsRoutes);
 app.use('/api/notes', notesRoutes);
 app.use('/api/videos', videoRoutes);
 app.use('/api/resources', resourceRoutes); // Register resources route
+app.use('/api/diagrams', diagramRoutes)
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

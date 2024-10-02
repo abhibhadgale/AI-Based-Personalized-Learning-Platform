@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import { Box } from '@mui/material';
 
 import Navbar from './components/Navbar';
@@ -13,6 +13,8 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Introduction from './pages/Introduction';
 import FITest from './components/FITest';
+import AboutUs from './pages/AboutUs';  // Import AboutUs component
+import ContactUs from './pages/ContactUs';  // Import ContactUs component
 import './styles/App.css';
 
 const App = () => {
@@ -34,6 +36,8 @@ const App = () => {
             <Route path="/fitest/:quizId" element={<FITest />} />
             <Route path="/subject/:subjectID" element={<Subject />} />
             <Route path="/learning/:subject/:unit/:unitId" element={<Learning />} />
+            <Route path="/about" element={<AboutUs />} /> {/* Add route for AboutUs */}
+            <Route path="/contact" element={<ContactUs />} /> {/* Add route for ContactUs */}
           </Routes>
         </div>
       </div>

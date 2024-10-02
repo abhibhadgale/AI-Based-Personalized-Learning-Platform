@@ -25,6 +25,7 @@
   border-radius: 5px; /* Rounded corners */
   padding: 20px; /* Padding inside the whiteboard */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  overflow-y: auto; /* Make the section vertically scrollable */
 }
 
 .whiteboard {
@@ -35,6 +36,13 @@
 .note-content {
   margin-top: 10px; /* Spacing between topic name and note */
   line-height: 1.6; /* Improve readability */
+}
+
+.diagram {
+  max-width: 100%; /* Ensure the diagram resizes to fit within the whiteboard */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: contain; /* Ensure the aspect ratio of diagrams is maintained */
+  margin-top: 20px; /* Space between the note and the diagram */
 }
 
 .section2 {
