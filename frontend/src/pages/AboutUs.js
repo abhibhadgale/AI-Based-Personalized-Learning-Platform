@@ -38,6 +38,7 @@ const AboutUs = () => {
         <p>
           Our team is made up of passionate educators, engineers, and AI researchers who are committed to changing the future of education. We believe in the power of technology to unlock human potential.
         </p>
+        <h2>Thank You</h2>
       </section>
     </div>
   );
