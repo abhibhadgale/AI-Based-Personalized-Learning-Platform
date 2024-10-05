@@ -13,23 +13,20 @@ const LearningPage = () => {
   const dispatch = useDispatch();
   const { topics, loading, error, unitName, unitMcqTest, subjectId } = useSelector((state) => state.units);
   const [selectedNote, setSelectedNote] = useState(null);
-  const [selectedTopic, setSelectedTopic] = useState(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [selectedResource, setSelectedResource] = useState(null);
   const [selectedQuizId, setSelectedQuizId] = useState(null);
-  const [selectedDiagram, setSelectedDiagram] = useState(null); // Added state for diagram
-  const [activeTab, setActiveTab] = useState('video');
+  const [selectedDiagram, setSelectedDiagram] = useState(null); // State for diagram
+  const [activeTab, setActiveTab] = useState('notes'); // Default to 'notes' tab
 
   useEffect(() => {
     dispatch(fetchUnitTopicsThunk(unitId));
   }, [dispatch, unitId]);
 
-  // Handle topic click and fetch respective content
   const handleTopicClick = async (topicNoteId, topicVideoId, topicResourcesId, topicQuizId, topicDiagramId) => {
     try {
       const noteResponse = await fetchNoteById(topicNoteId);
       setSelectedNote(noteResponse.data.note);
-      setSelectedTopic(noteResponse.data.topicName);
 
       const videoResponse = await fetchVideoById(topicVideoId);
       setSelectedVideo(videoResponse.data.link);
@@ -40,17 +37,19 @@ const LearningPage = () => {
       setSelectedQuizId(topicQuizId);
 
       if (topicDiagramId) {
-        const diagramResponse = await fetchDiagramById(topicDiagramId); // Fetch diagram if available
-        setSelectedDiagram(diagramResponse.data.imageBase64); // Set diagram image
+        const diagramResponse = await fetchDiagramById(topicDiagramId); // Fetch diagram
+        setSelectedDiagram(diagramResponse.data.imageBase64); // Store the diagram
       } else {
         setSelectedDiagram(null); // Clear diagram if no diagramId
       }
+
+      setActiveTab('notes'); // Set default tab to 'notes' when a topic is clicked
     } catch (error) {
       console.error('Error fetching content:', error);
     }
   };
 
-  const renderTabContent = () => {
+  const renderSection1Content = () => {
     switch (activeTab) {
       case 'video':
         return selectedVideo ? (
@@ -60,7 +59,7 @@ const LearningPage = () => {
         );
       case 'quiz':
         return selectedQuizId ? (
-          <Quiz quizId={selectedQuizId} subjectId={unitId} />
+          <Quiz quizId={selectedQuizId} subjectId={subjectId} />
         ) : (
           <p>Select a topic to view its quiz.</p>
         );
@@ -73,8 +72,57 @@ const LearningPage = () => {
           <p>Select a topic to view its resource.</p>
         );
       default:
-        return null;
+        return (
+          <>
+            {selectedNote ? (
+              <div className="note-content">
+                <h3>Notes</h3>
+                <p>{selectedNote}</p>
+              </div>
+            ) : (
+              <p>Select a topic to view its note.</p>
+            )}
+            {/* Render diagram below the note */}
+            {selectedDiagram && (
+              <div className="diagram-content">
+                <h3>Diagram:</h3>
+                <img src={`${selectedDiagram}`} alt="Diagram" className="diagram" />
+              </div>
+            )}
+          </>
+        );
     }
+  };
+
+  const renderSection2Tabs = () => {
+    return (
+      <div className="tabs">
+        <button
+          className={`tab ${activeTab === 'notes' ? 'active' : ''}`}
+          onClick={() => setActiveTab('notes')}
+        >
+          Notes
+        </button>
+        <button
+          className={`tab ${activeTab === 'video' ? 'active' : ''}`}
+          onClick={() => setActiveTab('video')}
+        >
+          Video
+        </button>
+        <button
+          className={`tab ${activeTab === 'quiz' ? 'active' : ''}`}
+          onClick={() => setActiveTab('quiz')}
+        >
+          Quiz
+        </button>
+        <button
+          className={`tab ${activeTab === 'resource' ? 'active' : ''}`}
+          onClick={() => setActiveTab('resource')}
+        >
+          Resources
+        </button>
+      </div>
+    );
   };
 
   if (loading) return <p>Loading topics...</p>;
@@ -91,51 +139,12 @@ const LearningPage = () => {
         subjectId={subjectId}
       />
       <div className="learning-content">
-        <div className="section1 whiteboard">
+        <div className="section1">
           <h2>{unitName}</h2>
-          <br />
-          {selectedTopic && <h3>{selectedTopic}</h3>}
-          {selectedNote ? (
-            <div className="note-content">
-              <br />
-              <p>{selectedNote}</p>
-            </div>
-          ) : (
-            <p>Select a topic to view its note.</p>
-          )}
-          {/* Added diagram rendering below the note */}
-          {selectedDiagram && (
-            <div className="diagram-content">
-              <h3>Diagram:</h3>
-              <img src={`${selectedDiagram}`} alt="Diagram" className="diagram" />
-            </div>
-          )}
+          {renderSection1Content()}
         </div>
         <div className="section2">
-          <div className="tabs">
-            <button
-              className={`tab ${activeTab === 'video' ? 'active' : ''}`}
-              onClick={() => setActiveTab('video')}
-            >
-              Video
-            </button>
-            <button
-              className={`tab ${activeTab === 'quiz' ? 'active' : ''}`}
-              onClick={() => setActiveTab('quiz')}
-            >
-              Quiz
-            </button>
-            <button
-              className={`tab ${activeTab === 'resource' ? 'active' : ''}`}
-              onClick={() => setActiveTab('resource')}
-            >
-              Resources
-            </button>
-          </div>
-          <div className="tab-content">{renderTabContent()}</div>
-        </div>
-        <div className="section3">
-          <h2>Section 3</h2>
+          {renderSection2Tabs()}
         </div>
       </div>
     </div>
