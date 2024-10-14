@@ -1,47 +1,60 @@
+// src/pages/AboutPage.js
 import React from 'react';
-import '../styles/AboutUs.css'; // Import the external CSS file
+import { Link } from 'react-router-dom'; // For navigation
+
+import '../styles/AboutUs.css';
 
 const AboutUs = () => {
   return (
     <div className="about-container">
-      <div className="about-header">
-        <h1>About Us</h1>
-        <p>Your Partner in AI-Powered Learning</p>
+      {/* First part: Background image with overlay text and button */}
+      <div className="about-background">
+        <div className="about-overlay">
+          <h1>Welcome to Your Personalized Learning Platform</h1>
+          <p>
+            Unlock your potential with AI-driven personalized learning paths,
+            interactive quizzes, video-based learning, and more.
+          </p>
+          <Link to="/register">
+            <button className="create-account-btn">Create Account</button>
+          </Link>
+        </div>
       </div>
 
-      <section className="about-section">
-        <h2>Our Mission</h2>
-        <p>
-          At AI Learning Platform, our mission is to revolutionize education with the power of AI. We strive to create personalized learning experiences that empower students to reach their full potential.
+      {/* Second part - Features Section */}
+      <div className="features-section">
+        <h2 className="features-heading">Key Features of Our Platform</h2>
+        <p className="features-description">
+          Explore the powerful tools and features that make our platform the ultimate learning assistant for students. Each feature is carefully crafted to enhance your learning experience and maximize your performance.
         </p>
-      </section>
-
-      <section className="about-section">
-        <h2>What We Do</h2>
-        <p>
-          We use state-of-the-art machine learning algorithms to analyze your learning patterns and provide tailored content that accelerates your learning process. Our platform adapts to your pace, ensuring that you learn effectively and efficiently.
-        </p>
-      </section>
-
-      <section className="about-section">
-        <h2>Why Choose Us</h2>
-        <ul>
-          <li>AI-Driven Personalized Learning Paths</li>
-          <li>Real-time Feedback and Analysis</li>
-          <li>Interactive Learning Resources</li>
-          <li>Expert Mentorship and Support</li>
-        </ul>
-      </section>
-
-      <section className="about-section">
-        <h2>Meet the Team</h2>
-        <p>
-          Our team is made up of passionate educators, engineers, and AI researchers who are committed to changing the future of education. We believe in the power of technology to unlock human potential.
-        </p>
-        <h2>Thank You</h2>
-      </section>
+        <div className="features-grid">
+          <div className="feature-box">
+            <h3>Personalized Learning Paths</h3>
+            <p>
+              Tailored learning paths based on your strengths, weaknesses, and goals, ensuring an efficient and effective study process.
+            </p>
+          </div>
+          <div className="feature-box">
+            <h3>AI Copilot</h3>
+            <p>
+              Your personal AI assistant that guides you through every step, answering questions, providing recommendations, and keeping you on track.
+            </p>
+          </div>
+          <div className="feature-box">
+            <h3>Handwritten Answer Analysis</h3>
+            <p>
+              Upload handwritten answers, and our AI analyzes them to provide feedback and tips for improvement in real-time.
+            </p>
+          </div>
+          <div className="feature-box">
+            <h3>Last Time Exam Preparation</h3>
+            <p>
+              Focused revision strategies and mock exams to help you ace your exams during the final preparation stages.
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
-
 export default AboutUs;

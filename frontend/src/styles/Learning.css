@@ -7,26 +7,36 @@
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  margin-left: 20%; /* Assuming sidebar takes 20% of the width */
   height: 100%;
   position: relative;
 }
 
 .section1 {
-  background-color: #f9f9f9; /* Light background for contrast */
-  width: 60%;
-  height: 70%;
+  background-color: #f9f9f9;
+  width: 70%; /* Increased width to 70% */
+  height: 75%; /* Increased height to 75% */
   position: absolute;
   top: 0;
   left: 0;
   box-sizing: border-box;
-  padding: 20px;
-  border: 5px solid #ddd; /* Light border */
-  border-radius: 5px; /* Rounded corners */
-  padding: 20px; /* Padding inside the whiteboard */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  overflow-y: auto; /* Make the section vertically scrollable */
+  padding: 30px; /* Increased padding for more spacing */
+  border: 5px solid #ddd;
+  border-radius: 10px; /* More rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Enhanced shadow for more depth */
+  overflow-y: auto; /* Maintain scrollability */
+  transition: transform 0.3s ease, opacity 0.3s ease; /* Smooth transition */
 }
+
+.section1.show-content {
+  transform: scale(1.05); /* Slight zoom effect when content is displayed */
+  opacity: 1; /* Fully visible */
+}
+
+.section1.hide-content {
+  transform: scale(1); /* Default size */
+  opacity: 0.5; /* Slightly faded when no content is selected */
+}
+
 
 .whiteboard {
   max-width: 800px; /* Limit width for better readability */

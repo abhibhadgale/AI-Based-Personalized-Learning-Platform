@@ -25,7 +25,7 @@ const App = () => {
     <Box className="app">
       <Navbar />
       <div className="main-content">
-        {location.pathname.includes('/learning') ? null : <Sidebar />} {/* Sidebar not rendered on Learning */}
+        {location.pathname.includes('/learning' && '/about') ? null : <Sidebar />} {/* Sidebar not rendered on Learning */}
         <div className="content">
           <Routes>
             <Route path="/" element={<Dashboard />} />

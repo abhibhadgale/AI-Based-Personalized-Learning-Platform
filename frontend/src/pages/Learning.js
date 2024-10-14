@@ -146,6 +146,9 @@ const LearningPage = () => {
         <div className="section2">
           {renderSection2Tabs()}
         </div>
+        <div className="section3">
+          <h2>Section 3</h2>
+        </div>
       </div>
     </div>
   );

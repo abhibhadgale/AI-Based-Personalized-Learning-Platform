@@ -1,72 +1,111 @@
-/* General container */
-.about-container {
-    padding: 20px;
-    max-width: 800px;
-    margin: 0 auto;
-    font-family: 'Arial', sans-serif;
+/* src/styles/AboutPage.css */
+.about-background {
+  background-image: url('https://miro.medium.com/v2/resize:fit:640/format:webp/1*ZcInYZW1b4smeHkDaRJBeQ.jpeg');
+  background-size: cover;
+  background-position: center;
+  height: 80vh; /* Full screen height */
+  display: flex;
+  justify-content: flex-start; /* Align overlay to the left */
+  align-items: center;
+  position: relative;
+  color: white;
+  padding-left: 10%; /* Adjust the left padding to move overlay */
+}
+
+.about-overlay {
+  text-align: left; /* Left-align text */
+  background: rgba(0, 0, 0, 0.5); /* Transparent overlay */
+  padding: 40px;
+  border-radius: 10px;
+  max-width: 600px; /* Limit the width of the overlay */
+}
+
+.about-overlay h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.about-overlay p {
+  font-size: 1.3rem;
+  margin-bottom: 30px;
+}
+
+.create-account-btn {
+  background-color: #1976d2; /* Green background */
+  color: white;
+  font-size: 1.2rem;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+}
+
+.create-account-btn:hover {
+  background-color: orangered; /* Darker green on hover */
+}
+
+/* src/styles/AboutPage.css */
+
+/* Features Section */
+.features-section {
+  padding: 60px 0;
+  background-color: #f8f9fa;
+  text-align: center;
+}
+
+.features-heading {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.features-description {
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+  color: #555;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  padding: 0 20px;
+}
+
+.feature-box {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(4, 40, 243, 0.5);
+  padding: 30px;
+  text-align: center;
+}
+
+.feature-box h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.feature-box p {
+  font-size: 1rem;
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  .features-description {
+    font-size: 1rem;
   }
-  
-  /* Header styling */
-  .about-header {
-    text-align: center;
-    margin-bottom: 40px;
+
+  .features-grid {
+    grid-template-columns: 1fr;
   }
-  
-  .about-header h1 {
-    font-size: 2.5em;
-    margin-bottom: 10px;
+
+  .features-heading {
+    font-size: 2rem;
   }
-  
-  .about-header p {
-    font-size: 1.2em;
-    color: #555;
-  }
-  
-  /* Section styling */
-  .about-section {
-    margin-bottom: 30px;
-  }
-  
-  .about-section h2 {
-    font-size: 1.8em;
-    color: #333;
-    margin-bottom: 10px;
-  }
-  
-  .about-section p {
-    font-size: 1em;
-    color: #666;
-    line-height: 1.6;
-  }
-  
-  /* List styling */
-  .about-section ul {
-    list-style-type: disc;
-    margin-left: 20px;
-    color: #555;
-  }
-  
-  .about-section ul li {
-    font-size: 1em;
-    margin-bottom: 10px;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 600px) {
-    .about-header h1 {
-      font-size: 2em;
-    }
-  
-    .about-header p {
-      font-size: 1em;
-    }
-  
-    .about-section h2 {
-      font-size: 1.5em;
-    }
-  
-    .about-section p {
-      font-size: 0.9em;
-    }
-  }
-  
+}
