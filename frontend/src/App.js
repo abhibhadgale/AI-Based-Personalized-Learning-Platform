@@ -16,6 +16,7 @@ import Introduction from './pages/Introduction';
 import FITest from './components/FITest';
 import AboutUs from './pages/AboutUs';  // Import AboutUs component
 import ContactUs from './pages/ContactUs';  // Import ContactUs component
+import UserProfileForm from './components/UserProfileForm';
 import './styles/App.css';
 
 const App = () => {
@@ -31,6 +32,7 @@ const App = () => {
             <Route path="/" element={<Dashboard />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/user-profile" element={<UserProfileForm />} />
             <Route path="/resources" element={<Resourses />} />
             <Route path="/quiz" element={<Quiz />} />
             <Route path="/introduction/:subject" element={<Introduction />} />

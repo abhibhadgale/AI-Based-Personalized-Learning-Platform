@@ -43,3 +43,13 @@ export const fetchDiagramById = (diagramId) => {
   return API.get(`/diagrams/${diagramId}`);
 };
 
+
+//update user profile
+export const submitUserProfile = (profileData) => {
+  return API.post('/users/profile', profileData);
+};
+
+export const updateUserProfileCompleted = (userId) => {
+  return API.patch(`/users/profile-completion`);
+};
+

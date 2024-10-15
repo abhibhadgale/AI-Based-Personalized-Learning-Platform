@@ -1,0 +1,95 @@
+/* User Profile Container */
+.user-profile-container {
+    max-width: 600px; /* Set a maximum width */
+    margin: 100px auto; /* Center the container */
+    padding: 20px; /* Add some padding */
+    background-color: #f8f9fa; /* Light background */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
+
+/* Header */
+.user-profile-container h1 {
+    text-align: center; /* Center the heading */
+    color: #343a40; /* Dark text color */
+    margin-bottom: 20px; /* Spacing below the heading */
+}
+
+/* Form Styling */
+.user-profile-form {
+    display: flex;
+    flex-direction: column; /* Stack the elements vertically */
+}
+
+/* Form Group */
+.form-group {
+    margin-bottom: 15px; /* Space between form groups */
+}
+
+/* Input Fields */
+.form-field {
+    width: 100%; /* Full width */
+    padding: 10px; /* Inner spacing */
+    border: 1px solid #ced4da; /* Border color */
+    border-radius: 4px; /* Rounded corners */
+    transition: border-color 0.3s; /* Smooth transition */
+}
+
+/* Input Focus */
+.form-field:focus {
+    border-color: #007bff; /* Highlight border on focus */
+    outline: none; /* Remove default outline */
+}
+
+/* Questions Heading */
+h3 {
+    color: #007bff; /* Primary color for questions */
+    margin-bottom: 10px; /* Space below question */
+}
+
+/* Option Labels */
+label {
+    display: block; /* Stack labels vertically */
+    margin: 5px 0; /* Space between options */
+    cursor: pointer; /* Pointer cursor for labels */
+}
+
+/* Textarea for Open-ended Questions */
+textarea {
+    width: 100%; /* Full width */
+    height: 100px; /* Set height */
+    padding: 10px; /* Inner spacing */
+    border: 1px solid #ced4da; /* Border color */
+    border-radius: 4px; /* Rounded corners */
+    transition: border-color 0.3s; /* Smooth transition */
+}
+
+/* Textarea Focus */
+textarea:focus {
+    border-color: #007bff; /* Highlight border on focus */
+    outline: none; /* Remove default outline */
+}
+
+/* Submit Button */
+.submit-button {
+    background-color: #007bff; /* Primary button color */
+    color: white; /* White text color */
+    padding: 10px; /* Inner spacing */
+    border: none; /* Remove border */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor */
+    transition: background-color 0.3s; /* Smooth transition */
+    font-size: 16px; /* Increase button text size */
+}
+
+/* Button Hover */
+.submit-button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+
+/* Reminder Text */
+p {
+    text-align: center; /* Center reminder text */
+    color: #6c757d; /* Muted text color */
+    margin-top: 20px; /* Space above */
+}

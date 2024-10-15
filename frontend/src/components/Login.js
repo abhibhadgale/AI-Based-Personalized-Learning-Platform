@@ -32,8 +32,14 @@ const Login = () => {
   
       // Dispatch the login action to update the Redux store
       dispatch(login(response.data.user));  // Ensure `user` is available in `response.data`
-  
-      navigate('/');
+      console.log(response.data.user)
+      if (!response.data.user.profileCompleted) {
+        // Redirect to profile creation form
+        navigate('/user-profile');
+    } else {
+        // Redirect to the main dashboard or another page
+        navigate('/');
+    }
       alert('Login successful');
     } catch (error) {
       console.error('Login error:', error.response?.data || error.message);

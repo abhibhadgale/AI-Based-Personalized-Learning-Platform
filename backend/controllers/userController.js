@@ -64,7 +64,7 @@ export const login = async (req, res) => {
         // Return token and some user info (if needed)
         res.json({ 
           token, 
-          user: { id: user._id, name: user.name, email: user.email, role: user.role } 
+          user: { id: user._id, name: user.name, email: user.email, role: user.role, profileCompleted: user.profileCompleted } 
         });
       } else {
         res.status(401).json({ message: 'Invalid credentials' });

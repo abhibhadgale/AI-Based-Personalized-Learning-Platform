@@ -32,6 +32,7 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'StudentProgress',
   },
+  profileCompleted: { type: Boolean, default: false },
 }, {
   timestamps: true,  // Automatically adds createdAt and updatedAt fields
 });
