@@ -147,7 +147,7 @@ const LearningPage = () => {
           {renderSection2Tabs()}
         </div>
         <div className="section3">
-          <h2>Section 3</h2>
+        <iframe className='bot' title='bot' src='https://cdn.botpress.cloud/webchat/v2.2/shareable.html?configUrl=https://files.bpcontent.cloud/2024/10/16/19/20241016194039-D7DSDT66.json'></iframe>
         </div>
       </div>
     </div>
