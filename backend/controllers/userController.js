@@ -1,4 +1,5 @@
 import User from '../models/User.js';
+import UserProfile from '../models/UserProfile.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
@@ -82,10 +83,17 @@ export const login = async (req, res) => {
 
 // Get user profile
 export const getProfile = async (req, res) => {
-  const user = await User.findById(req.user.id).select('-password');
-  if (user) {
-    res.json(user);
-  } else {
-    res.status(404).json({ message: 'User not found' });
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    const userProfile = await UserProfile.findOne({ user: req.user.id });
+
+    if (user && userProfile) {
+      res.json({ user, userProfile });
+    } else {
+      res.status(404).json({ message: 'User or profile not found' });
+    }
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
+    res.status(500).json({ message: 'Error fetching user profile' });
   }
 };

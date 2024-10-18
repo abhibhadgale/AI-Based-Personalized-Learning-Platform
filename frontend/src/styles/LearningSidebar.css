@@ -1,64 +1,69 @@
 .learning-sidebar {
-    width: 250px; /* Fixed width for the sidebar */
-    background-color: #f4f4f4; /* Light background color */
-    padding: 20px; /* Add some padding around the content */
-    border-right: 1px solid #ddd; /* Border on the right to separate from the content */
-    height: 100vh; /* Full height of the viewport */
-    position: fixed; /* Fix the sidebar on the left */
-    top: 64px; /* Adjust this to align with your Navbar height */
-    left: 0;
-    overflow-y: auto; /* Enable scrolling if content exceeds height */
-  }
-  
-  .learning-sidebar h3 {
-    margin-bottom: 20px; /* Spacing between title and list */
-    color: #333; /* Dark text color for the heading */
-  }
-  
-  .learning-sidebar ul {
-    list-style-type: none; /* Remove default list style */
-    padding: 0; /* Remove default padding */
-    margin: 0;
-  }
-  
-  .learning-sidebar li {
-    margin-bottom: 15px; /* Space between each item */
-  }
-  
-  .learning-sidebar li a {
-    text-decoration: none; /* Remove underline from links */
-    color: #007bff; /* Link color */
-    font-size: 16px; /* Font size for topics */
-    display: block; /* Make link a block element */
-    padding: 10px; /* Add padding for a clickable area */
-    border-radius: 5px; /* Rounded corners for the links */
-    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
-  }
-  
-  .learning-sidebar li a:hover {
-    background-color: #e0e0e0; /* Change background on hover */
-    color: #0056b3; /* Darken the link color on hover */
-  }
-  
-  .learning-sidebar li a.active {
-    background-color: #007bff; /* Active link background */
-    color: white; /* White text for active link */
+  width: 250px; /* Fixed width for the sidebar */
+  background-color: #f4f4f4; /* Light background color */
+  padding: 20px; /* Add some padding around the content */
+  border-right: 1px solid #ddd; /* Border on the right to separate from the content */
+  height: 100vh; /* Full height of the viewport */
+  position: fixed; /* Fix the sidebar on the left */
+  top: 64px; /* Adjust this to align with your Navbar height */
+  left: 0;
+  overflow-y: auto; /* Enable scrolling if content exceeds height */
+}
+
+.learning-sidebar h3 {
+  margin-bottom: 20px; /* Spacing between title and list */
+  color: #333; /* Dark text color for the heading */
+}
+
+.learning-sidebar ul {
+  list-style-type: none; /* Remove default list style */
+  padding: 0; /* Remove default padding */
+  margin: 0;
+}
+
+.learning-sidebar li {
+  margin-bottom: 15px; /* Space between each item */
+}
+
+.learning-sidebar li button {
+  width: 100%; /* Make the buttons take full width */
+  height: 40px; /* Fixed height for all buttons */
+  text-align: left; /* Align text to the left */
+  font-size: 16px; /* Font size for topics */
+  padding: 10px 15px; /* Padding inside the button */
+  background-color: #007bff; /* Default button background color */
+  color: white; /* Default button text color */
+  border: none; /* Remove default border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.learning-sidebar li button:hover {
+  background-color: #0056b3; /* Change background on hover */
+}
+
+.take-test-btn {
+  width: 100%; /* Make the test button take full width */
+  padding: 10px; /* Padding for the test button */
+  background-color: orangered; /* Test button background */
+  color: white; /* Test button text color */
+  border: none; /* Remove default border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.take-test-btn:hover {
+  background-color: darkred; /* Change background on hover */
+}
+
+@media (max-width: 768px) {
+  .learning-sidebar {
+      width: 200px; /* Make sidebar narrower on smaller screens */
   }
 
-  .take-test-btn {
-    display: block;
-    margin-bottom: 50px;
-    background-color: orangered;
-  }
-  
-  
-  @media (max-width: 768px) {
-    .learning-sidebar {
-      width: 200px; /* Make sidebar narrower on smaller screens */
-    }
-  
-    .learning-sidebar li a {
+  .learning-sidebar li button {
       font-size: 14px; /* Adjust font size for smaller screens */
-    }
   }
-  
+}

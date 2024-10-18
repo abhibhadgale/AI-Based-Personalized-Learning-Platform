@@ -49,6 +49,11 @@ export const submitUserProfile = (profileData) => {
   return API.post('/users/profile', profileData);
 };
 
+// Get user profile
+export const fetchUserProfile = () => {
+  return API.get('/users/profile'); // Ensure this matches your backend route
+};
+
 export const updateUserProfileCompleted = (userId) => {
   return API.patch(`/users/profile-completion`);
 };
