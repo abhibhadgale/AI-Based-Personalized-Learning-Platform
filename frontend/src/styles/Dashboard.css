@@ -22,29 +22,47 @@
   color: #333;
 }
 
+/* Subject Image Grid */
 .subject-buttons {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 15px;
+  justify-content: center;
 }
 
-.subject-button {
-  padding: 10px 20px;
-  background-color: #1976d2;
-  color: white;
-  border: none;
-  border-radius: 5px;
+.subject-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
-.subject-button:hover {
-  background-color: #1565c0;
+.subject-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.subject-button.active {
-  background-color: #004ba0;
-  font-weight: bold;
+.subject-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.subject-image.active {
+  border: 3px solid #004ba0;
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.subject-title {
+  margin-top: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  text-align: center;
 }
 
 /* Quiz Performance Section */
@@ -83,8 +101,12 @@
     justify-content: center;
   }
 
-  .subject-button {
-    width: 100%;
-    text-align: center;
+  .subject-image {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .subject-title {
+    font-size: 14px;
   }
 }

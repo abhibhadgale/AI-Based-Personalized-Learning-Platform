@@ -5,6 +5,8 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import { getAllSubjects, getFITestCompletionStatus } from '../utils/api';  // Fetch subjects & test status from the backend
 import '../styles/Dashboard.css';
 
+import defaultImage from '../images/default.jpeg';
+
 const Dashboard = () => {
   const navigate = useNavigate();
   const [selectedSubject, setSelectedSubject] = useState(null);
@@ -48,6 +50,27 @@ const Dashboard = () => {
       console.error('Error checking test status:', error);
     }
   };
+
+  const getImagePath = (subjectName) => {
+    const extensions = ['jpeg', 'jpg', 'png'];
+    const formattedName = subjectName.replace(/ /g, '_'); // Replace spaces with underscores
+  
+    for (let ext of extensions) {
+      const path = `${process.env.PUBLIC_URL}/images/${formattedName}.${ext}`;
+  
+      // Verify if the file exists by creating an Image object
+      const img = new Image();
+      img.src = path;
+  
+      // Return the path if the image loads successfully
+      if (img.complete || img.height > 0) {
+        return path;
+      }
+    }
+  
+    // Return default image if no match was found
+    return defaultImage;
+  };
   
 
   return (
@@ -56,15 +79,21 @@ const Dashboard = () => {
         <h2>Select a Subject</h2>
         <div className="subject-buttons">
           {subjects.map((subject, index) => (
-            <button
+            <div
               key={index}
-              className={`subject-button ${selectedSubject?.name === subject.subject ? 'active' : ''}`}
+              className="subject-container"
               onClick={() => handleSubjectSelect(subject)}
             >
-              {subject.subject}
-            </button>
+              <img
+                src={getImagePath(subject.subject)}
+                alt={subject.subject}
+                className={`subject-image ${selectedSubject?.name === subject.subject ? 'active' : ''}`}
+              />
+              <div className="subject-title">{subject.subject}</div>
+            </div>
           ))}
         </div>
+
       </div>
 
       <div className="quiz-performance-section">

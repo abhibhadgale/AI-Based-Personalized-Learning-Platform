@@ -4,8 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const LearningSidebar = ({ topics, onTopicClick, unitMcqTest, subjectId }) => { // Accept subjectId as a prop
   const navigate = useNavigate();
-  console.log("unitMcqTest", unitMcqTest)
-  console.log("subjectId", subjectId)
+
 
   const handleTakeTest = () => {
     navigate(`/test/${unitMcqTest}`, { state: { subjectId } }); // Pass subjectId as part of location state
@@ -17,28 +16,27 @@ const LearningSidebar = ({ topics, onTopicClick, unitMcqTest, subjectId }) => { 
       <ul>
         {topics.length > 0 ? (
           topics.map((topic) => (
-            <li key={topic.topicId}>
-              <button
-                onClick={() =>
-                  onTopicClick(
-                    topic.topicNoteId,
-                    topic.topicVideoId,
-                    topic.topicResourcesId,
-                    topic.topicQuizId,
-                    topic.topicDiagramId
-                  )
-                }
-              >
-                {topic.topicName}
-              </button>
+            <li
+              key={topic.topicId}
+              className="topic-item"
+              onClick={() =>
+                onTopicClick(
+                  topic.topicNoteId,
+                  topic.topicVideoId,
+                  topic.topicResourcesId,
+                  topic.topicQuizId,
+                  topic.topicDiagramId
+                )
+              }
+            >
+              {topic.topicName}
             </li>
           ))
         ) : (
           <li>No topics available</li>
         )}
-        
       </ul>
-      
+
       {unitMcqTest && (
         <button className="take-test-btn" onClick={handleTakeTest}>
           Finish and Take a Test

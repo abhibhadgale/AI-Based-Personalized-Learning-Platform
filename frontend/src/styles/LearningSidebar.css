@@ -1,69 +1,60 @@
 .learning-sidebar {
-  width: 250px; /* Fixed width for the sidebar */
-  background-color: #f4f4f4; /* Light background color */
-  padding: 20px; /* Add some padding around the content */
-  border-right: 1px solid #ddd; /* Border on the right to separate from the content */
-  height: 100vh; /* Full height of the viewport */
-  position: fixed; /* Fix the sidebar on the left */
-  top: 64px; /* Adjust this to align with your Navbar height */
+  width: 250px;
+  background-color: #f4f4f4;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+  height: 100vh;
+  position: fixed;
+  top: 64px;
   left: 0;
-  overflow-y: auto; /* Enable scrolling if content exceeds height */
+  overflow-y: auto;
 }
 
 .learning-sidebar h3 {
-  margin-bottom: 20px; /* Spacing between title and list */
-  color: #333; /* Dark text color for the heading */
+  margin-bottom: 20px;
+  color: #333;
 }
 
 .learning-sidebar ul {
-  list-style-type: none; /* Remove default list style */
-  padding: 0; /* Remove default padding */
+  list-style-type: none;
+  padding: 0;
   margin: 0;
 }
 
-.learning-sidebar li {
-  margin-bottom: 15px; /* Space between each item */
+.learning-sidebar .topic-item {
+  margin-bottom: 15px;
+  font-size: 16px;
+  padding: 10px 15px;
+  cursor: pointer;
+  color: #007bff;
+  transition: color 0.3s ease;
 }
 
-.learning-sidebar li button {
-  width: 100%; /* Make the buttons take full width */
-  height: 40px; /* Fixed height for all buttons */
-  text-align: left; /* Align text to the left */
-  font-size: 16px; /* Font size for topics */
-  padding: 10px 15px; /* Padding inside the button */
-  background-color: #007bff; /* Default button background color */
-  color: white; /* Default button text color */
-  border: none; /* Remove default border */
-  border-radius: 5px; /* Rounded corners */
-  cursor: pointer; /* Pointer cursor on hover */
-  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
-}
-
-.learning-sidebar li button:hover {
-  background-color: #0056b3; /* Change background on hover */
+.learning-sidebar .topic-item:hover {
+  color: #0056b3;
 }
 
 .take-test-btn {
-  width: 100%; /* Make the test button take full width */
-  padding: 10px; /* Padding for the test button */
-  background-color: orangered; /* Test button background */
-  color: white; /* Test button text color */
-  border: none; /* Remove default border */
-  border-radius: 5px; /* Rounded corners */
-  cursor: pointer; /* Pointer cursor on hover */
-  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  width: 100%;
+  padding: 10px;
+  background-color: orangered;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .take-test-btn:hover {
-  background-color: darkred; /* Change background on hover */
+  background-color: darkred;
 }
 
 @media (max-width: 768px) {
   .learning-sidebar {
-      width: 200px; /* Make sidebar narrower on smaller screens */
+    width: 200px;
   }
 
-  .learning-sidebar li button {
-      font-size: 14px; /* Adjust font size for smaller screens */
+  .learning-sidebar .topic-item {
+    font-size: 14px;
   }
 }
