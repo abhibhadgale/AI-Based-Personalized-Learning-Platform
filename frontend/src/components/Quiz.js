@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchQuizList, fetchQuizQuestions, submitQuizAnswers } from '../redux/slices/quizSlice';
 import '../styles/Quiz.css';
 
-const Quiz = ({ quizId, subjectId }) => { // Accept subjectId as prop
+const Quiz = ({ quizId, subjectId }) => {
   const dispatch = useDispatch();
   const { quizList, questions, result, loading, error } = useSelector((state) => state.quiz);
   const [selectedQuizId, setSelectedQuizId] = useState(quizId || null);
   const [answers, setAnswers] = useState([]);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   useEffect(() => {
     dispatch(fetchQuizList());
@@ -20,18 +21,36 @@ const Quiz = ({ quizId, subjectId }) => { // Accept subjectId as prop
   }, [dispatch, selectedQuizId]);
 
   const questionsArray = questions.questions || [];
+  const totalQuestions = questionsArray.length;
 
-  const handleAnswerChange = (index, optionIndex) => {
+  const handleAnswerChange = (optionIndex) => {
     setAnswers((prevAnswers) => {
       const newAnswers = [...prevAnswers];
-      newAnswers[index] = optionIndex;
+      newAnswers[currentQuestionIndex] = optionIndex;
       return newAnswers;
     });
   };
 
+  const handleNext = () => {
+    if (currentQuestionIndex < totalQuestions - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    }
+  };
+
+  const handleBack = () => {
+    if (currentQuestionIndex > 0) {
+      setCurrentQuestionIndex(currentQuestionIndex - 1);
+    }
+  };
+
+  const handleSkip = () => {
+    setAnswers((prevAnswers) => [...prevAnswers, null]);
+    handleNext();
+  };
+
   const handleSubmit = () => {
     if (selectedQuizId) {
-      dispatch(submitQuizAnswers({ quizId: selectedQuizId, answers, subjectId })); // Include subjectId
+      dispatch(submitQuizAnswers({ quizId: selectedQuizId, answers, subjectId }));
     }
   };
 
@@ -57,30 +76,36 @@ const Quiz = ({ quizId, subjectId }) => { // Accept subjectId as prop
         </div>
       ) : (
         <div>
-          {questionsArray.length > 0 ? (
-            questionsArray.map((question, index) => (
-              <div key={question._id} className="question-card">
-                <h3>{question.question}</h3>
-                <div className="options">
-                  {question.options.map((option, optionIndex) => (
-                    <div key={optionIndex} className="option">
-                      <input
-                        type="radio"
-                        name={question._id}
-                        value={optionIndex}
-                        checked={answers[index] === optionIndex}
-                        onChange={() => handleAnswerChange(index, optionIndex)}
-                      />
-                      <label>{option}</label>
-                    </div>
-                  ))}
-                </div>
+          {totalQuestions > 0 ? (
+            <div className="question-card">
+              <h3>{questionsArray[currentQuestionIndex].question}</h3>
+              <p className="question-count">
+                Question {currentQuestionIndex + 1} of {totalQuestions}
+              </p>
+              <div className="options">
+                {questionsArray[currentQuestionIndex].options.map((option, optionIndex) => (
+                  <div
+                    key={optionIndex}
+                    className={`option ${answers[currentQuestionIndex] === optionIndex ? 'selected' : ''}`}
+                    onClick={() => handleAnswerChange(optionIndex)}
+                  >
+                    <label>{option}</label>
+                  </div>
+                ))}
               </div>
-            ))
+              <div className="navigation-buttons">
+                <button onClick={handleBack} disabled={currentQuestionIndex === 0}>Back</button>
+                <button onClick={handleSkip}>Skip</button>
+                {currentQuestionIndex < totalQuestions - 1 ? (
+                  <button onClick={handleNext}>Next</button>
+                ) : (
+                  <button onClick={handleSubmit}>Submit</button>
+                )}
+              </div>
+            </div>
           ) : (
             <p>No questions available</p>
           )}
-          <button onClick={handleSubmit}>Submit</button>
           {result && (
             <div className="result">
               <h3>Quiz Result</h3>
