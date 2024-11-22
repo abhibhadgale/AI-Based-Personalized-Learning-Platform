@@ -1,5 +1,7 @@
 import UserProfile from '../models/UserProfile.js';
 import User from '../models/User.js';
+import StudentBehaviour from '../models/StudentBehaviour.js';
+
 
 
 export const createUserProfile = async (req, res) => {
@@ -17,7 +19,14 @@ export const createUserProfile = async (req, res) => {
 
     await newUserProfile.save();
 
-    res.status(201).json(newUserProfile);
+    // Update StudentBehaviour preLearning field
+    const studentBehaviour = await StudentBehaviour.findOneAndUpdate(
+      { studentId: req.user._id },
+      { preLearning: responses },
+      { upsert: true, new: true } // Create document if it doesn't exist
+    );
+
+    res.status(201).json({ newUserProfile, studentBehaviour });
   } catch (error) {
     res.status(500).json({ message: 'Failed to create user profile', error });
   }

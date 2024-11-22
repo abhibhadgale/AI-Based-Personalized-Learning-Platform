@@ -1,5 +1,8 @@
 import User from '../models/User.js';
 import UserProfile from '../models/UserProfile.js';
+import Student from '../models/Student.js';
+import StudentPerformance from '../models/StudentPerformance.js';
+import StudentBehaviour from '../models/StudentBehaviour.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
@@ -31,6 +34,35 @@ export const register = async (req, res) => {
             email,
             password,
         });
+
+
+         // Create empty student behaviour and performance documents
+        const studentPerformance = new StudentPerformance({
+          studentId: newUser._id,
+          quizResults: [],
+          overallPerformance: { averageScore: 0 },
+        });
+
+        const studentBehaviour = new StudentBehaviour({
+          studentId: newUser._id,
+          engagementMetrics: { timeSpentOnVideos: 0, timeSpentOnNotes: 0, quizzesAttempted: 0 },
+          learningPreferences: { frequentlyVisitedTopics: [], skippedTopics: [] },
+        });
+
+        // Save the documents
+        await studentPerformance.save();
+        await studentBehaviour.save();
+
+        // Create new student document and store references to the performance and behaviour documents
+        const student = new Student({
+          userId: newUser._id,
+          name: newUser.name,
+          studentBehaviourId: studentBehaviour._id,
+          studentPerformanceId: studentPerformance._id,
+        });
+
+        // Save the student document
+        await student.save();
 
         return res.status(201).json({ message: 'User registered successfully', newUser });
     } catch (error) {
