@@ -1,73 +1,124 @@
-/* src/styles/AboutPage.css */
+/* src/styles/AboutUs.css */
+
 .about-background {
-  background-image: url('https://miro.medium.com/v2/resize:fit:640/format:webp/1*ZcInYZW1b4smeHkDaRJBeQ.jpeg');
-  background-size: cover;
-  background-position: center;
-  height: 80vh; /* Full screen height */
+  background-color: #a1c7ee;
+  height: 100vh; /* Full screen height */
   display: flex;
-  justify-content: flex-start; /* Align overlay to the left */
+  justify-content: space-between; /* Align overlay and video side by side */
   align-items: center;
   position: relative;
   color: white;
-  padding-left: 10%; /* Adjust the left padding to move overlay */
+  padding: 0 5%; /* Adjust padding to ensure both elements fit */
 }
-
 .about-overlay {
-  text-align: left; /* Left-align text */
-  background: rgba(0, 0, 0, 0.5); /* Transparent overlay */
+  text-align: left; /* Align text to the left */
   padding: 40px;
   border-radius: 10px;
-  max-width: 600px; /* Limit the width of the overlay */
+  max-width: 600px; /* Limit overlay width for better readability */
+  margin: auto; /* Center horizontally */
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
 }
 
 .about-overlay h1 {
-  font-size: 3rem;
-  margin-bottom: 20px;
+  font-size: 2.5rem;
+  margin-bottom: 5px;
+  color: blue; /* Dark text color for readability */
+  font-family: Comic Sans MS, Comic Sans, cursive;
 }
 
 .about-overlay p {
-  font-size: 1.3rem;
-  margin-bottom: 30px;
+  font-size: 1.2rem;
+  color: white; /* Slightly lighter text for secondary content */
+  line-height: 1.5; /* Improved readability */
+  margin-bottom: 40px;
+  background-color: #a1c7ee;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column; /* Stack buttons vertically */
+  align-items: center; /* Center-align buttons */
+  gap: 10px; /* Add spacing between buttons */
 }
 
 .create-account-btn {
-  background-color: #1976d2; /* Green background */
+  background-color: blue; /* Blue button background */
   color: white;
-  font-size: 1.2rem;
-  padding: 15px 30px;
+  font-size: 1.3rem;
+  padding: 12px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 370px; /* Full width for better alignment */
+  margin-bottom: 20px;
+  margin-right: 20px;
+  font-family: Comic Sans MS, Comic Sans, cursive;
 }
 
 .create-account-btn:hover {
-  background-color: orangered; /* Darker green on hover */
+  background-color: #a1c7ee; /* Darker blue on hover */
+  color: blue;
+  border: 1px solid blue;
+  transform: scale(1.05); /* Slight scaling effect on hover */
 }
 
-/* src/styles/AboutPage.css */
+.secondary-btn {
+  background-color: #a1c7ee; /* Secondary button background */
+  color: blue; /* White text for contrast */
+  border: 1px solid blue;
+}
+
+.secondary-btn:hover {
+  background-color: blue; /* Darker gray on hover */
+  color: white;
+}
+
+
+.about-video {
+  flex: 1; /* Allow the video container to take up the remaining space */
+  overflow: hidden; /* Ensures no unwanted content spills out */
+  position: relative; /* Ensures proper positioning */
+  padding-left: 80px; /* Optional: Adds space between video and text */
+}
+
+.about-video video {
+  max-width: 100%; /* Make sure the video scales responsively */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: contain; /* Ensure the entire video is displayed without cropping */
+  object-position: center; /* Center the video within the container */
+  border-radius: 20px; /* Rounded corners for aesthetic purposes */
+}
+
+
 
 /* Features Section */
 .features-section {
   padding: 60px 0;
-  background-color: #f8f9fa;
+  background-color: #eeeeee;
   text-align: center;
+  height: auto; /* Adjusted to fit content */
 }
 
 .features-heading {
-  font-size: 2.5rem;
+  font-size: 30px;
   margin-bottom: 20px;
-  color: #333;
+  color: blue;
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-bottom: 40px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  font-family: Comic Sans MS, Comic Sans, cursive;
 }
 
-.features-description {
-  font-size: 1.2rem;
-  margin-bottom: 40px;
-  color: #555;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
+.features-heading.animate {
+  animation: fadeInOut 3s ease-in-out infinite;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .features-grid {
@@ -80,20 +131,307 @@
 .feature-box {
   background-color: white;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(4, 40, 243, 0.5);
+  border: 2px solid blue;
   padding: 30px;
   text-align: center;
+  border: none;
+  box-shadow: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: slideUp 0.8s ease-out;
+}
+
+.feature-box:hover {
+  transform: scale(1.05);
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.397);
+}
+
+.feature-icon {
+  width: 200px; /* Adjust size of GIF */
+  height: auto; /* Maintain aspect ratio */
+  margin-bottom: 20px;
+  border-radius: 10px;
+  object-fit: cover; /* Ensure proper fit for the GIF */
+  transition: transform 0.3s ease;
+}
+
+.feature-box:hover .feature-icon {
+  transform: scale(1.4) ;
 }
 
 .feature-box h3 {
   font-size: 1.5rem;
   margin-bottom: 15px;
   color: #333;
+  animation: fadeIn 1.2s ease-out;
+  font-family: Comic Sans MS, Comic Sans, cursive;
 }
 
 .feature-box p {
   font-size: 1rem;
   color: #666;
+  animation: fadeIn 1.5s ease-out;
+}
+
+.feature-box .exam {
+  width: 150px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+
+
+/* How it Works Section */
+.how-it-works-container {
+  padding: 40px;
+  background-color: white;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 30px;
+  text-align: center;
+  margin-bottom: 40px;
+  color: blue;
+}
+
+/* Row Style */
+.row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+  opacity: 0; /* Initially hidden */
+  transform: translateX(-50px); /* Slide from left */
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.row.reverse {
+  flex-direction: row-reverse;
+  background-color: white;
+}
+
+.content {
+  flex: 1;
+  background-color: white;
+}
+
+.content .heading {
+  font-size: 1.8rem;
+  line-height: 1.5;
+  text-align: center;
+  background-color: white;
+  margin: 0;
+  font-family: Comic Sans MS, Comic Sans, cursive;
+  color: blue;
+}
+
+.content p {
+  font-size: 1.2rem;
+  color: #666;
+  text-align: center;
+  margin: 0;
+}
+ 
+.subheading {
+  background-color: white;
+}
+
+.image {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+}
+
+.image img {
+  width: auto;
+  height: 400px;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.image:hover img {
+  transform: scale(1.05);
+}
+
+.start-journey-btn {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.start-journey {
+  background-color: white;
+  color: blue;
+  font-size: 1.3rem;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.start-journey:hover {
+  background-color: rgb(190, 189, 199);
+  color: blue;
+}
+/* Animation for Row Visibility */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Hover Effects */
+.row:hover {
+  transform: scale(1.03);
+}
+
+/* Make rows visible once they are in the viewport */
+.row.in-view {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* Hover Effects */
+.row:hover {
+  transform: scale(1.03);
+}
+
+/* Branding Section Styling */
+.branding-section {
+  background-color: blue;
+  color: white;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.branding-title {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.branding-subtitle {
+  font-size: 1.5rem;
+  margin-top: 10px;
+  color: white;
+}
+
+/* Footer Styling */
+.footer {
+  background-color: white; /* White background */
+  color: #222;
+  padding: 20px 0;
+  text-align: center;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); /* Optional shadow */
+  padding: 80px;
+}
+
+.footer-content p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.social-icons {
+  margin-top: 10px;
+}
+
+.social-icon {
+  color: #222;
+  margin: 0 15px;
+  display: inline-block;
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+.social-icon:hover {
+  color: blue; /* LinkedIn blue color on hover */
+}
+
+.social-icon:active {
+  transform: scale(1.1);
+}
+
+.copyright:hover {
+  text-decoration: underline blue;
+  color: blue;
+}
+
+/* Add responsive behavior */
+@media (max-width: 600px) {
+  .footer-content {
+    padding: 10px;
+  }
+
+  .social-icon {
+    font-size: 1.3rem;
+  }
+}
+
+
+
+
+/* Add responsive behavior */
+@media (max-width: 600px) {
+  .footer-content {
+    padding: 10px;
+  }
+
+  .social-icon {
+    font-size: 1rem;
+  }
+}
+
+
+/* Media Query */
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column;
+  }
+
+  .content h3 {
+    font-size: 1.2rem;
+  }
+
+  .image img {
+    height: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column;
+  }
+
+  .content h3 {
+    font-size: 1.2rem;
+  }
+
+  .image img {
+    height: 300px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -107,5 +445,17 @@
 
   .features-heading {
     font-size: 2rem;
+  }
+
+  /* Adjust video and overlay layout for smaller screens */
+  .about-background {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .about-video {
+    padding-left: 0;
+    padding-top: 20px; /* Add space above the video */
   }
 }

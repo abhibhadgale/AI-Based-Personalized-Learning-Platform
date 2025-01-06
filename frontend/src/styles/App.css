@@ -7,7 +7,11 @@
   .main-content {
     display: flex;
     height: 100vh;
-    padding-top: 70px;
+    padding-top: 64px;
+  }
+
+  .main-content.no-padding {
+    padding-top: 0;
   }
   
   .content {

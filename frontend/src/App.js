@@ -14,20 +14,30 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Introduction from './pages/Introduction';
 import FITest from './components/FITest';
-import AboutUs from './pages/AboutUs';  // Import AboutUs component
-import ContactUs from './pages/ContactUs';  // Import ContactUs component
+import AboutUs from './pages/AboutUs';
+import ContactUs from './pages/ContactUs';
 import UserProfileForm from './components/UserProfileForm';
 import ProfilePage from './pages/ProfilePage';
 import './styles/App.css';
 
 const App = () => {
-  const location = useLocation(); // Use useLocation hook to get current path
+  const location = useLocation(); // Get the current path
+
+  // Define the routes where Navbar and Sidebar should not appear
+  const excludedRoutes = ['/login', '/register'];
+
+  //sidebar reomve
+  const excludedSidebar = ['/about']
+  const isExcludedSidebar = excludedSidebar.includes(location.pathname)
+
+  // Check if the current route is excluded
+  const isExcluded = excludedRoutes.includes(location.pathname);
 
   return (
     <Box className="app">
-      <Navbar />
-      <div className="main-content">
-        {location.pathname.includes('/learning' && '/about') ? null : <Sidebar />} {/* Sidebar not rendered on Learning */}
+      {!isExcluded && <Navbar />} {/* Conditionally render Navbar */}
+      <div className={`main-content ${isExcluded ? 'no-padding' : ''}`}>
+        {!isExcluded && !isExcludedSidebar && <Sidebar />} {/* Conditionally render Sidebar */}
         <div className="content">
           <Routes>
             <Route path="/" element={<Dashboard />} />
@@ -41,8 +51,8 @@ const App = () => {
             <Route path="/fitest/:quizId" element={<FITest />} />
             <Route path="/subject/:subjectID" element={<Subject />} />
             <Route path="/learning/:subject/:unit/:unitId" element={<Learning />} />
-            <Route path="/about" element={<AboutUs />} /> {/* Add route for AboutUs */}
-            <Route path="/contact" element={<ContactUs />} /> {/* Add route for ContactUs */}
+            <Route path="/about" element={<AboutUs />} />
+            <Route path="/contact" element={<ContactUs />} />
             <Route path="/test/:unitMcqTest" element={<Test />} />
           </Routes>
         </div>

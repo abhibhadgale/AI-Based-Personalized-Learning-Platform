@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, Button, Menu, MenuItem } from '@mui/material';
+import { AppBar, Toolbar, Button, Menu, MenuItem, TextField, InputAdornment } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../redux/slices/authSlice';
+import SearchIcon from '@mui/icons-material/Search';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-import "../styles/Navbar.css"
+
+import "../styles/Navbar.css";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -12,7 +15,6 @@ const Navbar = () => {
 
   // Get authentication status and user details from Redux store
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const user = useSelector((state) => state.auth.user); // Assuming `user` contains user's name and other info
 
   const handleLogout = () => {
     dispatch(logout());
@@ -37,24 +39,53 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar position="fixed">
+    <AppBar position="fixed" style={{ backgroundColor: 'white', color: 'black' }}>
       <Toolbar>
-        <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          AI-Based Personalized Learning Platform
-        </Typography>
-        <Button color="inherit" component={Link} to="/">Home</Button>
-        <Button color="inherit" component={Link} to="/about">About</Button>
-        <Button color="inherit" component={Link} to="/contact">Contact</Button>
+        {/* Noted on the left */}
+        <div
+          className="navbar-title"
+          onClick={() => navigate('/')}
+          style={{ cursor: 'pointer', marginRight: '45px', marginLeft: '30px' }}
+        >
+          Noted
+        </div>
 
+        {/* Centered Nav Buttons */}
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+          <Button color="inherit" component={Link} to="/">Home</Button>
+          <Button color="inherit" component={Link} to="/about">About</Button>
+          <Button color="inherit" component={Link} to="/contact">Contact</Button>
+        </div>
+
+        <div style={{ flexGrow: 1 }}></div>
+
+        {/* Search Bar - Left of profile */}
+        <TextField
+          variant="outlined"
+          size="small"
+          placeholder="Search..."
+          className="search-bar"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
+        
+        {/* Profile and Logout */}
         {isAuthenticated ? (
           <>
-            <Button
-              color="inherit"
-              onMouseEnter={handleMenuOpen} // Open menu on hover
-              onClick={handleMenuOpen}
-            >
-              {user?.name || 'User'}
-            </Button>
+            <AccountCircleIcon
+              className="profile-icon"
+              onClick={handleMenuOpen} // Open menu on click
+              role="button" // Ensure it's accessible as a button
+              tabIndex={0} // Make it focusable
+              aria-label="Profile" // Accessibility label
+              style={{ fontSize: "40px"}}
+            />
+
             <Menu
               anchorEl={anchorEl}
               open={open}
@@ -68,15 +99,22 @@ const Navbar = () => {
                 vertical: 'top',
                 horizontal: 'right',
               }}
+              className="profile-menu"
             >
-              <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
-              <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              <MenuItem className="menu-item" onClick={handleProfileClick}>Profile</MenuItem>
+              <MenuItem className="menu-item" onClick={handleLogout}>Logout</MenuItem>
             </Menu>
           </>
         ) : (
-          <Button color="inherit" component={Link} to="/login">Login</Button>
+          <>
+            <span className="login-button" >
+            <Link to="/login">Login</Link>
+            </span>
+            <span className="login-button" >
+            <Link to="/register">Sing up</Link>
+            </span>
+          </>
         )}
-
       </Toolbar>
     </AppBar>
   );

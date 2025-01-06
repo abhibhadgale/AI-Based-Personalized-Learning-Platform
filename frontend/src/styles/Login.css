@@ -1,49 +1,138 @@
+
+
+/* Container for the login form */
 .login-container {
-  width: 400px;
-  margin: 100px auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #fff;
+  display: flex;
+  justify-content: flex-start; /* Align items to the left */
+  align-items: center;
+  height: 100vh;
+  background: #a1c7ee; /* Gradient background */
+  font-family: 'Arial', sans-serif;
+  overflow: hidden; /* Hide scrollbars */
 }
 
-.login-container h1 {
+
+/* Card-like form box */
+.login-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  padding: 40px;
+  padding-top: 100px;
+  width: 30%; /* Set the width to 30% */
+  height: 100%; /* Full height */
   text-align: center;
-  margin-bottom: 20px;
+  box-sizing: border-box; /* Ensure padding does not affect width/height */
 }
 
+/* Heading style */
+.login-card h1 {
+  font-size: 44px;
+  font-weight: bold;
+  color: blue;
+  margin-bottom: 10px;
+}
+
+/* Form group styling */
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  text-align: left;
 }
 
-.form-field {
-  width: 100%;
-  padding: 10px;
-  margin: 5px 0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.error {
-  color: red;
+/* Label styling */
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
   font-size: 14px;
 }
 
-.submit-button {
+/* Input fields styling */
+.form-field {
   width: 100%;
-  padding: 10px;
-  background-color: #007bff;
+  padding: 12px 20px; /* Increased padding for larger size */
+  border: 1px solid #ccc;
+  border-radius: 15px; /* Increased border-radius for more rounded corners */
+  font-size: 16px; /* Increased font size for better readability */
+  color: #333;
+  box-sizing: border-box; /* Ensures padding doesn't affect width */
+}
+
+.form-field:focus {
+  border-color: #4facfe;
+  outline: none;
+}
+
+
+/* Error message styling */
+.error {
+  margin-top: 5px;
+  font-size: 12px;
+  color: red;
+}
+
+/* Submit button */
+.submit-button {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background: blue !important;
   color: white;
   border: none;
   border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
   cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.submit-button:hover {
+  background: #3a90e5;
 }
 
 .submit-button:disabled {
-  background-color: #ccc;
+  background: #ccc;
+  cursor: not-allowed;
 }
 
+/* Link styling */
 p {
-  text-align: center;
-  margin-top: 10px;
+  margin-top: 15px;
+  font-size: 14px;
+  color: #333;
+}
+
+p a {
+  color: #4facfe;
+  text-decoration: none;
+}
+
+p a:hover {
+  text-decoration: underline;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: #666;
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-style: italic;
+  padding-bottom: 30px;
+}
+
+/* Image container */
+.image-container {
+  position: absolute;
+  top: 65%;
+  right: 5%; /* Adjust based on your preference */
+  transform: translateY(-50%);
+}
+
+.image-container img {
+  width: 800px; /* Adjust based on the desired image size */
+  height: auto;
+}
+
+.link {
+  color: blue !important;
 }

@@ -4,25 +4,42 @@ aside {
   padding: 20px;
   width: 250px;
   height: 100%;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
 }
 
 aside ul {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 aside li {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 aside li a {
   display: block;
-  padding: 10px;
-  color: white;
+  padding: 12px 15px;
+  color: #d1d5db; /* Lighter gray for link text */
   text-decoration: none;
-  transition: background-color 0.3s;
+  border-radius: 5px; /* Adds rounded corners */
+  font-size: 16px;
+  transition: all 0.3s ease;
 }
 
+
 aside li a:hover {
-  background-color: #495057;
+  background-color: #374151; /* Slightly lighter background on hover */
+  color: #ffffff;
+  transform: translateX(5px); /* Adds a slight movement effect */
+}
+
+aside li a.active {
+  background-color: #4f46e5; /* Distinct color for the active link */
+  color: #ffffff;
+  font-weight: bold;
+}
+
+aside li a:active {
+  opacity: 0.8; /* Subtle effect when clicking */
 }
