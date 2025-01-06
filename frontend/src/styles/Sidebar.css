@@ -1,45 +1,65 @@
-aside {
-  background-color: #343a40;
+.sidebar {
+  background-color: blue;
   color: white;
   padding: 20px;
-  width: 250px;
+  width: 110px; /* Shrinks the sidebar when not expanded */
   height: 100%;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+  transition: width 0.2s ease; /* Smooth transition for width change */
+  overflow: hidden; /* Hides content when sidebar is collapsed */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
-aside ul {
+.sidebar.expanded {
+  width: 250px; /* Expands the sidebar on hover */
+}
+
+.sidebar ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-aside li {
+.sidebar li {
   margin-bottom: 10px;
+  display: flex;
+  align-items: center; /* Aligns icon and text vertically */
 }
 
-aside li a {
-  display: block;
+.sidebar li a {
+  display: flex;
+  align-items: center;
   padding: 12px 15px;
-  color: #d1d5db; /* Lighter gray for link text */
+  color: white;
   text-decoration: none;
-  border-radius: 5px; /* Adds rounded corners */
+  border-radius: 5px;
   font-size: 16px;
   transition: all 0.3s ease;
+  width: 220px;
 }
 
-
-aside li a:hover {
-  background-color: #374151; /* Slightly lighter background on hover */
-  color: #ffffff;
-  transform: translateX(5px); /* Adds a slight movement effect */
+.sidebar li a:hover {
+  background-color: white;
+  color: blue;
 }
 
-aside li a.active {
-  background-color: #4f46e5; /* Distinct color for the active link */
-  color: #ffffff;
-  font-weight: bold;
+.sidebar li a svg {
+  margin-right: 10px; /* Adds space between icon and text */
+  transition: transform 0.3s ease, font-size 0.3s ease; /* Smooth transition for icon size */
+  font-size: 24px; /* Icon size when sidebar is not expanded */
 }
 
-aside li a:active {
-  opacity: 0.8; /* Subtle effect when clicking */
+.sidebar li a:hover svg {
+  transform: scale(1.2); /* Increase icon size when hovered */
+}
+
+.sidebar li a.selected {
+  border-left: 4px solid white; /* White line on the left of the icon when selected */
+}
+
+.sidebar-icon {
+  font-size: 24px; /* Default icon size */
+}
+
+.sidebar.expanded .sidebar-icon {
+  font-size: 30px; /* Larger icon size when the sidebar is expanded */
 }

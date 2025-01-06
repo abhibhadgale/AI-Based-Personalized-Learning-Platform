@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { Box } from '@mui/material';
 
@@ -33,11 +33,13 @@ const App = () => {
   // Check if the current route is excluded
   const isExcluded = excludedRoutes.includes(location.pathname);
 
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
+
   return (
     <Box className="app">
-      {!isExcluded && <Navbar />} {/* Conditionally render Navbar */}
+      {!isExcluded && <Navbar isSidebarExpanded={isSidebarExpanded}/>} {/* Conditionally render Navbar */}
       <div className={`main-content ${isExcluded ? 'no-padding' : ''}`}>
-        {!isExcluded && !isExcludedSidebar && <Sidebar />} {/* Conditionally render Sidebar */}
+        {!isExcluded && !isExcludedSidebar && <Sidebar onSidebarToggle={setIsSidebarExpanded}/>} {/* Conditionally render Sidebar */}
         <div className="content">
           <Routes>
             <Route path="/" element={<Dashboard />} />

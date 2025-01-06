@@ -89,7 +89,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #e6f7ff; /* Light blue background */
+    background-color: white; /* Light blue background */
   }
   
   .contact-image-container img {

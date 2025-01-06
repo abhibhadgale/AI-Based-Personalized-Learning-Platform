@@ -9,7 +9,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 import "../styles/Navbar.css";
 
-const Navbar = () => {
+const Navbar = ({ isSidebarExpanded }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -45,14 +45,18 @@ const Navbar = () => {
         <div
           className="navbar-title"
           onClick={() => navigate('/')}
-          style={{ cursor: 'pointer', marginRight: '45px', marginLeft: '30px' }}
+          style={{
+            cursor: 'pointer',
+            marginLeft: isSidebarExpanded ? '55px' : '0',
+            marginRight: isSidebarExpanded ? '75px' : '15px',
+          }}
         >
           Noted
         </div>
 
         {/* Centered Nav Buttons */}
         <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
-          <Button color="inherit" component={Link} to="/">Home</Button>
+          <Button color="inherit" marginLeft="10px" component={Link} to="/">Home</Button>
           <Button color="inherit" component={Link} to="/about">About</Button>
           <Button color="inherit" component={Link} to="/contact">Contact</Button>
         </div>
