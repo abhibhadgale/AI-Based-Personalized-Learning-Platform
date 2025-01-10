@@ -27,9 +27,9 @@ const Sidebar = ({ onSidebarToggle }) => {
           </Link>
         </li>
         <li>
-          <Link to="/resources" className={selected === '/resources' ? 'selected' : ''} onClick={() => setSelected('/resources')}>
+          <Link to="/courses" className={selected === '/resources' ? 'selected' : ''} onClick={() => setSelected('/resources')}>
             <MenuBook className="sidebar-icon" />
-            {isExpanded && <span>Resources</span>}
+            {isExpanded && <span>Courses</span>}
           </Link>
         </li>
         <li>

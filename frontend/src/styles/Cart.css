@@ -1,0 +1,85 @@
+.cart-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .cart-row {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .cart-left {
+    flex: 7;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+  }
+  
+  .cart-right {
+    flex: 3;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+  }
+  
+  .cart-bottom {
+    width: 100%;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+  }
+  
+  .cart-item {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+  }
+
+  .course-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 500px;
+  }
+
+  .subject-heading {
+    font-weight: bold !important;
+  }
+  
+  .subject-rating{
+    align-items: left !important;
+    padding: 5px !important;
+    font-size: 16px !important;
+  }
+
+  .total {
+    margin-top: 40px !important;
+    padding: 5px;
+  }
+
+  .total-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 5px;
+    margin-bottom: 10px;
+  }
+
+  .checkout-button {
+    background-color: blue;
+    width: 300px;
+    margin-bottom: 20px;
+
+  }
+
+  .checkout-button:hover {
+    background-color: white;
+    color: blue;
+    border: 1px solid blue;
+  }
+
+  .coupon-applied-box {
+    margin-top: 20px;
+  }

@@ -1,13 +1,10 @@
 import { createTheme } from '@mui/material/styles';
+import { blue, deepOrange } from '@mui/material/colors';
 
 const theme = createTheme({
   palette: {
-    primary: {
-      main: '#1976d2', // Custom primary color
-    },
-    secondary: {
-      main: '#dc004e', // Custom secondary color
-    },
+    primary: blue,
+    secondary: deepOrange,
   },
   typography: {
     fontFamily: 'Roboto, sans-serif',

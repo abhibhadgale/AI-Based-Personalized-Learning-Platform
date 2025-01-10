@@ -7,63 +7,6 @@
   gap: 40px;
 }
 
-/* Subject Selection Section */
-.subject-selection-section {
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.subject-selection-section h2 {
-  margin-bottom: 20px;
-  font-size: 24px;
-  font-weight: bold;
-  color: #333;
-}
-
-/* Subject Image Grid */
-.subject-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  justify-content: center;
-}
-
-.subject-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-}
-
-.subject-image {
-  width: 120px;
-  height: 120px;
-  border-radius: 10px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  object-fit: cover;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-.subject-image:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-.subject-image.active {
-  border: 3px solid #004ba0;
-  transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-.subject-title {
-  margin-top: 8px;
-  font-size: 16px;
-  font-weight: 500;
-  color: #333;
-  text-align: center;
-}
 
 /* Quiz Performance Section */
 .quiz-performance-section {

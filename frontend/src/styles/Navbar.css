@@ -2,7 +2,11 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: linear-gradient(to bottom right, #4facfe, #00f2fe) !important; /* Gradient background */
+  background-color: linear-gradient(
+    to bottom right,
+    #4facfe,
+    #00f2fe
+  ) !important; /* Gradient background */
   color: white;
   padding: 15px 20px;
 }
@@ -65,7 +69,6 @@ nav li:hover {
   color: blue; /* Icon color */
 }
 
-
 .nav-buttons {
   flex-grow: 1;
   display: flex;
@@ -97,6 +100,13 @@ nav li:hover {
 /* Active state */
 .profile-icon:active {
   transform: scale(0.95); /* Slightly shrink on click */
+}
+
+.shopping-cart {
+  cursor: pointer;
+  margin-left: 10px;
+  padding-top: 5px;
+  color: black !important;
 }
 
 /* Menu for profile options */
@@ -141,13 +151,12 @@ nav li:hover {
   background-color: black; /* Even darker green on click */
 }
 
-
 /* Navbar title ("Noted") */
 .navbar-title {
   font-size: 28px; /* Adjust size as needed */
   font-weight: bold;
   color: blue; /* Change to your preferred color */
-  font-family: 'Arial', sans-serif; /* Adjust font style if needed */
+  font-family: "Arial", sans-serif; /* Adjust font style if needed */
   margin-left: 25px;
   cursor: pointer;
   transition: color 0.3s ease;

@@ -9,7 +9,8 @@ import Subject from './pages/Subject';
 import Learning from './pages/Learning';
 import Test from './pages/Test';
 import Quiz from './components/Quiz';
-import Resourses from './components/Resourses';
+import Courses from './components/Courses';
+import EnrollCourse from './components/EnrollCourse';
 import Login from './components/Login';
 import Register from './components/Register';
 import Introduction from './pages/Introduction';
@@ -18,6 +19,7 @@ import AboutUs from './pages/AboutUs';
 import ContactUs from './pages/ContactUs';
 import UserProfileForm from './components/UserProfileForm';
 import ProfilePage from './pages/ProfilePage';
+import Cart from './components/Cart';
 import './styles/App.css';
 
 const App = () => {
@@ -47,7 +49,9 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/user-profile" element={<UserProfileForm />} />
-            <Route path="/resources" element={<Resourses />} />
+            <Route path="/courses" element={<Courses />} />
+            <Route path="/enroll-course" element={<EnrollCourse />}/>
+            <Route path="/cart" element={<Cart />} />
             <Route path="/quiz" element={<Quiz />} />
             <Route path="/introduction/:subject" element={<Introduction />} />
             <Route path="/fitest/:quizId" element={<FITest />} />

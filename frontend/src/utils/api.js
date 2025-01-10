@@ -58,3 +58,9 @@ export const updateUserProfileCompleted = (userId) => {
   return API.patch(`/users/profile-completion`);
 };
 
+// Cart-related APIs
+export const addToCart = (subjectId) =>
+  API.post('/cart/add', {subjectId });
+export const fetchCartItems = () => API.get(`/cart`);
+export const removeFromCart = ( subjectId ) =>
+  API.delete(`/cart/remove`, {  subjectId } );

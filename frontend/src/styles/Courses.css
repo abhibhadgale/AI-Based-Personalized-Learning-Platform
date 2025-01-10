@@ -1,0 +1,254 @@
+.courses-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  background: white;
+  min-height: 100vh;
+}
+
+.header {
+  background-color: #d1d0d0;
+  width: 100%;
+  padding: 50px;
+}
+
+.header h2 {
+  font-size: 2.3rem;
+  font-weight: bold;
+  color: blue;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.header p {
+  font-size: 1rem;
+  margin-bottom: 20px;
+  color: white;
+  text-align: left !important;
+}
+
+.courses-content {
+  display: flex;
+  flex-direction: row; /* Arrange filter-container and slider in a row */
+  justify-content: space-between;
+  align-items: flex-start;
+  background: white;
+  min-height: 100vh;
+  padding: 20px;
+  gap: 20px; /* Add some space between filter and slider */
+}
+
+
+
+.filter-header {
+  margin-bottom: 15px;
+}
+
+.filter-by-text {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-left: 10px;
+  text-align: left;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.filter-container {
+  width: 100%; /* Full width for the column layout */
+  background: #fff;
+  padding: 20px;
+  margin-bottom: 20px; /* Add space between filter and slider */
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.filter-column {
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.filter-column label {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+.filter-column input {
+  margin-right: 10px;
+}
+
+
+.mySwiper {
+  width: 1000px; /* Full width for the column layout */
+  height: auto;
+  padding: 0 0;
+  margin-bottom: 100px;
+  align-items: flex-start;
+}
+
+.subject-container {
+  width: 320px;
+  height: 400px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  text-align: center;
+  padding: 20px;
+  margin: 20px;
+}
+
+.subject-container:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.subject-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-bottom: 2px solid #eee;
+  transition: transform 0.3s ease;
+}
+
+.subject-container:hover .subject-image {
+  transform: scale(1.1);
+}
+
+.subject-title {
+  text-align: left;
+  margin-top: 10px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #555; /* Default color */
+  transition: color 0.3s ease; /* Smooth transition */
+}
+
+.subject-container:hover .subject-title {
+  color: blue; /* Color on hover */
+}
+
+.subject-info {
+  margin-top: 5px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #555;
+  text-align: left;
+}
+
+.subject-rating {
+  margin-top: 5px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #555;
+  text-align: left;
+}
+
+.subject-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.subject-buttons button {
+  padding: 10px 15px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.view-course-button {
+  background-color: white; /* Blue color */
+  color: blue;
+  
+}
+
+.view-course-button:hover {
+  background-color: #cecece; /* Darker blue on hover */
+  border: 1px solid blue;
+}
+
+.enroll-now-button {
+  background-color: blue; /* Green color */
+  color: white;
+}
+
+.enroll-now-button:hover {
+  background-color: white; /* Darker green on hover */
+  color: blue;
+  border: 1px solid blue;
+}
+
+
+/* Ensure the container takes full height and flexbox is applied */
+.maindiv {
+  display: flex; /* Use flexbox for layout */
+  flex-direction: row; /* Arrange children in a row */
+  height: 70vh; /* Full viewport height */
+  width: 90vw; /* Full viewport width */
+}
+
+/* First div takes 25% of the width */
+.div1 {
+  flex: 1; /* 1 part of the total space */
+  max-width: 20%; /* Restrict the width to 25% */
+  background-color: white; /* Light gray background for visibility */
+  box-sizing: border-box; /* Ensure padding doesn't affect width */
+}
+
+/* Second div takes 75% of the width */
+.div2 {
+  flex: 3; /* 3 parts of the total space */
+  max-width: 100%; /* Restrict the width to 75% */
+  background-color: white; /* Light blue background for visibility */
+  box-sizing: border-box; /* Ensure padding doesn't affect width */
+  align-items: flex-start;
+}
+
+
+.coming-soon-banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background-color: #f8f8f8;
+  color: #555;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.apply-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: blue;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.apply-button:hover {
+  background-color: white;
+  color: blue;
+  border: 1px solid blue;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
