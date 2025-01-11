@@ -64,3 +64,14 @@ export const addToCart = (subjectId) =>
 export const fetchCartItems = () => API.get(`/cart`);
 export const removeFromCart = ( subjectId ) =>
   API.delete(`/cart/remove`, {  subjectId } );
+
+export const addSemesterPackageToCart = (subjectIds) =>
+  API.post('/cart/add-multiple', { subjectIds });
+
+// New API for checkout
+export const checkoutCart = (subjectIds) => {
+  return API.post('/cart/checkout', { subjectIds });
+};
+
+export const checkEnrollmentStatus = (subjectId) =>
+  API.get(`/enrollment/check/${subjectId}`);

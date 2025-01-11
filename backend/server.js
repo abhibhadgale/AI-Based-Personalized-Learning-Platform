@@ -14,7 +14,9 @@ import videoRoutes from './routes/videoRoutes.js';
 import resourceRoutes from './routes/resourcesRoutes.js';
 import diagramRoutes from './routes/diagramRoutes.js';
 import userProfileRoutes from './routes/userProfileRoutes.js';
-import cartRoutes from './routes/cartRoutes.js'
+import cartRoutes from './routes/cartRoutes.js';
+import enrollmentRoutes from './routes/enrollmentRoutes.js';  // Import the enrollmentRoutes
+
 import connectDB from './config/db.js';
 
 dotenv.config();
@@ -43,6 +45,7 @@ app.use('/api/resources', resourceRoutes);
 app.use('/api/diagrams', diagramRoutes);
 app.use('/api/users', userProfileRoutes);
 app.use('/api/cart', cartRoutes);
+app.use('/api/enrollment', enrollmentRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

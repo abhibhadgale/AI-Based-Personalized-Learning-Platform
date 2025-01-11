@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAllSubjects, getFITestCompletionStatus } from "../utils/api"; // Fetch subjects & test status from the backend
+import { getAllSubjects, getFITestCompletionStatus, checkEnrollmentStatus } from "../utils/api"; // Fetch subjects & test status from the backend
 import "../styles/Courses.css";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -16,13 +16,20 @@ const Courses = () => {
   const [selectedYear, setSelectedYear] = useState("se");
   const [selectedSem, setSelectedSem] = useState("2");
   const [showSubjects, setShowSubjects] = useState(true);
-  
+  const [enrollmentStatus, setEnrollmentStatus] = useState({});
 
   useEffect(() => {
     const fetchSubjects = async () => {
       try {
         const { data } = await getAllSubjects();
         setSubjects(data);
+        // Fetch enrollment status for each subject
+        const status = {};
+        for (const subject of data) {
+          const { data: enrollmentData } = await checkEnrollmentStatus(subject._id);
+          status[subject._id] = enrollmentData.isEnrolled;
+        }
+        setEnrollmentStatus(status);
       } catch (error) {
         console.error("Error fetching subjects:", error);
       }
@@ -31,7 +38,6 @@ const Courses = () => {
   }, []);
 
   const handleSubjectSelect = async (subject) => {
-
     // Function to check if the user is logged in
     const isLoggedIn = () => {
       const token = localStorage.getItem("token"); // Assuming you store the auth token in localStorage
@@ -45,19 +51,18 @@ const Courses = () => {
       return;
     }
 
-    // Assuming you have a state or function to check enrollment
-    const isUserEnrolled = false; // Currently set as false, modify logic as needed
-
-    if (!isUserEnrolled) {
-      // Redirect to the enroll course page if the user is not enrolled
-      navigate("/enroll-course", { state: { subject } });
-      return;
-  }
-
+    // Check if the user is enrolled
     try {
-      const { data: testCompleted } = await getFITestCompletionStatus(
-        subject._id
-      );
+      const { data: enrollmentStatus } = await checkEnrollmentStatus(subject._id);
+
+      if (!enrollmentStatus.isEnrolled) {
+        // Redirect to the enroll course page if the user is not enrolled
+        navigate("/enroll-course", { state: { subject } });
+        return;
+      }
+
+      // Check if the student has completed the fitest
+      const { data: testCompleted } = await getFITestCompletionStatus(subject._id);
 
       if (testCompleted) {
         navigate(`/subject/${subject._id}`, { state: { subject } });
@@ -65,7 +70,7 @@ const Courses = () => {
         navigate(`/introduction/${subject.subject}`);
       }
     } catch (error) {
-      console.error("Error checking test status:", error);
+      console.error("Error checking enrollment or test status:", error);
     }
   };
 
@@ -225,11 +230,11 @@ const Courses = () => {
                       }`}
                     />
                     <div className="subject-title">{subject.subject}</div>
-                    
+
                     <div className="subject-info">Comp SE-Sem2</div>
-                      <div className="subject-rating">
-                        Rating: {subject.rating || "N/A"} ⭐
-                      </div>
+                    <div className="subject-rating">
+                      Rating: {subject.rating || "N/A"} ⭐
+                    </div>
                     <div className="subject-buttons">
                       <button
                         className="view-course-button"
@@ -247,7 +252,7 @@ const Courses = () => {
                           handleSubjectSelect(subject); // Enroll functionality moved here
                         }}
                       >
-                        Enroll Now
+                        {enrollmentStatus[subject._id] ? "Continue Learning" : "Enroll Now"}
                       </button>
                     </div>
                   </div>
