@@ -1,3 +1,138 @@
+.my-learning-container {
+  height: 80vh;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 20px;
+
+}
+
+.my-learning-header {
+  font-size: 2.3rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: blue;
+  padding-left: 30px;
+}
+
+.my-learning-buttons {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 20px;
+  padding-left: 30px;
+}
+
+.toggle-button {
+  padding: 10px 20px;
+  border-radius: 30px;
+  border: 1px solid #bebebe;
+  background-color: #fff;
+  color: black;
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 5px !important;
+}
+
+.toggle-button.active {
+  background-color: #bebebe;
+  color: white;
+}
+
+.toggle-button.active:hover {
+  background-color: #0300b3;
+  color: white;
+}
+
+.toggle-button:hover {
+  background-color: rgb(224, 224, 253);
+  color: blue;
+  border: 1px solid blue;
+}
+
+.my-learning-content {
+  font-size: 1.2rem;
+  color: #555;
+  
+}
+
+.in-progress-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap
+}
+
+.my-learning-subject-container {
+  width: 320px;
+  height: 350px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  text-align: center;
+  padding: 20px;
+  margin: 20px;
+}
+
+.my-learning-subject-container:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.subject-actions {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
+
+.continue-learning-button {
+  background-color: blue; /* Green color */
+  color: white;
+}
+
+.continue-learning-button:hover {
+  background-color: white; /* Darker green on hover */
+  color: blue;
+  border: 1px solid blue;
+}
+
+.your-rating {
+  font-size: 0.9rem;
+}
+
+.completion-bar {
+  position: relative;
+  width: 100%;
+  height: 15px;
+  background-color: rgb(210, 210, 250); /* Light grey background */
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+.completion-progress {
+  height: 100%;
+  background-color: blue; /* Green progress bar */
+  border-radius: 10px 0 0 10px;
+  transition: width 0.5s ease; /* Smooth transition */
+}
+
+.completion-bar span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
+  color: #fff; /* White text */
+  font-weight: bold;
+}
+
+
+
+
 .courses-container {
   display: flex;
   flex-direction: column;
@@ -8,7 +143,7 @@
 }
 
 .header {
-  background-color: #d1d0d0;
+  background-color: #bebebe;
   width: 100%;
   padding: 50px;
 }
