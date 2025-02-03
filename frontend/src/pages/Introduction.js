@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { subjectfundamental } from "../utils/api";
 
 const Introduction = () => {
   const { subject } = useParams();
@@ -11,7 +11,7 @@ const Introduction = () => {
     const fetchIntroduction = async () => {
       try {
         console.log("Fetching introduction for subject:", subject); // Log the subject before making the request
-        const response = await axios.get(`/api/subjectfundamental?subject=${subject}`);
+        const response = await subjectfundamental(subject);
         
         console.log("API response received:", response.data); // Log the API response
         setIntroduction(response.data);
@@ -23,7 +23,6 @@ const Introduction = () => {
     fetchIntroduction();
   }, [subject]);
   
-
   // Handle navigation to the test page, passing the fundamentalQuizID
   const handleTakeTest = () => {
     if (introduction && introduction.fundamentalQuizID) {
@@ -32,7 +31,6 @@ const Introduction = () => {
       console.error("Quiz ID not found");
     }
   };
-
 
   if (!introduction) return <div>Loading...</div>;
 

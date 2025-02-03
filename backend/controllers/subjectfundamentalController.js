@@ -12,7 +12,6 @@ export const getSubjectFundamental = async (req, res) => {
       }
   
       res.status(200).json(subjectFundamental.introduction);
-      console.log(subjectFundamental)
     } catch (error) {
       console.error("Error fetching subject fundamental:", error); // Log any server errors
       res.status(500).json({ message: 'Server error', error: error.message });

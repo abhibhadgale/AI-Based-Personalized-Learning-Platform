@@ -13,6 +13,7 @@ API.interceptors.request.use((req) => {
 });
 
 export const getAllSubjects = () => API.get('/subjects');
+export const subjectfundamental = (subject) => API.get(`/subjectfundamental?subject=${subject}`)
 export const getStudentData = () => API.get('/analytics/progress');
 export const getLearningPath = () => API.get('/analytics/learning-path');
 export const getQuizList = () => API.get('/quizzes');
