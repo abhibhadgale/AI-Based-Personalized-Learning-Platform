@@ -38,7 +38,7 @@ app.use('/api/content', contentRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/subjects', subjectRoutes);
 app.use('/api/subjectfundamental', subjectFundamentalRoutes);
-app.use('/api/units', unitsRoutes);
+app.use('/api/units', unitsRoutes); // Updated units route
 app.use('/api/notes', notesRoutes);
 app.use('/api/videos', videoRoutes);
 app.use('/api/resources', resourceRoutes);

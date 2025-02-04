@@ -13,7 +13,7 @@ API.interceptors.request.use((req) => {
 });
 
 export const getAllSubjects = () => API.get('/subjects');
-export const subjectfundamental = (subject) => API.get(`/subjectfundamental?subject=${subject}`)
+export const subjectfundamental = (subject) => API.get(`/subjectfundamental?subject=${subject}`);
 export const getStudentData = () => API.get('/analytics/progress');
 export const getLearningPath = () => API.get('/analytics/learning-path');
 export const getQuizList = () => API.get('/quizzes');
@@ -44,7 +44,6 @@ export const fetchDiagramById = (diagramId) => {
   return API.get(`/diagrams/${diagramId}`);
 };
 
-
 //update user profile
 export const submitUserProfile = (profileData) => {
   return API.post('/users/profile', profileData);
@@ -63,8 +62,8 @@ export const updateUserProfileCompleted = (userId) => {
 export const addToCart = (subjectId) =>
   API.post('/cart/add', {subjectId });
 export const fetchCartItems = () => API.get(`/cart`);
-export const removeFromCart = ( subjectId ) =>
-  API.delete(`/cart/remove`, {  subjectId } );
+export const removeFromCart = (subjectId) =>
+  API.delete(`/cart/remove`, { subjectId });
 
 export const addSemesterPackageToCart = (subjectIds) =>
   API.post('/cart/add-multiple', { subjectIds });

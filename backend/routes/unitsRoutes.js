@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import {  getTopicsByUnitId } from '../controllers/unitsController.js';
+import { getTopicsByUnitId } from '../controllers/unitsController.js';
 
 const router = Router();
 
