@@ -66,13 +66,21 @@
 
 .enrolled-subjects {
   margin-top: 20px;
+  
 }
 
 .enrolled-subjects h2 {
   font-size: 1.6rem;
 }
 
+.slick-slider {
+  height: 300px;
+  width: 1009px;
+  gap: 5px;
+}
+
 .subject-card {
+  width: 300px !important;
   padding: 15px;
   text-align: center;
   border: 1px solid #ddd;

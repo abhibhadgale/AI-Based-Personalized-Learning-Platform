@@ -25,7 +25,7 @@ const Subject = () => {
   }, [subjectID]);
 
   // Handle click on a unit
-  const handleUnitClick = (unitId ,unitName) => {
+  const handleUnitClick = (unitId, unitName) => {
     console.log("unitId:", unitId)
     console.log(subjectName, unitName)
     const encodedUnitName = encodeURIComponent(unitName);  // URL-encode the unit name
@@ -33,7 +33,7 @@ const Subject = () => {
   };
 
   return (
-    <div className="subject-container">
+    <div className="subjectcontainer">
       <h1 className="subject-title">{subjectName}</h1> {/* Render subject name */}
       <h2 className="subject-units-title">Units</h2>
       <ul className="units-list">
@@ -43,8 +43,19 @@ const Subject = () => {
             className="unit-item" 
             onClick={() => handleUnitClick(unit.unitId ,unit.unitName)} // Trigger navigation on click
           >
-            <span className="unit-number">Unit {unit.unitNumber}:</span>
-            <span className="unit-name"> {unit.unitName}</span>
+            <div className="unit-info">
+              <span className="unit-number">Unit {unit.unitNumber}:</span>
+              <span className="unit-name"> {unit.unitName}</span>
+            </div>
+
+            {/* Completion bar */}
+            <div className="completion-bar">
+              <div
+                className="completion-progress"
+                style={{ width: `${unit.completion || 0}%` }} // Dynamic progress width
+              ></div>
+              <span>{unit.completion || 0}%</span> {/* Dynamic percentage display */}
+            </div>
           </li>
         ))}
       </ul>

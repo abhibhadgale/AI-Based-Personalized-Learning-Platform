@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { subjectfundamental } from "../utils/api";
 
+import "../styles/Introduction.css"
+
 const Introduction = () => {
   const { subject } = useParams();
   const navigate = useNavigate();
@@ -35,11 +37,11 @@ const Introduction = () => {
   if (!introduction) return <div>Loading...</div>;
 
   return (
-    <div className="introduction-container">
+    <div className="introductioncontainer">
       <h1>{introduction.title}</h1>
       <p>{introduction.description}</p>
-      <div className="test-button-container">
-        <button className="test-button" onClick={handleTakeTest}>Take a Test</button>
+      <div className="testbuttoncontainer">
+        <button className="testbutton" onClick={handleTakeTest}>Take a Test</button>
       </div>
     </div>
   );

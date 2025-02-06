@@ -1,43 +1,84 @@
-.introduction-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    padding: 20px;
-    background-color: #f5f5f5;
+.introductioncontainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #e0f7fa, #ffffff);
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.introductioncontainer h1 {
+  font-size: 3rem;
+  color: #0d47a1;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.introductioncontainer p {
+  font-size: 1.2rem;
+  color: #37474f;
+  text-align: center;
+  max-width: 700px;
+  line-height: 1.8;
+  margin: 0 20px;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.testbuttoncontainer {
+  margin-top: 30px;
+}
+
+.testbutton {
+  background: linear-gradient(90deg, #007bff, #00c6ff);
+  color: white;
+  font-size: 1.2rem;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.testbutton:hover {
+  background: linear-gradient(90deg, #0056b3, #007bff);
+  box-shadow: 0 6px 20px rgba(0, 86, 179, 0.6);
+  transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
   h1 {
-    font-size: 2.5rem;
-    color: #333;
-    margin-bottom: 20px;
+    font-size: 2.2rem;
   }
-  
+
   p {
-    font-size: 1.2rem;
-    color: #666;
-    text-align: center;
-    max-width: 600px;
-    line-height: 1.6;
+    font-size: 1rem;
+    padding: 15px;
   }
-  
-  .test-button-container {
-    margin-top: 40px;
-  }
-  
+
   .test-button {
-    background-color: #007bff;
-    color: white;
-    font-size: 1.1rem;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-size: 1rem;
+    padding: 10px 25px;
   }
-  
-  .test-button:hover {
-    background-color: #0056b3;
-  }
-  
+}
