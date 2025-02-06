@@ -5,7 +5,7 @@ import LinkIcon from '@mui/icons-material/Link';
 import { fetchUnitTopicsThunk } from '../redux/slices/unitsSlice';
 import LearningSidebar from '../components/LearningSidebar';
 import '../styles/Learning.css';
-import { fetchNoteById, fetchVideoById, fetchResourceById, fetchDiagramById } from '../utils/api';
+import { fetchNoteById, fetchVideoById, fetchResourceById, fetchDiagramById, fetchSubtopicById } from '../utils/api';
 import Quiz from '../components/Quiz';
 
 const LearningPage = () => {
@@ -25,20 +25,22 @@ const LearningPage = () => {
     dispatch(fetchUnitTopicsThunk(unitId));
   }, [dispatch, unitId]);
 
-  const handleTopicClick = async (topic) => {
+  const handleSubtopicClick = async (subtopicId) => {
     try {
+      const { data: subtopicData } = await fetchSubtopicById(subtopicId);
+
       const [noteRes, videoRes, resourceRes, diagramRes] = await Promise.all([
-        fetchNoteById(topic.topicNoteId),
-        fetchVideoById(topic.topicVideoId),
-        fetchResourceById(topic.topicResourcesId),
-        topic.topicDiagramId ? fetchDiagramById(topic.topicDiagramId) : Promise.resolve({ data: { imageBase64: null } }),
+        fetchNoteById(subtopicData.subtopicNoteId),
+        fetchVideoById(subtopicData.subtopicVideoId),
+        fetchResourceById(subtopicData.subtopicResourcesId),
+        subtopicData.subtopicDiagramId ? fetchDiagramById(subtopicData.subtopicDiagramId) : Promise.resolve({ data: { imageBase64: null } }),
       ]);
 
       setSelectedContent({
         note: noteRes.data.note,
         video: videoRes.data.link,
         resource: resourceRes.data.resource,
-        quizId: topic.topicQuizId,
+        quizId: subtopicData.subtopicQuizId,
         diagram: diagramRes.data.imageBase64,
       });
 
@@ -54,13 +56,13 @@ const LearningPage = () => {
         return selectedContent.video ? (
           <div className="video-content" dangerouslySetInnerHTML={{ __html: selectedContent.video }} />
         ) : (
-          <p>Select a topic to view its video.</p>
+          <p>Select a subtopic to view its video.</p>
         );
       case 'quiz':
         return selectedContent.quizId ? (
           <Quiz quizId={selectedContent.quizId} subjectId={subjectId} />
         ) : (
-          <p>Select a topic to view its quiz.</p>
+          <p>Select a subtopic to view its quiz.</p>
         );
       case 'resource':
         return selectedContent.resource ? (
@@ -68,7 +70,7 @@ const LearningPage = () => {
             <LinkIcon /> View Resource
           </a>
         ) : (
-          <p>Select a topic to view its resource.</p>
+          <p>Select a subtopic to view its resource.</p>
         );
       default:
         return (
@@ -79,7 +81,7 @@ const LearningPage = () => {
                 <p>{selectedContent.note}</p>
               </div>
             ) : (
-              <p>Select a topic to view its note.</p>
+              <p>Select a subtopic to view its note.</p>
             )}
             {selectedContent.diagram && (
               <div className="diagram-content">
@@ -107,7 +109,7 @@ const LearningPage = () => {
 
   return (
     <div className="learning-container">
-      <LearningSidebar topics={topics} onTopicClick={handleTopicClick} unitMcqTest={unitMcqTest} subjectId={subjectId} />
+      <LearningSidebar topics={topics} onSubtopicClick={handleSubtopicClick} unitMcqTest={unitMcqTest} subjectId={subjectId} />
       <div className="learning-content">
         <div className="section1">
           <h2>{unitName}</h2>

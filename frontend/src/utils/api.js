@@ -75,3 +75,6 @@ export const checkoutCart = (subjectIds) => {
 
 export const checkEnrollmentStatus = (subjectId) =>
   API.get(`/enrollment/check/${subjectId}`);
+
+export const fetchSubtopicById = (subtopicId) => API.get(`/subtopics/${subtopicId}`);
+

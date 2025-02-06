@@ -16,6 +16,7 @@ import diagramRoutes from './routes/diagramRoutes.js';
 import userProfileRoutes from './routes/userProfileRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
 import enrollmentRoutes from './routes/enrollmentRoutes.js';  // Import the enrollmentRoutes
+import subtopicRoutes from './routes/subtopicRoutes.js';
 
 import connectDB from './config/db.js';
 
@@ -46,6 +47,7 @@ app.use('/api/diagrams', diagramRoutes);
 app.use('/api/users', userProfileRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/enrollment', enrollmentRoutes);
+app.use('/api/subtopics', subtopicRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
