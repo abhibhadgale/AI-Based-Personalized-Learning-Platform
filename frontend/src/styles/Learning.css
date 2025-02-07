@@ -22,10 +22,11 @@
   height: 100%;
   position: relative;
   margin-left: 142px;
+  background-color: #fff;
 }
 
 .section1 {
-  background-color: #f9f9f9;
+  background-color: white;
   width: calc(100% - 30%); /* Take space until Section 3 starts */
   height: 75%; /* Increased height to 75% */
   top: 0;
@@ -47,6 +48,16 @@
 .section1.hide-content {
   transform: scale(1); /* Default size */
   opacity: 0.5; /* Slightly faded when no content is selected */
+}
+
+.section1 h2 {
+  color: blue;
+  text-align: center;
+}
+
+.section1 h3 {
+  color: black;
+  text-align: center;
 }
 
 

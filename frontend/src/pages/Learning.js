@@ -12,13 +12,16 @@ const LearningPage = () => {
   const { unitId } = useParams();
   const dispatch = useDispatch();
   const { topics, status, error, unitName, unitMcqTest, subjectId } = useSelector((state) => state.units);
+
   const [selectedContent, setSelectedContent] = useState({
     note: null,
     video: null,
     resource: null,
     quizId: null,
     diagram: null,
+    subtopicName: '',  // 🔑 Added to store the subtopic name
   });
+
   const [activeTab, setActiveTab] = useState('notes');
 
   useEffect(() => {
@@ -42,6 +45,7 @@ const LearningPage = () => {
         resource: resourceRes.data.resource,
         quizId: subtopicData.subtopicQuizId,
         diagram: diagramRes.data.imageBase64,
+        subtopicName: subtopicData.subtopicName, // ✅ Storing the subtopic name
       });
 
       setActiveTab('notes');
@@ -58,12 +62,14 @@ const LearningPage = () => {
         ) : (
           <p>Select a subtopic to view its video.</p>
         );
+
       case 'quiz':
         return selectedContent.quizId ? (
           <Quiz quizId={selectedContent.quizId} subjectId={subjectId} />
         ) : (
           <p>Select a subtopic to view its quiz.</p>
         );
+
       case 'resource':
         return selectedContent.resource ? (
           <a href={selectedContent.resource} target="_blank" rel="noopener noreferrer" className="resource-link-button">
@@ -72,17 +78,19 @@ const LearningPage = () => {
         ) : (
           <p>Select a subtopic to view its resource.</p>
         );
+
       default:
         return (
           <>
             {selectedContent.note ? (
               <div className="note-content">
-                <h3>Notes</h3>
+                <h3>{selectedContent.subtopicName}</h3>  {/* ✅ Displaying the subtopic name */}
                 <p>{selectedContent.note}</p>
               </div>
             ) : (
               <p>Select a subtopic to view its note.</p>
             )}
+
             {selectedContent.diagram && (
               <div className="diagram-content">
                 <h3>Diagram:</h3>
@@ -117,7 +125,11 @@ const LearningPage = () => {
         </div>
         <div className="section2">{renderSection2Tabs()}</div>
         <div className="section3">
-          <iframe className="bot" title="bot" src="https://cdn.botpress.cloud/webchat/v2.2/shareable.html?configUrl=https://files.bpcontent.cloud/2024/10/16/19/20241016194039-D7DSDT66.json"></iframe>
+          <iframe
+            className="bot"
+            title="bot"
+            src="https://cdn.botpress.cloud/webchat/v2.3/shareable.html?configUrl=https://files.bpcontent.cloud/2024/10/16/19/20241016194039-D7DSDT66.json"
+          ></iframe>
         </div>
       </div>
     </div>

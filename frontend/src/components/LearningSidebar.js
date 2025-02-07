@@ -24,8 +24,14 @@ const LearningSidebar = ({ topics, onSubtopicClick, unitMcqTest, subjectId }) =>
     onSubtopicClick(subtopicId);
   };
 
+  // Function to calculate the number of completed subtopics for each topic
+  const getCompletedSubtopicsCount = (subtopics) => {
+    return subtopics.filter(subtopic => checkedSubtopics[subtopic.subtopicId]).length;
+  };
+
   return (
     <div className="learning-sidebar">
+      <h2>Content:</h2>
       <ul>
         {topics.length > 0 ? (
           topics.map((topic) => (
@@ -34,7 +40,16 @@ const LearningSidebar = ({ topics, onSubtopicClick, unitMcqTest, subjectId }) =>
               className={`topic-item ${expandedTopic === topic.topicId ? 'active' : ''}`}
               onClick={() => toggleTopic(topic.topicId)}
             >
-              <span className="topic-name">{topic.topicName}</span>
+              <div className="topic-header">
+                <span>{topic.topicName}</span>
+              </div>
+
+              {/* Display the count below the topic header */}
+              {topic.subtopics && topic.subtopics.length > 0 && (
+                <div className="subtopics-count">
+                  {getCompletedSubtopicsCount(topic.subtopics)} / {topic.subtopics.length}
+                </div>
+              )}
 
               {topic.subtopics && topic.subtopics.length > 0 && (
                 <ul className={`subtopics ${expandedTopic === topic.topicId ? 'expanded' : ''}`}>
