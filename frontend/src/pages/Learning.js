@@ -7,6 +7,8 @@ import LearningSidebar from '../components/LearningSidebar';
 import '../styles/Learning.css';
 import { fetchNoteById, fetchVideoById, fetchResourceById, fetchDiagramById, fetchSubtopicById } from '../utils/api';
 import Quiz from '../components/Quiz';
+import Chatbot from "../components/Chatbot"; // Import the chatbot
+
 
 const LearningPage = () => {
   const { unitId } = useParams();
@@ -125,11 +127,7 @@ const LearningPage = () => {
         </div>
         <div className="section2">{renderSection2Tabs()}</div>
         <div className="section3">
-          <iframe
-            className="bot"
-            title="bot"
-            src="https://cdn.botpress.cloud/webchat/v2.3/shareable.html?configUrl=https://files.bpcontent.cloud/2024/10/16/19/20241016194039-D7DSDT66.json"
-          ></iframe>
+          <Chatbot />
         </div>
       </div>
     </div>

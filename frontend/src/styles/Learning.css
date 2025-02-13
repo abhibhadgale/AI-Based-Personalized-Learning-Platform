@@ -164,24 +164,14 @@
 
 .section3 {
   width: 30%;
-  height: 100%;
+  height: 90%;
   position: absolute;
   right: 0;
   top: 0;
   box-sizing: border-box;
-  padding: 20px;
   border-left: 2px solid #ccc; /* Optional styling */
 }
 
-.bot {
-  width: 100%;
-  height: 600px;
-  max-width: 400px; /* To control the max width on larger screens */
-  border: 2px solid #007BFF; /* Blue border */
-  border-radius: 10px; /* Rounded corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  overflow: hidden;
-}
 
 @media screen and (max-width: 768px) {
   .section1, .section2, .section3 {
