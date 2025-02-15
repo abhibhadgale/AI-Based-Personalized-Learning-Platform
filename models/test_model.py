@@ -25,7 +25,7 @@ def predict_cluster():
         cluster_prediction = kmeans.predict(scaled_features)
 
         # Cluster Mapping (Ensure correct labeling)
-        cluster_labels = {0: "Slow Learner", 1: "Average Learner", 2: "Fast Learner"}
+        cluster_labels = {0: "Average Learner", 1: "Slow Learner", 2: "Fast Learner"}
 
         print(f"\nPredicted Cluster: {cluster_prediction[0]} ({cluster_labels[cluster_prediction[0]]})")
 
