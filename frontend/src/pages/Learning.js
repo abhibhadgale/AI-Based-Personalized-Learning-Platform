@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import NotesIcon from '@mui/icons-material/Notes';
+import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
+import QuizIcon from '@mui/icons-material/Quiz';
 import LinkIcon from '@mui/icons-material/Link';
 import { fetchUnitTopicsThunk } from '../redux/slices/unitsSlice';
 import LearningSidebar from '../components/LearningSidebar';
 import '../styles/Learning.css';
 import { fetchNoteById, fetchVideoById, fetchResourceById, fetchDiagramById, fetchSubtopicById } from '../utils/api';
 import Quiz from '../components/Quiz';
-import Chatbot from "../components/Chatbot"; // Import the chatbot
-
+import Chatbot from "../components/Chatbot";
 
 const LearningPage = () => {
   const { unitId } = useParams();
   const dispatch = useDispatch();
-  const { topics, status, error, unitName, unitMcqTest, subjectId } = useSelector((state) => state.units);
+  const { topics, unitName, subjectId } = useSelector((state) => state.units);
+  const [currentSubtopicIndex, setCurrentSubtopicIndex] = useState(0);
+  const [checkedSubtopics, setCheckedSubtopics] = useState({}); // Track completed subtopics
 
   const [selectedContent, setSelectedContent] = useState({
     note: null,
@@ -21,8 +25,14 @@ const LearningPage = () => {
     resource: null,
     quizId: null,
     diagram: null,
-    subtopicName: '',  // 🔑 Added to store the subtopic name
+    subtopicName: '',
+    subtopicId: null,
   });
+
+  useEffect(() => {
+    console.log(selectedContent);
+  }, [selectedContent]);
+  
 
   const [activeTab, setActiveTab] = useState('notes');
 
@@ -38,21 +48,44 @@ const LearningPage = () => {
         fetchNoteById(subtopicData.subtopicNoteId),
         fetchVideoById(subtopicData.subtopicVideoId),
         fetchResourceById(subtopicData.subtopicResourcesId),
-        subtopicData.subtopicDiagramId ? fetchDiagramById(subtopicData.subtopicDiagramId) : Promise.resolve({ data: { imageBase64: null } }),
+        subtopicData.subtopicDiagramId ? fetchDiagramById(subtopicData.subtopicDiagramId) : { data: { imageBase64: null } },
       ]);
 
       setSelectedContent({
-        note: noteRes.data.note,
-        video: videoRes.data.link,
-        resource: resourceRes.data.resource,
-        quizId: subtopicData.subtopicQuizId,
-        diagram: diagramRes.data.imageBase64,
-        subtopicName: subtopicData.subtopicName, // ✅ Storing the subtopic name
+        note: noteRes?.data?.note || '',
+        video: videoRes?.data?.link || '',
+        resource: resourceRes?.data?.resource || '',
+        quizId: subtopicData?.subtopicQuizId || null,
+        diagram: diagramRes?.data?.imageBase64 || null,
+        subtopicName: subtopicData?.subtopicName || '',
+        subtopicId: subtopicData?._id || null,
       });
 
       setActiveTab('notes');
     } catch (error) {
       console.error('Error fetching content:', error);
+    }
+  };
+
+  const handleNextSubtopic = () => {
+    if (!topics.length) return;
+  
+    // Find the index of the current subtopic
+    const flatSubtopics = topics.flatMap((topic) => topic.subtopics);
+    const nextIndex = currentSubtopicIndex + 1;
+  
+    if (nextIndex < flatSubtopics.length) {
+      const nextSubtopic = flatSubtopics[nextIndex];
+  
+      // Mark current subtopic as completed
+      setCheckedSubtopics((prev) => ({
+        ...prev,
+        [flatSubtopics[currentSubtopicIndex].subtopicId]: true,
+      }));
+  
+      // Load next subtopic
+      handleSubtopicClick(nextSubtopic.subtopicId);
+      setCurrentSubtopicIndex(nextIndex);
     }
   };
 
@@ -86,7 +119,7 @@ const LearningPage = () => {
           <>
             {selectedContent.note ? (
               <div className="note-content">
-                <h3>{selectedContent.subtopicName}</h3>  {/* ✅ Displaying the subtopic name */}
+                <h3>{selectedContent.subtopicName}</h3>
                 <p>{selectedContent.note}</p>
               </div>
             ) : (
@@ -104,28 +137,25 @@ const LearningPage = () => {
     }
   };
 
-  const renderSection2Tabs = () => (
-    <div className="tabs">
-      {['notes', 'video', 'quiz', 'resource'].map((tab) => (
-        <button key={tab} className={`tab ${activeTab === tab ? 'active' : ''}`} onClick={() => setActiveTab(tab)}>
-          {tab.charAt(0).toUpperCase() + tab.slice(1)}
-        </button>
-      ))}
-    </div>
-  );
-
-  if (status === 'loading') return <p>Loading topics...</p>;
-  if (status === 'failed') return <p>Error loading topics: {error}</p>;
-
   return (
     <div className="learning-container">
-      <LearningSidebar topics={topics} onSubtopicClick={handleSubtopicClick} unitMcqTest={unitMcqTest} subjectId={subjectId} />
+      <LearningSidebar topics={topics} onSubtopicClick={handleSubtopicClick} checkedSubtopics={checkedSubtopics}/>
       <div className="learning-content">
         <div className="section1">
           <h2>{unitName}</h2>
           {renderSection1Content()}
+          <button className="next-button" onClick={handleNextSubtopic}>Next</button>
         </div>
-        <div className="section2">{renderSection2Tabs()}</div>
+        <div className="section2">
+          <div className="tabs">
+            {[{ tab: 'notes', icon: <NotesIcon /> }, { tab: 'video', icon: <VideoLibraryIcon /> }, { tab: 'quiz', icon: <QuizIcon /> }, { tab: 'resource', icon: <LinkIcon /> }].map(({ tab, icon }) => (
+              <button key={tab} className={`tab ${activeTab === tab ? 'active' : ''}`} onClick={() => setActiveTab(tab)}>
+                {icon}
+                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+              </button>
+            ))}
+          </div>
+        </div>
         <div className="section3">
           <Chatbot />
         </div>

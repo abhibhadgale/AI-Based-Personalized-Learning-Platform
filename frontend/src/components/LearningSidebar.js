@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import '../styles/LearningSidebar.css';
 import { useNavigate } from 'react-router-dom';
 
-const LearningSidebar = ({ topics, onSubtopicClick, unitMcqTest, subjectId }) => {
+const LearningSidebar = ({ topics, onSubtopicClick, unitMcqTest, subjectId, checkedSubtopics }) => {
   const navigate = useNavigate();
   const [expandedTopic, setExpandedTopic] = useState(null);
-  const [checkedSubtopics, setCheckedSubtopics] = useState({});
+  const [checkedSubtopicslocal, setCheckedSubtopics] = useState({});
 
   const toggleTopic = (topicId) => {
     setExpandedTopic(expandedTopic === topicId ? null : topicId);
   };
 
   const handleCheckboxChange = (e, subtopicId) => {
-    e.stopPropagation(); // Prevents topic toggle when clicking the checkbox
+    e.stopPropagation();
     setCheckedSubtopics((prev) => ({
       ...prev,
       [subtopicId]: !prev[subtopicId],
@@ -20,14 +20,13 @@ const LearningSidebar = ({ topics, onSubtopicClick, unitMcqTest, subjectId }) =>
   };
 
   const handleSubtopicClick = (e, subtopicId) => {
-    e.stopPropagation(); // Prevents topic toggle when clicking on subtopic
+    e.stopPropagation();
     onSubtopicClick(subtopicId);
   };
-
-  // Function to calculate the number of completed subtopics for each topic
-  const getCompletedSubtopicsCount = (subtopics) => {
-    return subtopics.filter(subtopic => checkedSubtopics[subtopic.subtopicId]).length;
-  };
+// Function to calculate the number of completed subtopics for each topic
+const getCompletedSubtopicsCount = (subtopics) => {
+  return subtopics.filter(subtopic => checkedSubtopics[subtopic.subtopicId]).length;
+};
 
   return (
     <div className="learning-sidebar">
@@ -50,7 +49,7 @@ const LearningSidebar = ({ topics, onSubtopicClick, unitMcqTest, subjectId }) =>
                   {getCompletedSubtopicsCount(topic.subtopics)} / {topic.subtopics.length}
                 </div>
               )}
-
+              
               {topic.subtopics && topic.subtopics.length > 0 && (
                 <ul className={`subtopics ${expandedTopic === topic.topicId ? 'expanded' : ''}`}>
                   {topic.subtopics.map((subtopic) => (
@@ -63,7 +62,7 @@ const LearningSidebar = ({ topics, onSubtopicClick, unitMcqTest, subjectId }) =>
                         type="checkbox"
                         className="subtopic-checkbox"
                         checked={checkedSubtopics[subtopic.subtopicId] || false}
-                        onChange={(e) => handleCheckboxChange(e, subtopic.subtopicId)}
+                        readOnly
                       />
                       {subtopic.subtopicName}
                     </li>
