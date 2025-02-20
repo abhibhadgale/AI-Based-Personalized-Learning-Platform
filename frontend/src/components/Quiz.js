@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchQuizList, fetchQuizQuestions, submitQuizAnswers } from '../redux/slices/quizSlice';
 import '../styles/Quiz.css';
 
-const Quiz = ({ quizId, subjectId }) => {
+const Quiz = ({ quizId, subjectId, onSubmit }) => {
   const dispatch = useDispatch();
   const { quizList, questions, result, loading, error } = useSelector((state) => state.quiz);
   const [selectedQuizId, setSelectedQuizId] = useState(quizId || null);
@@ -51,6 +51,9 @@ const Quiz = ({ quizId, subjectId }) => {
   const handleSubmit = () => {
     if (selectedQuizId) {
       dispatch(submitQuizAnswers({ quizId: selectedQuizId, answers, subjectId }));
+      if (onSubmit) {
+        onSubmit();
+      }
     }
   };
 

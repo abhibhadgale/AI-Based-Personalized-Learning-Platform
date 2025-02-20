@@ -18,6 +18,8 @@ const LearningPage = () => {
   const { topics, unitName, subjectId } = useSelector((state) => state.units);
   const [currentSubtopicIndex, setCurrentSubtopicIndex] = useState(0);
   const [checkedSubtopics, setCheckedSubtopics] = useState({}); // Track completed subtopics
+  const [activeTab, setActiveTab] = useState('notes'); // Default tab: Notes
+  const [showNextButton, setShowNextButton] = useState(true); // Controls visibility of the "Next" button
 
   const [selectedContent, setSelectedContent] = useState({
     note: null,
@@ -33,8 +35,6 @@ const LearningPage = () => {
     console.log(selectedContent);
   }, [selectedContent]);
   
-
-  const [activeTab, setActiveTab] = useState('notes');
 
   useEffect(() => {
     dispatch(fetchUnitTopicsThunk(unitId));
@@ -62,31 +62,51 @@ const LearningPage = () => {
       });
 
       setActiveTab('notes');
+
+      // Reset the currentSubtopicIndex when selecting a new subtopic manually
+    const flatSubtopics = topics.flatMap((topic) => topic.subtopics);
+    const newIndex = flatSubtopics.findIndex((sub) => sub.subtopicId === subtopicId);
+    if (newIndex !== -1) setCurrentSubtopicIndex(newIndex);
+    
     } catch (error) {
       console.error('Error fetching content:', error);
+    }
+  };
+
+  const handleNextClick = () => {
+    if (activeTab !== 'quiz') {
+      // Move to Quiz tab and hide the "Next" button
+      setActiveTab('quiz');
+      setShowNextButton(false);
     }
   };
 
   const handleNextSubtopic = () => {
     if (!topics.length) return;
   
-    // Find the index of the current subtopic
     const flatSubtopics = topics.flatMap((topic) => topic.subtopics);
+    
+    if (currentSubtopicIndex < 0 || currentSubtopicIndex >= flatSubtopics.length) return;
+  
     const nextIndex = currentSubtopicIndex + 1;
   
-    if (nextIndex < flatSubtopics.length) {
-      const nextSubtopic = flatSubtopics[nextIndex];
-  
-      // Mark current subtopic as completed
+    if (flatSubtopics[currentSubtopicIndex]) {
       setCheckedSubtopics((prev) => ({
         ...prev,
         [flatSubtopics[currentSubtopicIndex].subtopicId]: true,
       }));
+    }
   
-      // Load next subtopic
+    if (nextIndex < flatSubtopics.length) {
+      const nextSubtopic = flatSubtopics[nextIndex];
       handleSubtopicClick(nextSubtopic.subtopicId);
       setCurrentSubtopicIndex(nextIndex);
     }
+  };
+  const handleQuizSubmit = () => {
+    handleNextSubtopic();
+    setShowNextButton(true); // Show "Next" button again after quiz is completed
+
   };
 
   const renderSection1Content = () => {
@@ -100,7 +120,7 @@ const LearningPage = () => {
 
       case 'quiz':
         return selectedContent.quizId ? (
-          <Quiz quizId={selectedContent.quizId} subjectId={subjectId} />
+          <Quiz quizId={selectedContent.quizId} subjectId={subjectId} onSubmit={handleQuizSubmit} />
         ) : (
           <p>Select a subtopic to view its quiz.</p>
         );
@@ -144,7 +164,11 @@ const LearningPage = () => {
         <div className="section1">
           <h2>{unitName}</h2>
           {renderSection1Content()}
-          <button className="next-button" onClick={handleNextSubtopic}>Next</button>
+          {showNextButton && (
+            <button onClick={handleNextClick} className="next-button">
+              Next
+            </button>
+          )}
         </div>
         <div className="section2">
           <div className="tabs">
