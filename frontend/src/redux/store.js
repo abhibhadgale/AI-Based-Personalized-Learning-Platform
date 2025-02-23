@@ -5,6 +5,8 @@ import studentReducer from './slices/studentSlice';
 import { reducer as unitsReducer } from './slices/unitsSlice';
 import userProfileReducer from './slices/profileSlice'; // Import the userProfile reducer
 import cartReducer from './slices/cartSlice'; // Import the cart reducer
+import studentProgressReducer from './slices/studentProgressSlice';
+
 
 const store = configureStore({
   reducer: {
@@ -14,6 +16,7 @@ const store = configureStore({
     units: unitsReducer,
     userProfile: userProfileReducer, // Add the userProfile slice here
     cart: cartReducer, // Add the cart slice here
+    studentProgress: studentProgressReducer,
   },
 });
 

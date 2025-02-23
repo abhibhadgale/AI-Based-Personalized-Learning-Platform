@@ -78,3 +78,10 @@ export const checkEnrollmentStatus = (subjectId) =>
 
 export const fetchSubtopicById = (subtopicId) => API.get(`/subtopics/${subtopicId}`);
 
+export const saveStudentProgress = async (progressData) => {
+  console.log('Progress data being sent:', progressData);
+  return API.post(`/progress`, {
+    unitId: progressData.unitId,
+    subtopicsId: progressData.subtopicsId, 
+  });
+};

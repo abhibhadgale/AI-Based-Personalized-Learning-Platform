@@ -6,6 +6,7 @@ import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
 import QuizIcon from '@mui/icons-material/Quiz';
 import LinkIcon from '@mui/icons-material/Link';
 import { fetchUnitTopicsThunk } from '../redux/slices/unitsSlice';
+import { updateProgress, syncProgressWithBackend } from '../redux/slices/studentProgressSlice';
 import LearningSidebar from '../components/LearningSidebar';
 import '../styles/Learning.css';
 import { fetchNoteById, fetchVideoById, fetchResourceById, fetchDiagramById, fetchSubtopicById } from '../utils/api';
@@ -16,6 +17,7 @@ const LearningPage = () => {
   const { unitId } = useParams();
   const dispatch = useDispatch();
   const { topics, unitName, subjectId } = useSelector((state) => state.units);
+  const studentProgress = useSelector((state) => state.studentProgress.progress);
   const [currentSubtopicIndex, setCurrentSubtopicIndex] = useState(0);
   const [checkedSubtopics, setCheckedSubtopics] = useState({}); // Track completed subtopics
   const [activeTab, setActiveTab] = useState('notes'); // Default tab: Notes
@@ -40,6 +42,14 @@ const LearningPage = () => {
     dispatch(fetchUnitTopicsThunk(unitId));
   }, [dispatch, unitId]);
 
+  useEffect(() => {
+    const syncInterval = setInterval(() => {
+      dispatch(syncProgressWithBackend(studentProgress));
+    }, 3000); // Sync progress every 30 seconds
+    return () => clearInterval(syncInterval);
+  }, [dispatch, studentProgress]);
+  
+
   const handleSubtopicClick = async (subtopicId) => {
     try {
       const { data: subtopicData } = await fetchSubtopicById(subtopicId);
@@ -62,6 +72,8 @@ const LearningPage = () => {
       });
 
       setActiveTab('notes');
+
+      dispatch(updateProgress({ unitId, subtopicId }));
 
       // Reset the currentSubtopicIndex when selecting a new subtopic manually
     const flatSubtopics = topics.flatMap((topic) => topic.subtopics);

@@ -1,11 +1,31 @@
 import mongoose from 'mongoose';
 
-const studentProgressSchema = new mongoose.Schema({
-  studentId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  completedUnits: [String],  // Array of completed units
-  scores: [{ unit: String, score: Number }]  // Array of objects with unit and score
-});
+const StudentProgressSchema = new mongoose.Schema(
+  {
+    studentId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
+    },
+    progress: [
+      {
+        unitId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Unit',
+          required: true
+        },
+        subtopicId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Subtopic',
+          required: true
+        }
+      }
+    ]
+  },
+  {
+    timestamps: true
+  }
+);
 
-const StudentProgress = mongoose.model('StudentProgress', studentProgressSchema);
-
+const StudentProgress = mongoose.model('StudentProgress', StudentProgressSchema);
 export default StudentProgress;
