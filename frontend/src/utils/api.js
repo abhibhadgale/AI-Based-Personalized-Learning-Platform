@@ -89,3 +89,6 @@ export const saveStudentProgress = async (progressData) => {
 export const getStudentProgress = async () => {
   return API.get('/progress');
 };
+
+export const getSubtopicCount = (unitId) => API.get(`/units/${unitId}/subtopic-count`);
+export const getCompletedTopicCount = () => API.get('/progress/completed-count');

@@ -80,10 +80,16 @@
 }
 
 .subjectcontainer .completion-progress {
-  height: 6px;
-  background-color: #4caf50;
-  border-radius: 3px;
-  margin-right: 10px;
+  height: 100%;
+  background-color: blue; /* Blue color */
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  transition: width 0.4s ease-in-out;
 }
 
 .subjectcontainer .completion-bar span {

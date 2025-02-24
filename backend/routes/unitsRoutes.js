@@ -1,8 +1,10 @@
 import { Router } from 'express';
-import { getTopicsByUnitId } from '../controllers/unitsController.js';
+import { getTopicsByUnitId, getSubtopicCount } from '../controllers/unitsController.js';
 
 const router = Router();
 
 router.get('/:unitId/topics', getTopicsByUnitId);
+router.get('/:unitId/subtopic-count', getSubtopicCount); // New Route
+
 
 export default router;

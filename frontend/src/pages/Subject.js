@@ -1,63 +1,84 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';  // Import useNavigate for navigation
-import { getSubjectUnits } from '../utils/api';
-import '../styles/Subject.css';  // Import the CSS file
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import {
+  getSubjectUnits,
+  getSubtopicCount,
+  getCompletedTopicCount,
+} from "../utils/api";
+import "../styles/Subject.css";
 
 const Subject = () => {
-  const { subjectID } = useParams();  // Get subjectID from URL params
+  const { subjectID } = useParams();
   const [currentUnits, setCurrentUnits] = useState([]);
-  const [subjectName, setSubjectName] = useState('');  // State to hold the subject name
-  const navigate = useNavigate();  // useNavigate hook for programmatic navigation
+  const [subjectName, setSubjectName] = useState("");
+  const [completedTopicsByUnit, setCompletedTopicsByUnit] = useState({});
+  const [subtopicCounts, setSubtopicCounts] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchSubjectUnits = async () => {
+    const fetchData = async () => {
       try {
-        const { data } = await getSubjectUnits(subjectID);  // Fetch units and subject data using subjectID
-        setCurrentUnits(data.units);  // Set the units in state
-        setSubjectName(data.subject);  // Set the subject name in state
-        console.log("data", data.unit.unitId)
+        // Fetch subject units
+        const { data } = await getSubjectUnits(subjectID);
+        setCurrentUnits(data.units);
+        setSubjectName(data.subject);
+
+        // Fetch completed topics
+        const completedTopicsRes = await getCompletedTopicCount();
+        setCompletedTopicsByUnit(completedTopicsRes.data.completedTopicsByUnit || {});
+
+        // Fetch subtopic counts for each unit
+        const subtopicData = {};
+        await Promise.all(
+          data.units.map(async (unit) => {
+            try {
+              const subtopicRes = await getSubtopicCount(unit.unitId);
+              subtopicData[unit.unitId] = subtopicRes.data.totalSubtopics;
+            } catch (error) {
+              console.error(`Error fetching subtopics for unit ${unit.unitId}:`, error);
+              subtopicData[unit.unitId] = 1; // Default value to avoid division errors
+            }
+          })
+        );
+        setSubtopicCounts(subtopicData);
       } catch (error) {
-        console.error('Error fetching subject units:', error);
+        console.error("Error fetching subject data:", error);
       }
     };
 
-    fetchSubjectUnits();
+    fetchData();
   }, [subjectID]);
 
-  // Handle click on a unit
   const handleUnitClick = (unitId, unitName) => {
-    console.log("unitId:", unitId)
-    console.log(subjectName, unitName)
-    const encodedUnitName = encodeURIComponent(unitName);  // URL-encode the unit name
-    navigate(`/learning/${encodeURIComponent(subjectName)}/${encodedUnitName}/${unitId}`);  // Navigate with subject name, unit name, and unitId
+    const encodedUnitName = encodeURIComponent(unitName);
+    navigate(`/learning/${encodeURIComponent(subjectName)}/${encodedUnitName}/${unitId}`);
   };
 
   return (
     <div className="subjectcontainer">
-      <h1 className="subject-title">{subjectName}</h1> {/* Render subject name */}
+      <h1 className="subject-title">{subjectName}</h1>
       <h2 className="subject-units-title">Units</h2>
       <ul className="units-list">
-        {currentUnits.map((unit) => (
-          <li 
-            key={unit._id} 
-            className="unit-item" 
-            onClick={() => handleUnitClick(unit.unitId ,unit.unitName)} // Trigger navigation on click
-          >
-            <div className="unit-info">
-              <span className="unit-number">Unit {unit.unitNumber}:</span>
-              <span className="unit-name"> {unit.unitName}</span>
-            </div>
+        {currentUnits.map((unit) => {
+          const completedTopics = completedTopicsByUnit[unit.unitId] || 0;
+          const totalSubtopics = subtopicCounts[unit.unitId] || 1;
+          const completionPercentage = Math.round((completedTopics / totalSubtopics) * 100);
 
-            {/* Completion bar */}
-            <div className="completion-bar">
-              <div
-                className="completion-progress"
-                style={{ width: `${unit.completion || 0}%` }} // Dynamic progress width
-              ></div>
-              <span>{unit.completion || 0}%</span> {/* Dynamic percentage display */}
-            </div>
-          </li>
-        ))}
+          return (
+            <li key={unit._id} className="unit-item" onClick={() => handleUnitClick(unit.unitId, unit.unitName)}>
+              <div className="unit-info">
+                <span className="unit-number">Unit {unit.unitNumber}:</span>
+                <span className="unit-name"> {unit.unitName}</span>
+              </div>
+
+              {/* Dynamic Completion Bar */}
+              <div className="completion-bar">
+                <div className="completion-progress" style={{ width: `${completionPercentage}%` }}></div>
+                <span>{completionPercentage}%</span>
+              </div>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

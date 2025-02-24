@@ -99,3 +99,29 @@ export const getStudentProgress = async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch progress', details: error.message });
     }
 };
+
+export const CompletedTopicCount = async (req, res) => {
+    try {
+        const studentId = req.user._id;
+        const progress = await StudentProgress.findOne({ studentId });
+
+        if (!progress || progress.progress.length === 0) {
+            return res.status(404).json({ message: 'No progress found for this student' });
+        }
+
+        const unitWiseCount = {};
+        progress.progress.forEach(p => {
+            const unitId = p.unitId.toString();
+            if (!unitWiseCount[unitId]) {
+                unitWiseCount[unitId] = 0;
+            }
+            unitWiseCount[unitId] += 1;
+        });
+
+        res.status(200).json({ studentId, completedTopicsByUnit: unitWiseCount });
+
+    } catch (error) {
+        console.error('Error fetching completed topic count:', error);
+        res.status(500).json({ error: 'Failed to fetch completed topic count', details: error.message });
+    }
+};
