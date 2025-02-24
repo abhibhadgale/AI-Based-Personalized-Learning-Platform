@@ -189,6 +189,68 @@
   border-left: 2px solid #ccc; /* Optional styling */
 }
 
+.markdown-content {
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+/* Style bold and italic text */
+.markdown-content strong {
+  color: black;
+}
+
+.markdown-content em {
+  color: #2980b9;
+}
+
+/* Style unordered lists */
+.markdown-content ul {
+  list-style-type: disc; /* Ensures bullet points */
+  margin-left: 20px;
+  padding-left: 20px;
+}
+
+/* Nested list styling */
+.markdown-content ul ul {
+  list-style-type: circle; /* Different bullet style for nested lists */
+  margin-left: 20px;
+  padding-left: 20px;
+}
+
+/* List item styling */
+.markdown-content li {
+  margin-bottom: 8px; /* Adds space between points */
+  color: black;
+}
+
+/* Headings inside markdown */
+.markdown-content h1, .markdown-content h2, .markdown-content h3 {
+  color: #2c3e50;
+  border-bottom: 2px solid #ecf0f1;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+/* Code blocks */
+.markdown-content pre {
+  background: #2d2d2d;
+  color: #f8f8f2;
+  padding: 10px;
+  border-radius: 5px;
+  overflow-x: auto;
+}
+
+.markdown-content code {
+  background: #ecf0f1;
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-family: "Courier New", Courier, monospace;
+}
+
+
 
 @media screen and (max-width: 768px) {
   .section1, .section2, .section3 {

@@ -1,27 +1,40 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import NotesIcon from '@mui/icons-material/Notes';
-import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
-import QuizIcon from '@mui/icons-material/Quiz';
-import LinkIcon from '@mui/icons-material/Link';
-import { fetchUnitTopicsThunk } from '../redux/slices/unitsSlice';
-import { updateProgress, syncProgressWithBackend } from '../redux/slices/studentProgressSlice';
-import LearningSidebar from '../components/LearningSidebar';
-import '../styles/Learning.css';
-import { fetchNoteById, fetchVideoById, fetchResourceById, fetchDiagramById, fetchSubtopicById } from '../utils/api';
-import Quiz from '../components/Quiz';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
+import NotesIcon from "@mui/icons-material/Notes";
+import VideoLibraryIcon from "@mui/icons-material/VideoLibrary";
+import QuizIcon from "@mui/icons-material/Quiz";
+import LinkIcon from "@mui/icons-material/Link";
+import { fetchUnitTopicsThunk } from "../redux/slices/unitsSlice";
+import {
+  updateProgress,
+  syncProgressWithBackend,
+} from "../redux/slices/studentProgressSlice";
+import LearningSidebar from "../components/LearningSidebar";
+import "../styles/Learning.css";
+import {
+  fetchNoteById,
+  fetchVideoById,
+  fetchResourceById,
+  fetchDiagramById,
+  fetchSubtopicById,
+} from "../utils/api";
+import Quiz from "../components/Quiz";
 import Chatbot from "../components/Chatbot";
 
 const LearningPage = () => {
   const { unitId } = useParams();
   const dispatch = useDispatch();
   const { topics, unitName, subjectId } = useSelector((state) => state.units);
-  const studentProgress = useSelector((state) => state.studentProgress.progress);
+  const studentProgress = useSelector(
+    (state) => state.studentProgress.progress
+  );
+
   const [currentSubtopicIndex, setCurrentSubtopicIndex] = useState(0);
-  const [checkedSubtopics, setCheckedSubtopics] = useState({}); // Track completed subtopics
-  const [activeTab, setActiveTab] = useState('notes'); // Default tab: Notes
-  const [showNextButton, setShowNextButton] = useState(true); // Controls visibility of the "Next" button
+  const [checkedSubtopics, setCheckedSubtopics] = useState({});
+  const [activeTab, setActiveTab] = useState("notes");
+  const [showNextButton, setShowNextButton] = useState(true);
 
   const [selectedContent, setSelectedContent] = useState({
     note: null,
@@ -29,14 +42,9 @@ const LearningPage = () => {
     resource: null,
     quizId: null,
     diagram: null,
-    subtopicName: '',
+    subtopicName: "",
     subtopicId: null,
   });
-
-  useEffect(() => {
-    console.log(selectedContent);
-  }, [selectedContent]);
-  
 
   useEffect(() => {
     dispatch(fetchUnitTopicsThunk(unitId));
@@ -45,10 +53,9 @@ const LearningPage = () => {
   useEffect(() => {
     const syncInterval = setInterval(() => {
       dispatch(syncProgressWithBackend(studentProgress));
-    }, 3000); // Sync progress every 30 seconds
+    }, 3000);
     return () => clearInterval(syncInterval);
   }, [dispatch, studentProgress]);
-  
 
   const handleSubtopicClick = async (subtopicId) => {
     try {
@@ -58,88 +65,108 @@ const LearningPage = () => {
         fetchNoteById(subtopicData.subtopicNoteId),
         fetchVideoById(subtopicData.subtopicVideoId),
         fetchResourceById(subtopicData.subtopicResourcesId),
-        subtopicData.subtopicDiagramId ? fetchDiagramById(subtopicData.subtopicDiagramId) : { data: { imageBase64: null } },
+        subtopicData.subtopicDiagramId
+          ? fetchDiagramById(subtopicData.subtopicDiagramId)
+          : { data: { imageBase64: null } },
       ]);
 
       setSelectedContent({
-        note: noteRes?.data?.note || '',
-        video: videoRes?.data?.link || '',
-        resource: resourceRes?.data?.resource || '',
+        note: noteRes?.data?.note || "",
+        video: videoRes?.data?.link || "",
+        resource: resourceRes?.data?.resource || "",
         quizId: subtopicData?.subtopicQuizId || null,
         diagram: diagramRes?.data?.imageBase64 || null,
-        subtopicName: subtopicData?.subtopicName || '',
+        subtopicName: subtopicData?.subtopicName || "",
         subtopicId: subtopicData?._id || null,
       });
 
-      setActiveTab('notes');
-
-      dispatch(updateProgress({ unitId, subtopicId }));
+      setActiveTab("notes");
 
       // Reset the currentSubtopicIndex when selecting a new subtopic manually
-    const flatSubtopics = topics.flatMap((topic) => topic.subtopics);
-    const newIndex = flatSubtopics.findIndex((sub) => sub.subtopicId === subtopicId);
-    if (newIndex !== -1) setCurrentSubtopicIndex(newIndex);
-    
+      const flatSubtopics = topics.flatMap((topic) => topic.subtopics);
+      const newIndex = flatSubtopics.findIndex(
+        (sub) => sub.subtopicId === subtopicId
+      );
+      if (newIndex !== -1) setCurrentSubtopicIndex(newIndex);
     } catch (error) {
-      console.error('Error fetching content:', error);
+      console.error("Error fetching content:", error);
     }
   };
 
   const handleNextClick = () => {
-    if (activeTab !== 'quiz') {
-      // Move to Quiz tab and hide the "Next" button
-      setActiveTab('quiz');
+    if (activeTab !== "quiz") {
+      setActiveTab("quiz");
       setShowNextButton(false);
     }
   };
 
   const handleNextSubtopic = () => {
     if (!topics.length) return;
-  
+
     const flatSubtopics = topics.flatMap((topic) => topic.subtopics);
-    
-    if (currentSubtopicIndex < 0 || currentSubtopicIndex >= flatSubtopics.length) return;
-  
+
+    if (
+      currentSubtopicIndex < 0 ||
+      currentSubtopicIndex >= flatSubtopics.length
+    )
+      return;
+
+    const completedSubtopicId = flatSubtopics[currentSubtopicIndex].subtopicId;
+
+    // Mark the subtopic as completed
+    setCheckedSubtopics((prev) => ({
+      ...prev,
+      [completedSubtopicId]: true,
+    }));
+
+    // Dispatch progress update only after quiz completion
+    dispatch(updateProgress({ unitId, subtopicId: completedSubtopicId }));
+
     const nextIndex = currentSubtopicIndex + 1;
-  
-    if (flatSubtopics[currentSubtopicIndex]) {
-      setCheckedSubtopics((prev) => ({
-        ...prev,
-        [flatSubtopics[currentSubtopicIndex].subtopicId]: true,
-      }));
-    }
-  
+
     if (nextIndex < flatSubtopics.length) {
       const nextSubtopic = flatSubtopics[nextIndex];
       handleSubtopicClick(nextSubtopic.subtopicId);
       setCurrentSubtopicIndex(nextIndex);
     }
   };
+
   const handleQuizSubmit = () => {
     handleNextSubtopic();
-    setShowNextButton(true); // Show "Next" button again after quiz is completed
-
+    setShowNextButton(true);
   };
 
   const renderSection1Content = () => {
     switch (activeTab) {
-      case 'video':
+      case "video":
         return selectedContent.video ? (
-          <div className="video-content" dangerouslySetInnerHTML={{ __html: selectedContent.video }} />
+          <div
+            className="video-content"
+            dangerouslySetInnerHTML={{ __html: selectedContent.video }}
+          />
         ) : (
           <p>Select a subtopic to view its video.</p>
         );
 
-      case 'quiz':
+      case "quiz":
         return selectedContent.quizId ? (
-          <Quiz quizId={selectedContent.quizId} subjectId={subjectId} onSubmit={handleQuizSubmit} />
+          <Quiz
+            quizId={selectedContent.quizId}
+            subjectId={subjectId}
+            onSubmit={handleQuizSubmit}
+          />
         ) : (
           <p>Select a subtopic to view its quiz.</p>
         );
 
-      case 'resource':
+      case "resource":
         return selectedContent.resource ? (
-          <a href={selectedContent.resource} target="_blank" rel="noopener noreferrer" className="resource-link-button">
+          <a
+            href={selectedContent.resource}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="resource-link-button"
+          >
             <LinkIcon /> View Resource
           </a>
         ) : (
@@ -152,7 +179,20 @@ const LearningPage = () => {
             {selectedContent.note ? (
               <div className="note-content">
                 <h3>{selectedContent.subtopicName}</h3>
-                <p>{selectedContent.note}</p>
+                <div className="markdown-content">
+                  <ReactMarkdown
+                    components={{
+                      ul: ({ children }) => (
+                        <ul className="custom-list">{children}</ul>
+                      ),
+                      li: ({ children }) => (
+                        <li className="custom-list-item">{children}</li>
+                      ),
+                    }}
+                  >
+                    {selectedContent.note}
+                  </ReactMarkdown>
+                </div>
               </div>
             ) : (
               <p>Select a subtopic to view its note.</p>
@@ -161,7 +201,11 @@ const LearningPage = () => {
             {selectedContent.diagram && (
               <div className="diagram-content">
                 <h3>Diagram:</h3>
-                <img src={`${selectedContent.diagram}`} alt="Diagram" className="diagram" />
+                <img
+                  src={`${selectedContent.diagram}`}
+                  alt="Diagram"
+                  className="diagram"
+                />
               </div>
             )}
           </>
@@ -171,7 +215,11 @@ const LearningPage = () => {
 
   return (
     <div className="learning-container">
-      <LearningSidebar topics={topics} onSubtopicClick={handleSubtopicClick} checkedSubtopics={checkedSubtopics}/>
+      <LearningSidebar
+        topics={topics}
+        onSubtopicClick={handleSubtopicClick}
+        checkedSubtopics={checkedSubtopics}
+      />
       <div className="learning-content">
         <div className="section1">
           <h2>{unitName}</h2>
@@ -184,8 +232,17 @@ const LearningPage = () => {
         </div>
         <div className="section2">
           <div className="tabs">
-            {[{ tab: 'notes', icon: <NotesIcon /> }, { tab: 'video', icon: <VideoLibraryIcon /> }, { tab: 'quiz', icon: <QuizIcon /> }, { tab: 'resource', icon: <LinkIcon /> }].map(({ tab, icon }) => (
-              <button key={tab} className={`tab ${activeTab === tab ? 'active' : ''}`} onClick={() => setActiveTab(tab)}>
+            {[
+              { tab: "notes", icon: <NotesIcon /> },
+              { tab: "video", icon: <VideoLibraryIcon /> },
+              { tab: "quiz", icon: <QuizIcon /> },
+              { tab: "resource", icon: <LinkIcon /> },
+            ].map(({ tab, icon }) => (
+              <button
+                key={tab}
+                className={`tab ${activeTab === tab ? "active" : ""}`}
+                onClick={() => setActiveTab(tab)}
+              >
                 {icon}
                 {tab.charAt(0).toUpperCase() + tab.slice(1)}
               </button>
