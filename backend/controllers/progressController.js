@@ -73,3 +73,29 @@ export const saveProgress = async (req, res) => {
         res.status(500).json({ error: 'Failed to save progress', details: error.message });
     }
 };
+
+
+export const getStudentProgress = async (req, res) => {
+    try {
+        const studentId = req.user._id;
+
+        // Find the student's progress document
+        const progress = await StudentProgress.findOne({ studentId });
+
+        if (!progress || progress.progress.length === 0) {
+            return res.status(404).json({ message: 'No progress found for this student' });
+        }
+
+        // Filter and return only the completed subtopics
+        const completedSubtopics = progress.progress.map(p => ({
+            unitId: p.unitId,
+            subtopicId: p.subtopicId
+        }));
+
+        res.status(200).json({ studentId, progress: completedSubtopics });
+
+    } catch (error) {
+        console.error('Error fetching progress:', error);
+        res.status(500).json({ error: 'Failed to fetch progress', details: error.message });
+    }
+};

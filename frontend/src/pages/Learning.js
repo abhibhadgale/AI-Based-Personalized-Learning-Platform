@@ -19,6 +19,7 @@ import {
   fetchResourceById,
   fetchDiagramById,
   fetchSubtopicById,
+  getStudentProgress,
 } from "../utils/api";
 import Quiz from "../components/Quiz";
 import Chatbot from "../components/Chatbot";
@@ -48,14 +49,32 @@ const LearningPage = () => {
 
   useEffect(() => {
     dispatch(fetchUnitTopicsThunk(unitId));
+    fetchStudentProgress();
   }, [dispatch, unitId]);
 
   useEffect(() => {
     const syncInterval = setInterval(() => {
       dispatch(syncProgressWithBackend(studentProgress));
-    }, 3000);
+    }, 30000);
     return () => clearInterval(syncInterval);
   }, [dispatch, studentProgress]);
+
+  const fetchStudentProgress = async () => {
+    try {
+      const { data } = await getStudentProgress();
+      if (data.progress) {
+        const completedSubtopics = {};
+        data.progress.forEach(({ unitId: progressUnitId, subtopicId }) => {
+          if (progressUnitId === unitId) {
+            completedSubtopics[subtopicId] = true;
+          }
+        });
+        setCheckedSubtopics(completedSubtopics);
+      }
+    } catch (error) {
+      console.error("Error fetching student progress:", error);
+    }
+  };
 
   const handleSubtopicClick = async (subtopicId) => {
     try {
@@ -225,9 +244,11 @@ const LearningPage = () => {
           <h2>{unitName}</h2>
           {renderSection1Content()}
           {showNextButton && (
-            <button onClick={handleNextClick} className="next-button">
-              Next
-            </button>
+            <div className="next-button-container">
+              <button onClick={handleNextClick} className="next-button">
+                Next
+              </button>
+            </div>
           )}
         </div>
         <div className="section2">
