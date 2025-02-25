@@ -5,25 +5,25 @@ export const syncProgressWithBackend = createAsyncThunk(
   'studentProgress/syncProgress',
   async (progressData, { rejectWithValue }) => {
     try {
-      // Extract unitId (first key of progressData object)
+      if (!progressData || typeof progressData !== 'object' || Object.keys(progressData).length === 0) {
+        return rejectWithValue({ error: "Invalid progress data" });
+      }
+
       const unitId = Object.keys(progressData)[0];
+      if (!unitId) return rejectWithValue({ error: "Missing unitId" });
 
-      // Extract subtopicId (last element of the array)
-      const subtopicArray = progressData[unitId];
-      const subtopicId = subtopicArray?.[subtopicArray.length - 1];
+      const subtopicArray = progressData[unitId]?.subtopics || [];
+      if (subtopicArray.length === 0) return rejectWithValue({ error: "Missing subtopicId" });
 
-      if (!unitId) {
-        return rejectWithValue({ error: "Missing unitId" });
-      }
+      const subtopicId = subtopicArray[subtopicArray.length - 1];
+      if (!subtopicId) return rejectWithValue({ error: "Invalid subtopicId" });
 
-      if (!subtopicId) {
-        return rejectWithValue({ error: "Missing subtopicId" });
-      }
+      const { startTime, endTime } = progressData[unitId];
+      if (!startTime || !endTime) return rejectWithValue({ error: "Missing time data" });
 
-      console.log('Sending progress data:', { unitId, subtopicsId: [subtopicId] });
+      console.log('Sending progress data:', { unitId, subtopicsId: [subtopicId], startTime, endTime });
 
-      // Send request in the expected format
-      await saveStudentProgress({ unitId, subtopicsId: [subtopicId] });
+      await saveStudentProgress({ unitId, subtopicsId: [subtopicId], startTime, endTime });
 
     } catch (error) {
       return rejectWithValue(error.response?.data || { error: "Failed to sync progress" });
@@ -31,25 +31,32 @@ export const syncProgressWithBackend = createAsyncThunk(
   }
 );
 
-  
-  
-
 const studentProgressSlice = createSlice({
   name: 'studentProgress',
   initialState: {
     progress: {}, 
+    skipped: {}
   },
   reducers: {
     updateProgress: (state, action) => {
-      const { unitId, subtopicId } = action.payload;
-      
+      const { unitId, subtopicId, startTime, endTime } = action.payload;
+
       if (!state.progress[unitId]) {
-        state.progress[unitId] = [];
+        state.progress[unitId] = { subtopics: [], startTime: null, endTime: null };
       }
-      
-      if (!state.progress[unitId].includes(subtopicId)) {
-        state.progress[unitId].push(subtopicId); // Convert Set to Array
+
+      if (!state.progress[unitId].subtopics.includes(subtopicId)) {
+        state.progress[unitId].subtopics.push(subtopicId);
       }
+
+      state.progress[unitId].startTime = startTime;
+      state.progress[unitId].endTime = endTime;
+    },
+    
+    markSkippedSubtopic: (state, action) => {
+      const { unitId, subtopicId, endTime } = action.payload;
+      if (!state.skipped[unitId]) state.skipped[unitId] = [];
+      state.skipped[unitId].push({ subtopicId, endTime });
     },
   },
   extraReducers: (builder) => {
@@ -59,5 +66,5 @@ const studentProgressSlice = createSlice({
   },
 });
 
-export const { updateProgress } = studentProgressSlice.actions;
+export const { updateProgress, markSkippedSubtopic } = studentProgressSlice.actions;
 export default studentProgressSlice.reducer;

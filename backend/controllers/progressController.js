@@ -4,9 +4,9 @@ import StudentProgress from '../models/StudentProgress.js';
 export const saveProgress = async (req, res) => {
     try {
         const studentId = req.user._id; // Get studentId from authenticated user
-        let { unitId, subtopicsId } = req.body;
+        let { unitId, subtopicsId, startTime, endTime } = req.body;
 
-        console.log('Received progress data:', { unitId, subtopicsId });
+        console.log('Received progress data:', { unitId, subtopicsId, startTime, endTime });
 
         // Validate `unitId`
         if (!unitId) {
@@ -16,6 +16,14 @@ export const saveProgress = async (req, res) => {
         // Validate `subtopicsId`
         if (!Array.isArray(subtopicsId) || subtopicsId.length === 0) {
             return res.status(400).json({ error: 'Missing or invalid subtopicsId' });
+        }
+
+        if (!startTime) {
+            return res.status(400).json({ error: 'Missing startTime' });
+        }
+
+        if (!endTime) {
+            return res.status(400).json({ error: 'Missing endTime' });
         }
 
         // Convert `unitId` to ObjectId
@@ -58,7 +66,7 @@ export const saveProgress = async (req, res) => {
                     return;
                 }
 
-                progress.progress.push({ unitId, subtopicId: subtopic });
+                progress.progress.push({ unitId, subtopicId: subtopic, startTime, endTime });
             } else {
                 console.log('Progress entry already exists, skipping:', { unitId, subtopicId: subtopic });
             }

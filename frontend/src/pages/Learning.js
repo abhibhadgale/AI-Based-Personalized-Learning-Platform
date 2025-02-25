@@ -10,6 +10,7 @@ import { fetchUnitTopicsThunk } from "../redux/slices/unitsSlice";
 import {
   updateProgress,
   syncProgressWithBackend,
+  markSkippedSubtopic,
 } from "../redux/slices/studentProgressSlice";
 import LearningSidebar from "../components/LearningSidebar";
 import "../styles/Learning.css";
@@ -36,6 +37,8 @@ const LearningPage = () => {
   const [checkedSubtopics, setCheckedSubtopics] = useState({});
   const [activeTab, setActiveTab] = useState("notes");
   const [showNextButton, setShowNextButton] = useState(true);
+  const [startTime, setStartTime] = useState(null);
+  const [activeSubtopicId, setActiveSubtopicId] = useState(null);
 
   const [selectedContent, setSelectedContent] = useState({
     note: null,
@@ -78,8 +81,21 @@ const LearningPage = () => {
 
   const handleSubtopicClick = async (subtopicId) => {
     try {
+      if (activeSubtopicId && activeSubtopicId !== subtopicId && !checkedSubtopics[activeSubtopicId]) {
+        dispatch(
+          markSkippedSubtopic({
+            unitId,
+            subtopicId: activeSubtopicId,
+            endTime: new Date().toISOString(),
+          })
+        );
+      }
+  
+      setStartTime(new Date().toISOString());
+      setActiveSubtopicId(subtopicId);
+  
       const { data: subtopicData } = await fetchSubtopicById(subtopicId);
-
+  
       const [noteRes, videoRes, resourceRes, diagramRes] = await Promise.all([
         fetchNoteById(subtopicData.subtopicNoteId),
         fetchVideoById(subtopicData.subtopicVideoId),
@@ -88,7 +104,7 @@ const LearningPage = () => {
           ? fetchDiagramById(subtopicData.subtopicDiagramId)
           : { data: { imageBase64: null } },
       ]);
-
+  
       setSelectedContent({
         note: noteRes?.data?.note || "",
         video: videoRes?.data?.link || "",
@@ -98,10 +114,9 @@ const LearningPage = () => {
         subtopicName: subtopicData?.subtopicName || "",
         subtopicId: subtopicData?._id || null,
       });
-
+  
       setActiveTab("notes");
-
-      // Reset the currentSubtopicIndex when selecting a new subtopic manually
+  
       const flatSubtopics = topics.flatMap((topic) => topic.subtopics);
       const newIndex = flatSubtopics.findIndex(
         (sub) => sub.subtopicId === subtopicId
@@ -111,6 +126,7 @@ const LearningPage = () => {
       console.error("Error fetching content:", error);
     }
   };
+  
 
   const handleNextClick = () => {
     if (activeTab !== "quiz") {
@@ -132,14 +148,12 @@ const LearningPage = () => {
 
     const completedSubtopicId = flatSubtopics[currentSubtopicIndex].subtopicId;
 
-    // Mark the subtopic as completed
     setCheckedSubtopics((prev) => ({
       ...prev,
       [completedSubtopicId]: true,
     }));
 
-    // Dispatch progress update only after quiz completion
-    dispatch(updateProgress({ unitId, subtopicId: completedSubtopicId }));
+    dispatch(updateProgress({ unitId, subtopicId: completedSubtopicId, startTime, endTime: new Date().toISOString() }));
 
     const nextIndex = currentSubtopicIndex + 1;
 

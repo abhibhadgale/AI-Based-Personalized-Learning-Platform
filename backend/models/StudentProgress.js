@@ -18,6 +18,14 @@ const StudentProgressSchema = new mongoose.Schema(
           type: mongoose.Schema.Types.ObjectId,
           ref: 'Subtopic',
           required: true
+        },
+        startTime: {
+          type: Date,
+          required: true
+        },
+        endTime: {
+          type: Date,
+          required: true
         }
       }
     ]

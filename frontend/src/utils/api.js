@@ -83,6 +83,8 @@ export const saveStudentProgress = async (progressData) => {
   return API.post(`/progress`, {
     unitId: progressData.unitId,
     subtopicsId: progressData.subtopicsId, 
+    startTime: progressData.startTime,
+    endTime: progressData.endTime
   });
 };
 
