@@ -1,14 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/Chatbot.css";
 import chatbotImage from "../images/chatbot.png";
 import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
+import { saveMessage, getChatHistory, clearChatHistory } from "../utils/api";
 
-const Chatbot = () => {
+
+const Chatbot = ({ subjectId }) => {
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState([]);
   const [loading, setLoading] = useState(false);
   const [chatStarted, setChatStarted] = useState(false);
+
+  useEffect(() => {
+    const fetchChatHistory = async () => {
+      try {
+        const { data } = await getChatHistory(subjectId);
+        setChat(data || []);  // Ensure chat is always an array
+      } catch (error) {
+        console.error("Error fetching chat history:", error);
+        setChat([]);  // Fallback to empty chat history
+      }
+    };
+    fetchChatHistory();
+  }, []);
+  
 
   const startChat = () => {
     setChatStarted(true);
@@ -17,13 +33,17 @@ const Chatbot = () => {
   const sendMessage = async () => {
     if (!message.trim()) return;
 
-    const userMessage = { sender: "user", text: message };
+    const userMessage = { sender: "user", text: message, subjectId:subjectId };
     setChat((prevChat) => [...prevChat, userMessage]);
     setMessage("");
     setLoading(true);
 
     try {
-      const response = await fetch("http://192.168.0.106:11434/api/generate", {
+
+      // Save message to chat history
+      await saveMessage(userMessage);
+
+      const response = await fetch("http://192.168.0.104:11434/api/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -59,12 +79,26 @@ const Chatbot = () => {
 
       fullResponse = fullResponse.replace(/<think>.*?<\/think>/gs, "").trim();
 
+      const botMessage = { sender: "bot", text: fullResponse, subjectId:subjectId  || "I couldn't process that. Try asking in a different way!" };
+
+      // Save bot response to chat history
+      await saveMessage(botMessage);
+
       setChat((prevChat) => [...prevChat, { sender: "bot", text: fullResponse || "I couldn't process that. Try asking in a different way!" }]);
     } catch (error) {
       console.error("Error fetching chatbot response:", error);
       setChat((prevChat) => [...prevChat, { sender: "bot", text: "Error processing request!" }]);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleClearChat = async () => {
+    try {
+      await clearChatHistory(subjectId);
+      setChat([]);
+    } catch (error) {
+      console.error("Error clearing chat history:", error);
     }
   };
 
@@ -79,7 +113,11 @@ const Chatbot = () => {
         </div>
       ) : (
         <>
-          <div className="chatbot-header">AI-Copilot</div>
+          <div className="chatbot-header">
+            AI-Copilot
+            <button onClick={handleClearChat} className="clear-chat-button">Clear Chat</button>
+          </div>
+          
           <div className="chatbox">
             {chat.map((msg, index) => (
               <div key={index} className={`message ${msg.sender}`}>

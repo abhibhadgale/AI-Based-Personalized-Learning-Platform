@@ -1,0 +1,109 @@
+.ai-copilot-container {
+  display: flex;
+  height: 100vh;
+}
+
+.ai-copilot-container .content {
+  flex: 1;
+  padding: 20px;
+  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+}
+
+.ai-copilot-container .chat-section {
+  flex: 7;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: flex 0.3s ease-in-out;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.ai-copilot-container .chat-text {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.ai-copilot-container .chat-box {
+  width: 80%;
+  max-height: 300px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ai-copilot-container .chat-message {
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 70%;
+  word-wrap: break-word;
+}
+
+.ai-copilot-container .chat-message.user {
+  align-self: flex-end;
+  background-color: #007bff;
+  color: white;
+}
+
+.ai-copilot-container .chat-message.bot {
+  align-self: flex-start;
+  background-color: #e0e0e0;
+  color: black;
+}
+
+.ai-copilot-container .chat-input-container {
+  width: 60%;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.ai-copilot-container .chat-input {
+  flex: 1;
+  border: none;
+  padding: 10px;
+  outline: none;
+}
+
+.ai-copilot-container .chat-icons {
+  display: flex;
+  gap: 10px;
+}
+
+.ai-copilot-container .recommendation-section {
+  flex: 3;
+  padding: 20px;
+  transition: flex 0.3s ease-in-out;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.ai-copilot-container .expanded {
+  flex: 9 !important;
+}
+
+.ai-copilot-container .collapsed {
+  flex: 1 !important;
+}
+
+.ai-copilot-container .sidebar {
+  width: 20%;
+  background-color: white;
+  color: black;
+  padding: 20px;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+}

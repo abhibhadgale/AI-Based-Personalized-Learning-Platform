@@ -20,6 +20,7 @@ import ContactUs from './pages/ContactUs';
 import UserProfileForm from './components/UserProfileForm';
 import ProfilePage from './pages/ProfilePage';
 import Cart from './components/Cart';
+import AICopilot from './pages/AICopilot';
 import './styles/App.css';
 
 const App = () => {
@@ -60,6 +61,7 @@ const App = () => {
             <Route path="/about" element={<AboutUs />} />
             <Route path="/contact" element={<ContactUs />} />
             <Route path="/test/:unitMcqTest" element={<Test />} />
+            <Route path="/ai-copilot" element={<AICopilot />} />
           </Routes>
         </div>
       </div>

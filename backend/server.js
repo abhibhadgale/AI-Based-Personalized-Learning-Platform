@@ -18,6 +18,8 @@ import cartRoutes from './routes/cartRoutes.js';
 import enrollmentRoutes from './routes/enrollmentRoutes.js';  // Import the enrollmentRoutes
 import subtopicRoutes from './routes/subtopicRoutes.js';
 import progressRoutes from './routes/progressRoutes.js';
+import chatHistoryRoutes from './routes/chatHistoryRoutes.js';
+
 
 
 import connectDB from './config/db.js';
@@ -51,6 +53,7 @@ app.use('/api/cart', cartRoutes);
 app.use('/api/enrollment', enrollmentRoutes);
 app.use('/api/subtopics', subtopicRoutes);
 app.use('/api/progress', progressRoutes);
+app.use('/api/chathistory', chatHistoryRoutes);
 
 
 const PORT = process.env.PORT || 5000;

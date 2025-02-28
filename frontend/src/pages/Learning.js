@@ -285,7 +285,7 @@ const LearningPage = () => {
           </div>
         </div>
         <div className="section3">
-          <Chatbot />
+          <Chatbot subjectId={subjectId} />
         </div>
       </div>
     </div>

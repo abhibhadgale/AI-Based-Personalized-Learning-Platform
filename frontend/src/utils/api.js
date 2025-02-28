@@ -12,6 +12,9 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
+const token = localStorage.getItem('token');
+
+
 export const getAllSubjects = () => API.get('/subjects');
 export const subjectfundamental = (subject) => API.get(`/subjectfundamental?subject=${subject}`);
 export const getStudentData = () => API.get('/analytics/progress');
@@ -94,3 +97,19 @@ export const getStudentProgress = async () => {
 
 export const getSubtopicCount = (unitId) => API.get(`/units/${unitId}/subtopic-count`);
 export const getCompletedTopicCount = () => API.get('/progress/completed-count');
+
+// Chatbot APIs
+export const saveMessage = async (message) => {
+  console.log("Message being sent to backend:", message);
+  return axios.post("/api/chathistory/save", message, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const getChatHistory = (subjectId) => 
+  API.get(`/chathistory?subjectId=${subjectId}`);
+
+export const clearChatHistory = (subjectId) => 
+  API.delete(`/chathistory?subjectId=${subjectId}`);
