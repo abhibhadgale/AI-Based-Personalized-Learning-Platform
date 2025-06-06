@@ -125,3 +125,11 @@ export const getStudentDataai = async (studentId) => {
     throw error;
   }
 };
+
+export const getQuizResultsByStudent = (studentId) => {
+  return axios.get(`/api/quizzes/results`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

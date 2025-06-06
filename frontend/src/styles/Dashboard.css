@@ -262,3 +262,162 @@
   color: black;
 }
 
+.analytics-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.chart-card {
+  background-color: #ffffff;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease;
+}
+
+.chart-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.chart-card h4 {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.full-width {
+  grid-column: span 2;
+}
+
+.custom-tooltip {
+  background: white;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.tooltip-date {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.tooltip-score {
+  color: #82ca9d;
+  margin: 5px 0;
+}
+
+.tooltip-quiz-name {
+  font-size: 0.9em;
+  color: #666;
+}
+
+.chat-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 350px;
+  max-height: 500px;
+  background-color: #fff !important;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Progress Section */
+.progress-section {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  margin-top: 32px;
+}
+
+.progress-section h3 {
+  margin-bottom: 24px;
+  font-size: 1.5rem;
+  color: #2d3748;
+  font-weight: 600;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 8px;
+}
+
+.subject-progress {
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.subject-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.subject-header h4 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #1a202c;
+}
+
+.overall-completion {
+  background: #e6fffa;
+  color: #0c9488;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.unit-progress {
+  margin-bottom: 18px;
+}
+
+.unit-info {
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+  color: #4a5568;
+}
+
+.completion-bar {
+  height: 20px;
+  background: #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+.completion-progress {
+  height: 100%;
+  border-radius: 12px;
+  transition: width 0.6s ease;
+}
+
+/* Dynamic color by percentage level */
+.completion-progress.low {
+  background: #f56565; /* red */
+}
+
+.completion-progress.medium {
+  background: #ed8936; /* orange */
+}
+
+.completion-progress.high {
+  background: #48bb78; /* green */
+}
+
+.completion-bar span {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #2d3748;
+  text-shadow: 0 0 2px white;
+}
