@@ -20,7 +20,7 @@ import subtopicRoutes from './routes/subtopicRoutes.js';
 import progressRoutes from './routes/progressRoutes.js';
 import chatHistoryRoutes from './routes/chatHistoryRoutes.js';
 import studentRoutes from './routes/studentRoutes.js';
-
+import quizRoutes from './routes/analyticRoutes.js';
 
 
 import connectDB from './config/db.js';
@@ -56,6 +56,8 @@ app.use('/api/subtopics', subtopicRoutes);
 app.use('/api/progress', progressRoutes);
 app.use('/api/chathistory', chatHistoryRoutes);
 app.use('/api/student', studentRoutes); // Add this line
+app.use('/api/quiz-results', quizRoutes);
+
 
 
 const PORT = process.env.PORT || 5000;
