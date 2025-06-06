@@ -4,48 +4,137 @@ import chatbotImage from "../images/chatbot.png";
 import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
 import ClearAllIcon from '@mui/icons-material/ClearAll';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import PersonIcon from '@mui/icons-material/Person'; // NEW ICON
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import 'highlight.js/styles/github.css';
 import { saveMessage, getChatHistory, clearChatHistory } from "../utils/api";
+import axios from 'axios'; // ADDED FOR STUDENT DATA FETCH
 
-const Chatbot = ({ subjectId }) => {
+
+const Chatbot = ({ subjectId, studentId }) => {
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState([]);
   const [loading, setLoading] = useState(false);
   const [chatStarted, setChatStarted] = useState(false);
+  const [subjectHierarchy, setSubjectHierarchy] = useState(null);
+  const [useSyllabusContext, setUseSyllabusContext] = useState(false);
+  const [useStudentContext, setUseStudentContext] = useState(false); // NEW STATE
+  const [studentData, setStudentData] = useState(null); // NEW STATE
+
+  console.log("Fetching student data for:", studentId);
 
   useEffect(() => {
     const fetchChatHistory = async () => {
       try {
         const { data } = await getChatHistory(subjectId);
-        setChat(data || []);
+        setChat(data?.messages || []);
+        setSubjectHierarchy(data?.subjectHierarchy || null);
       } catch (error) {
         console.error("Error fetching chat history:", error);
         setChat([]);
       }
     };
     fetchChatHistory();
-  }, [subjectId]);
+  // NEW: Fetch student data when component mounts
+    const fetchStudentData = async () => {
+      try {
+        const response = await axios.get(`/api/student/data?studentId=${studentId}`);
+        setStudentData(response.data);
+      } catch (error) {
+        console.error("Error fetching student data:", error);
+      }
+    };
+    
+    if (studentId) fetchStudentData();
+  }, [subjectId, studentId]); // ADD studentId dependency
+
+
   
+
+  const formatSubjectHierarchy = (hierarchy) => {
+    if (!hierarchy) return "";
+    
+    let structure = `Subject: ${hierarchy.subject}\n`;
+    
+    hierarchy.units.forEach((unit) => {
+      structure += `\nUnit ${unit.unitNumber}: ${unit.unitName}\n`;
+      
+      unit.topics.forEach((topic) => {
+        structure += `  Topic: ${topic.topicName}\n`;
+        
+        topic.subtopics.forEach((subtopic) => {
+          structure += `    Subtopic: ${subtopic.subtopicName}\n`;
+        });
+      });
+    });
+    
+    return structure;
+  };
+
   const startChat = () => {
     setChatStarted(true);
   };
 
   const processResponse = (text) => {
-    // Remove any <think> tags and their content
     let processedText = text.replace(/<think>.*?<\/think>/gs, "").trim();
-    
-    // Handle code blocks specifically (deepseek-r1 might format them differently)
     processedText = processedText.replace(/```(\w*)([\s\S]*?)```/g, (match, lang, code) => {
       return `\`\`\`${lang}\n${code.trim()}\n\`\`\``;
     });
-    
-    // Ensure proper line breaks for markdown
     processedText = processedText.replace(/\n/g, "  \n");
-    
     return processedText;
+  };
+
+  const createPrompt = (newMessage, chatHistory, includeSyllabus, includeStudent) => {
+    const MAX_HISTORY = 10;
+    const history = chatHistory.slice(-MAX_HISTORY);
+    
+    let context = "";
+    
+    if (includeSyllabus && subjectHierarchy) {
+      context += `Subject Structure:\n${formatSubjectHierarchy(subjectHierarchy)}\n\n`;
+    }
+
+    
+    
+    context += history.map(msg => 
+      `${msg.sender === 'user' ? 'User' : 'Assistant'}: ${msg.text}`
+    ).join('\n');
+    
+    return `${context}\nUser: ${newMessage}\nAssistant:`;
+  };
+
+  // NEW: Format student data for prompt
+  const formatStudentData = (data) => {
+    let str = `Name: ${data.student.name}\n`;
+    
+    // Behavior data
+    if (data.behaviour) {
+      str += "\nBehavior:\n";
+      const pre = data.behaviour.preLearning;
+      str += `- Learning Styles: ${pre.preferredLearningStyles.join(', ') || 'None'}\n`;
+      str += `- Productivity Times: ${pre.productivityTime.join(', ') || 'None'}\n`;
+    }
+    
+    // Progress data
+    if (data.progress && data.progress.progress.length > 0) {
+      str += "\nRecent Progress:\n";
+      data.progress.progress.slice(-3).forEach((p, i) => {
+        str += `${i+1}. Unit: ${p.unitId}, Subtopic: ${p.subtopicId} (${new Date(p.startTime).toLocaleDateString()})\n`;
+      });
+    }
+    
+    // Quiz results
+    if (data.quizResults && data.quizResults.length > 0) {
+      str += "\nQuiz Results:\n";
+      data.quizResults.slice(-3).forEach((quiz, i) => {
+        str += `${i+1}. Score: ${quiz.score}/${quiz.totalQuestions} (${(quiz.score/quiz.totalQuestions*100).toFixed(1)}%)\n`;
+      });
+    }
+    
+    return str;
   };
 
   const sendMessage = async () => {
@@ -59,45 +148,56 @@ const Chatbot = ({ subjectId }) => {
     try {
       await saveMessage(userMessage);
   
+      // UPDATED: Include student context
+      const fullPrompt = createPrompt(
+        message, 
+        chat, 
+        useSyllabusContext,
+        useStudentContext
+      );
+      setUseSyllabusContext(false); // Reset after use
+      setUseStudentContext(false); // Reset after use
+
+
       const response = await fetch("http://localhost:11434/api/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           model: "deepseek-r1:1.5b",
-          prompt: message,
+          prompt: fullPrompt,
           stream: true,
+          options: { num_ctx: 4096 }
         }),
       });
-  
+
+      // ... rest of the streaming code remains the same ...
       if (!response.body) throw new Error("No response body");
   
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
       let fullResponse = "";
-      let botMessageIndex = chat.length + 1; // Track the index for the bot message
-  
-      // Create a placeholder bot message immediately
+      let botMessageIndex = chat.length + 1;
+
       setChat(prevChat => [...prevChat, { sender: "bot", text: "", subjectId: subjectId }]);
-  
+
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
-  
+
         const chunk = decoder.decode(value, { stream: true });
-  
+
         chunk.split("\n").forEach((line) => {
           if (line.trim()) {
             try {
               const jsonChunk = JSON.parse(line);
               fullResponse += jsonChunk.response;
-              
-              // Update the chat in real-time as chunks arrive
+
               setChat(prevChat => {
                 const newChat = [...prevChat];
-                newChat[botMessageIndex] = { 
-                  sender: "bot", 
-                  text: processResponse(fullResponse), 
-                  subjectId: subjectId 
+                newChat[botMessageIndex] = {
+                  sender: "bot",
+                  text: processResponse(fullResponse),
+                  subjectId: subjectId
                 };
                 return newChat;
               });
@@ -107,17 +207,16 @@ const Chatbot = ({ subjectId }) => {
           }
         });
       }
-  
+
       const finalResponse = processResponse(fullResponse);
-      const botMessage = { 
-        sender: "bot", 
-        text: finalResponse || "I couldn't process that. Try asking in a different way!", 
-        subjectId: subjectId 
+      const botMessage = {
+        sender: "bot",
+        text: finalResponse || "I couldn't process that. Try asking in a different way!",
+        subjectId: subjectId
       };
-  
+
       await saveMessage(botMessage);
-      
-      // Final update to ensure all chunks are processed
+
       setChat(prevChat => {
         const newChat = [...prevChat];
         newChat[botMessageIndex] = botMessage;
@@ -125,7 +224,10 @@ const Chatbot = ({ subjectId }) => {
       });
     } catch (error) {
       console.error("Error fetching chatbot response:", error);
-      setChat(prevChat => [...prevChat, { sender: "bot", text: "Error processing request!" }]);
+      setChat(prevChat => [...prevChat, { 
+        sender: "bot", 
+        text: "Error processing student data request!" 
+      }]);
     } finally {
       setLoading(false);
     }
@@ -138,6 +240,22 @@ const Chatbot = ({ subjectId }) => {
     } catch (error) {
       console.error("Error clearing chat history:", error);
     }
+  };
+
+  const toggleSyllabusContext = () => {
+    setUseSyllabusContext(!useSyllabusContext);
+  };
+
+  // NEW: Toggle student context
+  const toggleStudentContext = () => {
+    if (!studentData) {
+      setChat(prevChat => [...prevChat, {
+        sender: "bot",
+        text: "Student data not available. Please try again later."
+      }]);
+      return;
+    }
+    setUseStudentContext(!useStudentContext);
   };
 
   return (
@@ -153,9 +271,12 @@ const Chatbot = ({ subjectId }) => {
         <>
           <div className="chatbot-header">
             AI-Copilot
-            <IconButton onClick={handleClearChat} className="clear-chat-button" title="Clear Chat">
-              <ClearAllIcon />
-            </IconButton>
+            <div className="header-buttons">
+              
+              <IconButton onClick={handleClearChat} className="clear-chat-button" title="Clear Chat">
+                <ClearAllIcon />
+              </IconButton>
+            </div>
           </div>
           
           <div className="chatbox">
@@ -210,6 +331,29 @@ const Chatbot = ({ subjectId }) => {
               <SendIcon />
             </IconButton>
           </div>
+          <div className="context-options">
+              <button 
+                onClick={toggleSyllabusContext} 
+                className={`syllabus-context-button ${useSyllabusContext ? 'active' : ''}`}
+              >
+                <MenuBookIcon fontSize="small" />
+              </button>
+              <button 
+                onClick={toggleStudentContext} 
+                className={`student-context-button ${useStudentContext ? 'active' : ''}`}
+              >
+                <PersonIcon fontSize="small" />
+              </button>
+              {(useSyllabusContext || useStudentContext) && (
+              <span className="context-notice">
+                {useSyllabusContext && "Syllabus "}
+                {useSyllabusContext && useStudentContext && "and "}
+                {useStudentContext && "Student Info "}
+                will be referenced in this message
+              </span>
+            )}
+
+            </div>
         </>
       )}
     </div>

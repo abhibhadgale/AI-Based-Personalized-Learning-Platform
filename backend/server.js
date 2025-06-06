@@ -19,6 +19,7 @@ import enrollmentRoutes from './routes/enrollmentRoutes.js';  // Import the enro
 import subtopicRoutes from './routes/subtopicRoutes.js';
 import progressRoutes from './routes/progressRoutes.js';
 import chatHistoryRoutes from './routes/chatHistoryRoutes.js';
+import studentRoutes from './routes/studentRoutes.js';
 
 
 
@@ -54,6 +55,7 @@ app.use('/api/enrollment', enrollmentRoutes);
 app.use('/api/subtopics', subtopicRoutes);
 app.use('/api/progress', progressRoutes);
 app.use('/api/chathistory', chatHistoryRoutes);
+app.use('/api/student', studentRoutes); // Add this line
 
 
 const PORT = process.env.PORT || 5000;

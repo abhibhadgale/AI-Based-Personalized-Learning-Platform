@@ -56,10 +56,16 @@
     border-bottom-left-radius: 0;
     text-align: left;
   }
+
+  .input-container {
+  padding: 10px;
+  border-top: 1px solid #e0e0e0;
+  background-color: #f9f9f9;
+}
   
   .chat-input {
     display: flex;
-    padding: 10px;
+    padding: 8px;
   }
   
   .chat-input input {
@@ -193,6 +199,7 @@ code {
 .message.bot p {
   color: black !important;
   margin: 0.5em 0;
+  font-size: 17px;
 }
 
 /* Ensure markdown content is left-aligned */
@@ -213,4 +220,55 @@ code {
   text-align: left;
   margin-left: 0;
   padding-left: 0;
+}
+
+
+.context-options {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px 16px;
+  gap: 10px;
+  border-top: 1px solid #eee;
+  background-color: #fafafa;
+}
+
+.syllabus-context-button,
+.student-context-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  background-color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+  transition: all 0.2s ease-in-out;
+}
+
+.syllabus-context-button:hover,
+.student-context-button:hover {
+  background-color: #f0f0f0;
+  border-color: #999;
+}
+
+.syllabus-context-button.active,
+.student-context-button.active {
+  background-color: #1976d2;
+  color: white;
+  border-color: #1976d2;
+}
+
+.context-notice {
+  margin-left: auto;
+  font-size: 13px;
+  color: #666;
+  font-style: italic;
+}
+
+/* Adjust the send button to match new layout */
+.chat-input .send-button {
+  margin-left: 8px;
 }

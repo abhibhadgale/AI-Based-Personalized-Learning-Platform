@@ -113,3 +113,15 @@ export const getChatHistory = (subjectId) =>
 
 export const clearChatHistory = (subjectId) => 
   API.delete(`/chathistory?subjectId=${subjectId}`);
+
+export const getStudentDataai = async (studentId) => {
+  try {
+    const response = await axios.get(`/api/student/data?studentId=${studentId}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching student data:', error);
+    throw error;
+  }
+};
